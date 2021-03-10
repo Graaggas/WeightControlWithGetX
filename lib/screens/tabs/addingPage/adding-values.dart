@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:weight_control/model/weight/controllerWeight.dart';
 import 'package:weight_control/screens/tabs/addingPage/checkController.dart';
+import 'package:weight_control/screens/values-page/controller.dart';
 
 var logger = Logger();
 
@@ -61,6 +62,7 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
 
   final CheckController checkController = Get.put(CheckController());
   final ControllerWeight controllerWeight = Get.find();
+  final ValuesController valuesController = Get.find();
 
   addWeight(String text){
     var r = double.parse(text);
@@ -169,6 +171,7 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                     onPressed: () {
                       addWeight(textWeightController.text);
                       checkController.allCheckesSetFalse();
+                      valuesController.getInfoForWeightAtValuesPage();
                       Navigator.of(context).pop(true);
                     },
                     child: Padding(

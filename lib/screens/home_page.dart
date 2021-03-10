@@ -10,7 +10,7 @@ import 'package:weight_control/screens/tabs/dashboard/dashboard-page.dart';
 import 'package:weight_control/screens/tabs/graphics-page.dart';
 
 import 'package:weight_control/screens/tabs/info-page.dart';
-import 'package:weight_control/screens/tabs/something-page.dart';
+import 'file:///C:/FlutterProjects/fromAndroidStudio/weight_control/lib/screens/values-page/values-page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
   List<Widget> screens = [
     DashboardPage(),
     GraphicsPage(),
+    ValuesPage(),
     InfoPage(),
-    SomethingPage(),
   ];
 
   Widget currentScreen = DashboardPage();
@@ -113,11 +113,12 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = InfoPage();
+                        currentScreen = ValuesPage();
                         currentTab = 2;
                       });
                     },
@@ -125,13 +126,13 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.info,
+                          Icons.table_rows,
                           color: currentTab == 2
                               ? Colors.deepPurple
                               : Colors.white,
                         ),
                         Text(
-                          "О замерах",
+                          "Замеры",
                           style: TextStyle(
                             color: currentTab == 2
                                 ? Colors.deepPurple
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = SomethingPage();
+                        currentScreen = InfoPage();
                         currentTab = 3;
                       });
                     },
@@ -153,13 +154,13 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.face,
+                          Icons.info,
                           color: currentTab == 3
                               ? Colors.deepPurple
                               : Colors.white,
                         ),
                         Text(
-                          "Что-то",
+                          "Данные",
                           style: TextStyle(
                             color: currentTab == 3
                                 ? Colors.deepPurple

@@ -19,8 +19,8 @@ class Database {
     return res;
   }
 
-  Future<void> createBoxWeight(
-      DateTime dateTime, double valueCurrentWeight, double wantedWeight) async {
+  Future<void> createBoxWeight(DateTime dateTime, double valueCurrentWeight,
+      double wantedWeight) async {
     var weightModel = WeightModel();
     var box = await openBox("Weight");
     weightModel.addWantedWeight(wantedWeight);
@@ -29,8 +29,8 @@ class Database {
     box.add(weightModel);
   }
 
-  Future<void> addToWeightBox({DateTime dateTime, double valueWeight,
-      double valueWantedWeight}) async {
+  Future<void> addToWeightBox(
+      {DateTime dateTime, double valueWeight, double valueWantedWeight}) async {
     final box = await openBox("Weight");
     var weightModel = WeightModel();
 
@@ -54,15 +54,14 @@ class Database {
 
     /// Check box, if it exists and not empty
     if (box.isNotEmpty) {
-
-     /// testBox(box, "//getInit");
+      /// testBox(box, "//getInit");
 
       WeightModel weightModel = box.get(0);
 
       /// Add wantedWeight
       list.add(weightModel.wantedWeight);
-      logger.i("getInit(). from box => wantedWeight = ${weightModel.wantedWeight}");
-
+      logger.i(
+          "getInit(). from box => wantedWeight = ${weightModel.wantedWeight}");
 
       /// Add map's entries to the list
       for (var item in weightModel.weights.entries) {
@@ -74,8 +73,47 @@ class Database {
     } else {
       list.add(11);
       list.add(12);
-      addToWeightBox(dateTime: DateTime.now(), valueWeight: list[1], valueWantedWeight: list[0]);
+      addToWeightBox(
+          dateTime: DateTime.now(),
+          valueWeight: list[1],
+          valueWantedWeight: list[0]);
       return list;
     }
+  }
+
+  Future<int> getWeightsLength() async {
+    final box = await openBox("Weight");
+    var weightModel = WeightModel();
+    weightModel = box.getAt(0);
+    //TODO вынести верхнюю строку в отдельный блок, чтобы был только один экземпляр класса.
+
+    var length = weightModel.weights.length;
+    return length;
+  }
+
+  Future<List<double>> getWeightsAsList() async {
+    final box = await openBox("Weight");
+    var weightModel = WeightModel();
+    weightModel = box.getAt(0);
+    Map<DateTime, double> map = weightModel.weights;
+    print("... map: $map");
+
+    List<double> res = map.entries.map((e) => e.value).toList();
+    print("... res = ${res.runtimeType}");
+    return res;
+
+  }
+
+  Future<List<DateTime>> getDatesAsList() async {
+    final box = await openBox("Weight");
+    var weightModel = WeightModel();
+    weightModel = box.getAt(0);
+    Map<DateTime, double> map = weightModel.weights;
+    // print("... map: $map");
+
+    List<DateTime> res2 = map.entries.map((e) => e.key).toList();
+    print("... res2 = ${res2.runtimeType}");
+    return res2;
+
   }
 }

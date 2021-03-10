@@ -17,7 +17,7 @@ void main() async {
 
   final ControllerWeight controllerWeight = Get.put(ControllerWeight());
 
-  runApp(  MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(),
-        home: HomePage(),
-
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(),
+      home: HomePage(),
     );
   }
 }
