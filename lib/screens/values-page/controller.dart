@@ -23,7 +23,7 @@ class ValuesController extends GetxController{
   Future <void> getItemCounter () async {
     var r =  await database.getWeightsLength();
     itemCounter.value = r;
-    logger.w("itemCounter = ${itemCounter.value}");
+    // logger.w("itemCounter = ${itemCounter.value}");
   }
 
   Future <void> getWeightsList () async {

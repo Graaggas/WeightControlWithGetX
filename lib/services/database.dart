@@ -96,10 +96,10 @@ class Database {
     var weightModel = WeightModel();
     weightModel = box.getAt(0);
     Map<DateTime, double> map = weightModel.weights;
-    print("... map: $map");
+    // print("... map: $map");
 
     List<double> res = map.entries.map((e) => e.value).toList();
-    print("... res = ${res.runtimeType}");
+    // print("... res = ${res.runtimeType}");
     return res;
 
   }
@@ -112,7 +112,7 @@ class Database {
     // print("... map: $map");
 
     List<DateTime> res2 = map.entries.map((e) => e.key).toList();
-    print("... res2 = ${res2.runtimeType}");
+    // print("... res2 = ${res2.runtimeType}");
     return res2;
 
   }
