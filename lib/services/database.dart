@@ -19,8 +19,8 @@ class Database {
     return res;
   }
 
-  Future<void> createBoxWeight(DateTime dateTime, double valueCurrentWeight,
-      double wantedWeight) async {
+  Future<void> createBoxWeight(
+      DateTime dateTime, double valueCurrentWeight, double wantedWeight) async {
     var weightModel = WeightModel();
     var box = await openBox("Weight");
     weightModel.addWantedWeight(wantedWeight);
@@ -101,7 +101,6 @@ class Database {
     List<double> res = map.entries.map((e) => e.value).toList();
     // print("... res = ${res.runtimeType}");
     return res;
-
   }
 
   Future<List<DateTime>> getDatesAsList() async {
@@ -114,6 +113,36 @@ class Database {
     List<DateTime> res2 = map.entries.map((e) => e.key).toList();
     // print("... res2 = ${res2.runtimeType}");
     return res2;
+  }
+
+  Future<void> deleteWeight(DateTime key) async {
+    final box = await openBox("Weight");
+    var weightModel = WeightModel();
+    weightModel = box.getAt(0);
+    weightModel.weights.remove(key);
+    weightModel.save();
+  }
+
+  Future<void> changeOneWeight(double newWeight, DateTime key) async {
+    final box = await openBox("Weight");
+    var weightModel = WeightModel();
+    weightModel = box.getAt(0);
+    weightModel.weights[key] = newWeight;
+    weightModel.save();
+    logger.wtf("changed weight = ${weightModel.weights[key]}");
+
+    weightModel = box.getAt(0);
+    logger.w("changed weight = ${weightModel.weights[key]}");
 
   }
+
+  Future<double> getWeightInCard ( DateTime key) async {
+    final box = await openBox("Weight");
+    var weightModel = WeightModel();
+    weightModel = box.getAt(0);
+    double r =  weightModel.weights[key];
+    return r;
+
+  }
+
 }

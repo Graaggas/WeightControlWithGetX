@@ -5,7 +5,7 @@ import 'package:weight_control/misc/converters.dart';
 import 'package:weight_control/screens/values-page/controller.dart';
 import 'package:weight_control/screens/values-page/weight-card.dart';
 
-class ValuesPage extends StatelessWidget {
+class ValuesWeightsPage extends StatelessWidget {
   final ValuesController valuesController = Get.put(ValuesController());
   final logger = Logger();
 
@@ -17,23 +17,24 @@ class ValuesPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Замеры"),
       ),
-      body: Obx(
-        () => SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Column(
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Obx(
+          () => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Text"),
+              Text("Показания весов"),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: valuesController.itemCounter.value,
                 itemBuilder: (BuildContext context, int index) {
                   return WeightCard(
-                    weightText: valuesController.listWeights[index].toString(),
-                    dateText: convertFromDateTimeToString(
-                        valuesController.listDateTimes[index]),
+                    dateTime: valuesController.listDateTimes[index],
+                    weight: valuesController.listWeights[index],
+                    valuesController: valuesController,
                   );
+
                   // DateTime key = mapWeights.entries.elementAt(1).key;
                   //logger.e("key = $key");
                   // return ListTile(

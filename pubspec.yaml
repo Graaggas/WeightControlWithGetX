@@ -37,6 +37,7 @@ dependencies:
   get: ^3.26.0
   logger: ^0.9.4
   intl: ^0.17.0
+  adaptive_dialog: ^0.10.0+5
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -10,7 +9,8 @@ import 'package:weight_control/screens/tabs/dashboard/dashboard-page.dart';
 import 'package:weight_control/screens/tabs/graphics-page.dart';
 
 import 'package:weight_control/screens/tabs/info-page.dart';
-import 'file:///C:/FlutterProjects/fromAndroidStudio/weight_control/lib/screens/values-page/values-page.dart';
+import 'package:weight_control/screens/values-page/values-page.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> screens = [
     DashboardPage(),
     GraphicsPage(),
-    ValuesPage(),
+    ValuesWeightsPage(),
     InfoPage(),
   ];
 
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = ValuesPage();
+                        currentScreen = ValuesWeightsPage();
                         currentTab = 2;
                       });
                     },
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                               : Colors.white,
                         ),
                         Text(
-                          "Замеры",
+                          "Вес",
                           style: TextStyle(
                             color: currentTab == 2
                                 ? Colors.deepPurple
