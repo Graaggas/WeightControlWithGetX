@@ -2,24 +2,27 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import 'package:weight_control/misc/converters.dart';
-import 'package:weight_control/screens/values-page/controller.dart';
+import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class WeightCard extends StatelessWidget {
   final DateTime dateTime;
-  final ValuesController valuesController;
+  final int index;
   final double weight;
 
-  const WeightCard(
-      {Key key, this.dateTime, this.valuesController, this.weight})
-      : super(key: key);
+  const WeightCard({
+    Key key,
+    this.dateTime,
+    this.weight, this.index,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    // valuesController.getWeightInCard(dateTime);
+    final ControllerDashboardInfo controllerDashboardInfo = Get.find();
 
     print("weight in card : $weight");
+    print("date in card : $dateTime");
     return Card(
       elevation: 3,
       child: Padding(
@@ -27,20 +30,21 @@ class WeightCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "$weight кг",
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(
+                  () => Text(
+                    "${controllerDashboardInfo.weightsList[index]} кг",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("${convertFromDateTimeToString(dateTime)}"),
-                ],
-
+                ),
+                // Text("${convertFromDateTimeToString(dateTime)}"),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,15 +59,15 @@ class WeightCard extends StatelessWidget {
                             DialogTextField(
                               initialText: "$weight",
                               keyboardType: TextInputType.number,
-
                             ),
                           ]);
 
-                       if(res != null) {
-                         print("new value = $res");
-                         valuesController.changeOneWeight(double.parse(res[0]), dateTime);
-                         valuesController.getInfoForWeightAtValuesPage();
-                       }
+                      if (res != null) {
+                        print(
+                            "new value in widget card = $res , type = ${res.runtimeType}");
+                        controllerDashboardInfo.updateOneWeight(
+                            double.parse(res[0]), dateTime);
+                      }
                     }),
                 // SizedBox(width: 5,),
                 IconButton(
@@ -79,7 +83,9 @@ class WeightCard extends StatelessWidget {
                         // title: "Title",
                       );
                       if (res == OkCancelResult.ok) {
-                        valuesController.deleteWeight(dateTime);
+                        // valuesController.deleteWeight(dateTime);
+                        controllerDashboardInfo.deleteWeight(dateTime);
+
                         final snackBar = SnackBar(
                           content: Text('Запись \'$weight кг\' удалена'),
                           elevation: 4,

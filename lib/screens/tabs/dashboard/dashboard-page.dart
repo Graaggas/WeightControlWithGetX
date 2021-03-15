@@ -5,15 +5,12 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:weight_control/misc/constants.dart';
-import 'package:weight_control/model/weight/controllerWeight.dart';
+import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
+
 
 class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //weightMobx.initValues();
-    final ControllerWeight controller = Get.find();
-    controller.getInit();
-
     return Scaffold(
       backgroundColor: Color(colorMain),
       appBar: AppBar(
@@ -52,7 +49,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                                  Color(colorContainerWithStartEndValuesWeight),
+                              Color(colorContainerWithStartEndValuesWeight),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -67,13 +64,17 @@ class DashboardPage extends StatelessWidget {
                                       child: Column(
                                         children: [
                                           Text("Начальный вес"),
-                                          Obx(() =>Text(
-                                            "${controller.startWeight} кг",
-                                            style: TextStyle(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                                          GetBuilder<ControllerDashboardInfo>(
+                                            init: ControllerDashboardInfo(),
+                                            builder: (controller) {
+                                              return Text(
+                                                "${controller.startWeight} кг",
+                                                style: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -90,7 +91,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                                  Color(colorContainerWithStartEndValuesWeight),
+                              Color(colorContainerWithStartEndValuesWeight),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -105,13 +106,17 @@ class DashboardPage extends StatelessWidget {
                                       child: Column(
                                         children: [
                                           Text("Желаемый вес"),
-                                          Obx(() => Text(
-                                            "${controller.wantedWeight} кг",
-                                            style: TextStyle(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                                         GetBuilder<ControllerDashboardInfo>(
+                                           init: ControllerDashboardInfo(),
+                                              builder:(controller) {
+                                                return Text(
+                                                  "${controller.wantedWeight} кг",
+                                                  style: TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
                                           ),
                                         ],
                                       ),
@@ -159,17 +164,22 @@ class DashboardPage extends StatelessWidget {
                                     children: [
                                       Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Text("Сейчас"),
-                                          Obx(() => Text(
+
+                                          GetBuilder(builder: (
+                                              ControllerDashboardInfo controller) {
+                                            return Text(
+                                              // "${controller.listWeights[controller.itemCounter.value-1]}",
                                               "${controller.currentWeight}",
                                               style: TextStyle(
                                                 fontSize: 24,
                                                 fontWeight: FontWeight.bold,
                                               ),
-                                            ),
-                                          ),
+                                            );
+                                          }),
+
                                         ],
                                       ),
                                       Text("-13 кг"),
@@ -205,7 +215,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                                  Color(colorContainerWithStartEndValuesWaist),
+                              Color(colorContainerWithStartEndValuesWaist),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -242,7 +252,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                                  Color(colorContainerWithStartEndValuesWaist),
+                              Color(colorContainerWithStartEndValuesWaist),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -310,7 +320,7 @@ class DashboardPage extends StatelessWidget {
                                     children: [
                                       Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           FittedBox(
                                             child: Text("Сейчас"),
@@ -449,13 +459,13 @@ class DashboardPage extends StatelessWidget {
                     flex: 1,
                     child: isUpArrow
                         ? Icon(
-                            LineAwesomeIcons.arrow_up,
-                            color: Colors.red,
-                          )
+                      LineAwesomeIcons.arrow_up,
+                      color: Colors.red,
+                    )
                         : Icon(
-                            LineAwesomeIcons.arrow_down,
-                            color: Colors.green,
-                          ),
+                      LineAwesomeIcons.arrow_down,
+                      color: Colors.green,
+                    ),
                   ),
                   // SizedBox(
                   //   width: 10,

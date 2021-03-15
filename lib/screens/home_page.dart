@@ -3,12 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:weight_control/model/weight/controllerWeight.dart';
+import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/tabs/addingPage/adding-values.dart';
 import 'package:weight_control/screens/tabs/dashboard/dashboard-page.dart';
 import 'package:weight_control/screens/tabs/graphics-page.dart';
 
 import 'package:weight_control/screens/tabs/info-page.dart';
+
 import 'package:weight_control/screens/values-page/values-page.dart';
 
 
@@ -18,6 +19,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+
+
+
   int currentTab = 0;
 
   List<Widget> screens = [
@@ -29,10 +35,14 @@ class _HomePageState extends State<HomePage> {
 
   Widget currentScreen = DashboardPage();
   final PageStorageBucket bucket = PageStorageBucket();
-  final ControllerWeight controller = Get.find();
+  final ControllerDashboardInfo controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(

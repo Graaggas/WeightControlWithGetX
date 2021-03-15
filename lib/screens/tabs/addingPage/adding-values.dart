@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:weight_control/model/weight/controllerWeight.dart';
+import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/tabs/addingPage/checkController.dart';
-import 'package:weight_control/screens/values-page/controller.dart';
+
 
 var logger = Logger();
 
@@ -61,13 +61,14 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
   }
 
   final CheckController checkController = Get.put(CheckController());
-  final ControllerWeight controllerWeight = Get.find();
-  final ValuesController valuesController = Get.find();
+  final ControllerDashboardInfo controllerDashboardInfo = Get.find();
+
 
   addWeight(String text){
     var r = double.parse(text);
     assert(r is double);
-    controllerWeight.addWeight(r);
+    controllerDashboardInfo.addWeight(r);
+
   }
 
   @override
@@ -115,20 +116,7 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                                   checkController.changeWaisteChecked(),
                             ),
                           ),
-                          // IconButton(
-                          //    icon: mobxCheck.isWaisteChecked
-                          //        ? Icon(
-                          //            Boxicons.bxs_minus_square,
-                          //            color: Colors.red,
-                          //          )
-                          //        : Icon(
-                          //            Boxicons.bxs_plus_square,
-                          //            color: Colors.green,
-                          //          ),
-                          //    onPressed: () {
-                          //      mobxCheck.changeWaiste();
-                          //    },
-                          //  ),
+
                         ),
                         SizedBox(
                           width: 20,
@@ -171,7 +159,9 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                     onPressed: () {
                       addWeight(textWeightController.text);
                       checkController.allCheckesSetFalse();
-                      valuesController.getInfoForWeightAtValuesPage();
+                      controllerDashboardInfo.update();
+                      //valuesController.update();
+                      //valuesController.getInfoForWeightAtValuesPage();
                       Navigator.of(context).pop(true);
                     },
                     child: Padding(

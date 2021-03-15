@@ -2,77 +2,66 @@ import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
 import 'package:weight_control/model/weight/weight_model.dart';
 
+
 class Database {
   var logger = Logger();
+  var weightModel = WeightModel();
 
   Future<Box> openBox(String name) async {
     var box = await Hive.openBox(name);
     return box;
   }
 
-  Future<double> getCurrentWeight() async {
-    var box = await openBox("Weight");
-    var weightModel = WeightModel();
-    weightModel = box.get(0);
-    double res = 0;
-    res = weightModel.lastCurrentWeight();
-    return res;
-  }
-
-  Future<void> createBoxWeight(
-      DateTime dateTime, double valueCurrentWeight, double wantedWeight) async {
-    var weightModel = WeightModel();
-    var box = await openBox("Weight");
-    weightModel.addWantedWeight(wantedWeight);
-    weightModel.addWeight(dateTime, valueCurrentWeight);
-
-    box.add(weightModel);
-  }
-
-  Future<void> addToWeightBox(
-      {DateTime dateTime, double valueWeight, double valueWantedWeight}) async {
+  Future<List<DateTime>> getDatesList() async {
+    List<DateTime> list = [];
     final box = await openBox("Weight");
-    var weightModel = WeightModel();
+    WeightModel weightModel = box.get(0);
 
-    if (box.isNotEmpty) {
-      weightModel = box.getAt(0);
-
-      if (valueWantedWeight != null) {
-        weightModel.addWantedWeight(valueWantedWeight);
-      }
-
-      weightModel.addWeight(dateTime, valueWeight);
-      weightModel.save();
-    } else {
-      createBoxWeight(dateTime, valueWeight, valueWantedWeight);
+     /// Add map's keys to the list
+    for (var item in weightModel.weights.entries) {
+      list.add(item.key);
     }
+
+    return list;
   }
 
-  Future<List<double>> getInit() async {
+  Future<List<double>> getWeightsList() async {
+    List<double> list = [];
+    final box = await openBox("Weight");
+    WeightModel weightModel = box.get(0);
+
+    /// Add map's values to the list
+    for (var item in weightModel.weights.entries) {
+      list.add(item.value);
+    }
+
+    return list;
+  }
+
+  //collect data from box and represent it via list
+  Future<List<double>> initDashboard() async {
     final box = await openBox("Weight");
     List<double> list = [];
 
     /// Check box, if it exists and not empty
     if (box.isNotEmpty) {
       /// testBox(box, "//getInit");
-
       WeightModel weightModel = box.get(0);
 
       /// Add wantedWeight
       list.add(weightModel.wantedWeight);
-      logger.i(
-          "getInit(). from box => wantedWeight = ${weightModel.wantedWeight}");
 
       /// Add map's entries to the list
       for (var item in weightModel.weights.entries) {
         list.add(item.value);
-
-        logger.i("getInit(). from box => weight: ${item.value}");
       }
+
       return list;
     } else {
+      //dummy data for first
       list.add(11);
       list.add(12);
+
       addToWeightBox(
           dateTime: DateTime.now(),
           valueWeight: list[1],
@@ -81,68 +70,76 @@ class Database {
     }
   }
 
+  Future <void> deleteWeight(DateTime key) async {
+    final box = await openBox("Weight");
+    weightModel= box.getAt(0);
+
+   weightModel.weights.remove(key);
+
+    //save deleting when weightList is empty
+    if(weightModel.weights.length <= 0){
+      weightModel.addWeight(DateTime.now(), 0);
+      weightModel.save();
+    }
+
+
+    weightModel.save();
+  }
+
   Future<int> getWeightsLength() async {
     final box = await openBox("Weight");
-    var weightModel = WeightModel();
     weightModel = box.getAt(0);
-    //TODO вынести верхнюю строку в отдельный блок, чтобы был только один экземпляр класса.
-
     var length = weightModel.weights.length;
     return length;
   }
 
-  Future<List<double>> getWeightsAsList() async {
+  Future<void> updateOneWeight(double newValue, DateTime key) async {
     final box = await openBox("Weight");
-    var weightModel = WeightModel();
     weightModel = box.getAt(0);
-    Map<DateTime, double> map = weightModel.weights;
-    // print("... map: $map");
-
-    List<double> res = map.entries.map((e) => e.value).toList();
-    // print("... res = ${res.runtimeType}");
-    return res;
-  }
-
-  Future<List<DateTime>> getDatesAsList() async {
-    final box = await openBox("Weight");
-    var weightModel = WeightModel();
-    weightModel = box.getAt(0);
-    Map<DateTime, double> map = weightModel.weights;
-    // print("... map: $map");
-
-    List<DateTime> res2 = map.entries.map((e) => e.key).toList();
-    // print("... res2 = ${res2.runtimeType}");
-    return res2;
-  }
-
-  Future<void> deleteWeight(DateTime key) async {
-    final box = await openBox("Weight");
-    var weightModel = WeightModel();
-    weightModel = box.getAt(0);
-    weightModel.weights.remove(key);
+    print("in database. old weight value : ${weightModel.weights[key]}");
+    weightModel.weights[key] = newValue;
     weightModel.save();
+
+    weightModel = box.getAt(0);
+    print("in database. new weight value : ${weightModel.weights[key]}");
+
   }
 
-  Future<void> changeOneWeight(double newWeight, DateTime key) async {
+  Future<void> addToWeightBox(
+      {DateTime dateTime, double valueWeight, double valueWantedWeight}) async {
     final box = await openBox("Weight");
-    var weightModel = WeightModel();
-    weightModel = box.getAt(0);
-    weightModel.weights[key] = newWeight;
-    weightModel.save();
-    logger.wtf("changed weight = ${weightModel.weights[key]}");
 
-    weightModel = box.getAt(0);
-    logger.w("changed weight = ${weightModel.weights[key]}");
+    if (box.isNotEmpty) {
+      weightModel = box.getAt(0);
 
+      if (valueWantedWeight != null) {
+        //if wantedWeight is being used, than add it to object
+        weightModel.addWantedWeight(valueWantedWeight);
+      }
+
+      //add weight
+      weightModel.addWeight(dateTime, valueWeight);
+      //save the object in the box
+      weightModel.save();
+
+
+      //TEST
+      weightModel = box.getAt(0);
+      var r = await getWeightsList();
+      print("******************************");
+      print("database. after saving weightsList : $r");
+      print("database. after saving itemCounter : ${r.length}");
+      print("******************************");
+
+    } else {
+      //if box isn't exist than create it
+      var weightModel = WeightModel();
+
+      weightModel.addWantedWeight(valueWantedWeight);
+      weightModel.addWeight(dateTime, valueWeight);
+      box.add(weightModel);
+    }
   }
 
-  Future<double> getWeightInCard ( DateTime key) async {
-    final box = await openBox("Weight");
-    var weightModel = WeightModel();
-    weightModel = box.getAt(0);
-    double r =  weightModel.weights[key];
-    return r;
-
-  }
 
 }
