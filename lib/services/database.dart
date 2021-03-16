@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
 import 'package:weight_control/model/weight/weight_model.dart';
 
-
 class Database {
   var logger = Logger();
   var weightModel = WeightModel();
@@ -17,7 +16,7 @@ class Database {
     final box = await openBox("Weight");
     WeightModel weightModel = box.get(0);
 
-     /// Add map's keys to the list
+    /// Add map's keys to the list
     for (var item in weightModel.weights.entries) {
       list.add(item.key);
     }
@@ -73,11 +72,25 @@ class Database {
   Future<void> changeFlagMeeting() async {
     final box = await openBox("Weight");
     weightModel = box.getAt(0);
+    print("Database. flag before changing: ${weightModel.flagFirstMeeting}");
     weightModel.changeFlag();
     weightModel.save();
-    print("changed flag: ${weightModel.flagFirstMeeting}");
+    print("Database. changed flag: ${weightModel.flagFirstMeeting}");
+  }
 
+  Future<bool> getFlagFromHive() async {
+    final box = await openBox("Weight");
+    weightModel = box.getAt(0);
+    var r = weightModel.flagFirstMeeting;
+    if(r == null ){
+      print("database. getFlag. flag is not initialized...");
 
+      print("==> $r");
+      return true;
+    }
+    else {
+      print("database. getFlag. data exists");
+      return false;}
   }
 
   Future<bool> initFlagFirstMeeting(bool flag) async {
@@ -86,6 +99,8 @@ class Database {
     weightModel = box.getAt(0);
     weightModel.addFlag(flag);
     weightModel.save();
+
+    print("Database. initFlag. flag : ${weightModel.flagFirstMeeting}");
 
     return weightModel.flagFirstMeeting;
 
@@ -99,21 +114,19 @@ class Database {
     //   box.add(flag);
     //   return flag;
     // }
-
   }
 
-  Future <void> deleteWeight(DateTime key) async {
+  Future<void> deleteWeight(DateTime key) async {
     final box = await openBox("Weight");
-    weightModel= box.getAt(0);
+    weightModel = box.getAt(0);
 
-   weightModel.weights.remove(key);
+    weightModel.weights.remove(key);
 
     //save deleting when weightList is empty
-    if(weightModel.weights.length <= 0){
+    if (weightModel.weights.length <= 0) {
       weightModel.addWeight(DateTime.now(), 0);
       weightModel.save();
     }
-
 
     weightModel.save();
   }
@@ -134,7 +147,6 @@ class Database {
 
     weightModel = box.getAt(0);
     print("in database. new weight value : ${weightModel.weights[key]}");
-
   }
 
   Future<void> addToWeightBox(
@@ -154,7 +166,6 @@ class Database {
       //save the object in the box
       weightModel.save();
 
-
       //TEST
       weightModel = box.getAt(0);
       var r = await getWeightsList();
@@ -162,7 +173,6 @@ class Database {
       print("database. after saving weightsList : $r");
       print("database. after saving itemCounter : ${r.length}");
       print("******************************");
-
     } else {
       //if box isn't exist than create it
       var weightModel = WeightModel();
@@ -172,6 +182,4 @@ class Database {
       box.add(weightModel);
     }
   }
-
-
 }

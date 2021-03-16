@@ -47,13 +47,17 @@ class ControllerDashboardInfo extends GetxController {
   }
 
   void initFlagFirstMeeting() async {
-    bool r = await database.initFlagFirstMeeting(true);
+    bool flag = await database.getFlagFromHive();
+    bool r = await database.initFlagFirstMeeting(flag);
     flagFirstMeeting.value = r;
-    print("==> in controller ==> flag = $r");
+    print("==> in controller init ==> flag = $flagFirstMeeting");
   }
 
   void changeFlagFirstMeeting() async {
-
+    print("try to change flag...");
+    await database.changeFlagMeeting();
+    flagFirstMeeting.value = !flagFirstMeeting.value;
+    print("controller. flag after changing : $flagFirstMeeting");
   }
 
   void addWeight(double value) async {

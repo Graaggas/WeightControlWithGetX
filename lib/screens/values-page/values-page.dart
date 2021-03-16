@@ -38,6 +38,9 @@ class ValuesWeightsPage extends StatelessWidget {
                     );
                   }),
             ),
+           OutlinedButton(onPressed: (){
+             print(controller.flagFirstMeeting.value.toString());
+           }, child: Text("press")),
           ],
         ),
       ),
