@@ -8,6 +8,7 @@ import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/model/weight/weight_model.dart';
 
 import 'package:weight_control/screens/home_page.dart';
+import 'package:weight_control/screens/landing-page.dart';
 
 
 void main() async {
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: HomePage(),
+      home: LandingPage(),
     );
   }
 }

@@ -70,6 +70,38 @@ class Database {
     }
   }
 
+  Future<void> changeFlagMeeting() async {
+    final box = await openBox("Weight");
+    weightModel = box.getAt(0);
+    weightModel.changeFlag();
+    weightModel.save();
+    print("changed flag: ${weightModel.flagFirstMeeting}");
+
+
+  }
+
+  Future<bool> initFlagFirstMeeting(bool flag) async {
+    final box = await openBox("Weight");
+
+    weightModel = box.getAt(0);
+    weightModel.addFlag(flag);
+    weightModel.save();
+
+    return weightModel.flagFirstMeeting;
+
+    // if(box.getAt(1) != null)
+    //   {
+    //     flag = box.getAt(1);
+    //     return flag;
+    //   }
+    // else{
+    //   flag = true;
+    //   box.add(flag);
+    //   return flag;
+    // }
+
+  }
+
   Future <void> deleteWeight(DateTime key) async {
     final box = await openBox("Weight");
     weightModel= box.getAt(0);

@@ -6,6 +6,8 @@ import 'package:weight_control/services/database.dart';
 class ControllerDashboardInfo extends GetxController {
   final database = Database();
 
+  var flagFirstMeeting = true.obs;
+
   var itemCounter = 0.obs;
 
   var currentWeight = 0.0.obs;
@@ -22,6 +24,8 @@ class ControllerDashboardInfo extends GetxController {
     startWeight.value = firstDataList[1];
     wantedWeight.value = firstDataList[0];
 
+    initFlagFirstMeeting();
+
     List<double> weights = await database.getWeightsList();
     weightsList.addAll(weights);
 
@@ -31,6 +35,7 @@ class ControllerDashboardInfo extends GetxController {
     itemCounter.value = weightsList.length;
 
     update();
+    super.onInit();
 
     //TEST
     print("******************************");
@@ -41,7 +46,15 @@ class ControllerDashboardInfo extends GetxController {
     print("******************************");
   }
 
+  void initFlagFirstMeeting() async {
+    bool r = await database.initFlagFirstMeeting(true);
+    flagFirstMeeting.value = r;
+    print("==> in controller ==> flag = $r");
+  }
 
+  void changeFlagFirstMeeting() async {
+
+  }
 
   void addWeight(double value) async {
     print("in controller adding new weight...");
@@ -63,8 +76,7 @@ class ControllerDashboardInfo extends GetxController {
   }
 
   Future<void> updateItemCounter() async {
-
-    var r =  await database.getWeightsLength();
+    var r = await database.getWeightsLength();
     itemCounter.value = r;
 
     // if(weightsList.length <= 0) {
@@ -73,7 +85,6 @@ class ControllerDashboardInfo extends GetxController {
     // else{
     //   itemCounter.value = weightsList.length;
     // }
-
 
     update();
   }
@@ -108,20 +119,14 @@ class ControllerDashboardInfo extends GetxController {
     update();
   }
 
-
-
-
-
   Future<void> updateCurrentWeight() async {
     List<double> r = await database.getWeightsList();
     int length = r.length;
 
-    if(r.length <= 0){
+    if (r.length <= 0) {
       currentWeight.value = 0;
-    }
-    else {
+    } else {
       currentWeight.value = r[length - 1];
     }
-
   }
 }
