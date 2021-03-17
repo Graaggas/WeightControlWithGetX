@@ -24,7 +24,8 @@ class WeightModel extends HiveObject {
     flagFirstMeeting = !flagFirstMeeting;
   }
 
-  void addWeight(DateTime dateTime, double value) {
+  void addWeight( double value) {
+    DateTime dateTime = DateTime.now();
     _weightMap[dateTime] = value;
   }
 

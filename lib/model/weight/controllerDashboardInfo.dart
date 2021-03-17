@@ -6,6 +6,8 @@ import 'package:weight_control/services/database.dart';
 class ControllerDashboardInfo extends GetxController {
   final database = Database();
 
+  var stopInit = false.obs;
+
   var flagFirstMeeting = true.obs;
 
   var itemCounter = 0.obs;
@@ -16,34 +18,46 @@ class ControllerDashboardInfo extends GetxController {
   var weightsList = [].obs;
   var datesList = [].obs;
 
-  @override
-  void onInit() async {
-    print("Dashboard controller's init...");
-    List<double> firstDataList = await database.initDashboard();
-    currentWeight.value = firstDataList[firstDataList.length - 1];
-    startWeight.value = firstDataList[1];
-    wantedWeight.value = firstDataList[0];
 
-    initFlagFirstMeeting();
+  void init() async {
 
-    List<double> weights = await database.getWeightsList();
-    weightsList.addAll(weights);
+    if(stopInit.value == false){
+      print("Dashboard controller's init...");
 
-    List<DateTime> dates = await database.getDatesList();
-    datesList.addAll(dates);
+      List<double> firstDataList = await database.initDashboard();
+      if (firstDataList != null) {
+        currentWeight.value = firstDataList[firstDataList.length - 1];
+        startWeight.value = firstDataList[1];
+        wantedWeight.value = firstDataList[0];
 
-    itemCounter.value = weightsList.length;
+        List<double> weights = await database.getWeightsList();
+        weightsList.addAll(weights);
 
-    update();
-    super.onInit();
+        List<DateTime> dates = await database.getDatesList();
+        datesList.addAll(dates);
 
-    //TEST
-    print("******************************");
-    print("onInit... List of weights:");
-    weightsList.forEach((element) {
-      print(element);
-    });
-    print("******************************");
+        itemCounter.value = weightsList.length;
+      } else {
+        initFlagFirstMeeting();
+        print("controller. first start...");
+      }
+
+      update();
+      super.onInit();
+
+      //TEST
+      print("******************************");
+      print("onInit... List of weights:");
+      weightsList.forEach((element) {
+        print(element);
+      });
+      print("******************************");
+
+        stopInit.value = true;
+
+    }
+
+
   }
 
   void initFlagFirstMeeting() async {
@@ -53,18 +67,13 @@ class ControllerDashboardInfo extends GetxController {
     print("==> in controller init ==> flag = $flagFirstMeeting");
   }
 
-  void changeFlagFirstMeeting() async {
-    print("try to change flag...");
-    await database.changeFlagMeeting();
-    flagFirstMeeting.value = !flagFirstMeeting.value;
-    print("controller. flag after changing : $flagFirstMeeting");
-  }
+
 
   void addWeight(double value) async {
     print("in controller adding new weight...");
     print("in controller current itemCounter : ${itemCounter.value}");
 
-    await database.addToWeightBox(valueWeight: value, dateTime: DateTime.now());
+    await database.addToWeightBox(valueWeight: value);
 
     await updateWeightData();
     update();

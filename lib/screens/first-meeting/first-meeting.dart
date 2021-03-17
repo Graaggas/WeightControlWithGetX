@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
+import 'package:weight_control/screens/first-meeting/first-meeting-controller.dart';
 import 'package:weight_control/screens/home_page.dart';
 import 'package:weight_control/screens/landing-page.dart';
 
 class FirstMeeting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ControllerDashboardInfo controllerDashboardInfo = Get.find();
+    // final ControllerDashboardInfo controllerDashboardInfo = Get.find();
+    final FirstMeetingController firstMeetingController = Get.find();
 
     return Scaffold(
       // body: Center(
@@ -85,10 +87,10 @@ class FirstMeeting extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
-                  onPressed: () {
-                    
-                      // controllerDashboardInfo.changeFlagFirstMeeting();
-                      // Get.off(() => HomePage());
+                  onPressed: () async {
+                    await firstMeetingController.putInitWeight(startWeight1: 44, wantedWeight1: 55);
+                      await firstMeetingController.changeFlagFirstMeeting();
+                       Get.off(() => HomePage());
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(

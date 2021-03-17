@@ -17,7 +17,7 @@ void main() async {
   var dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 
-  final ControllerDashboardInfo controllerWeight = Get.put(ControllerDashboardInfo());
+  //final ControllerDashboardInfo controllerWeight = Get.put(ControllerDashboardInfo());
 
 
 

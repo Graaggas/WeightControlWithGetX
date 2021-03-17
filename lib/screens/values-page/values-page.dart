@@ -8,7 +8,7 @@ import 'package:weight_control/screens/values-page/weight-card.dart';
 class ValuesWeightsPage extends StatelessWidget {
   final logger = Logger();
 
-  final ControllerDashboardInfo controller = Get.find();
+  final ControllerDashboardInfo controller = Get.put(ControllerDashboardInfo());
 
 
   @override

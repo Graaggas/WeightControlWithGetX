@@ -56,23 +56,31 @@ class Database {
       }
 
       return list;
-    } else {
-      //dummy data for first
-      list.add(11);
-      list.add(12);
-
-      addToWeightBox(
-          dateTime: DateTime.now(),
-          valueWeight: list[1],
-          valueWantedWeight: list[0]);
-      return list;
     }
+    else {
+      print("database. box is empty");
+      return null;
+    }
+    // else {
+    //   //dummy data for first
+    //   list.add(11);
+    //   list.add(12);
+    //
+    //   addToWeightBox(
+    //       dateTime: DateTime.now(),
+    //       valueWeight: list[1],
+    //       valueWantedWeight: list[0]);
+    //   return list;
+    // }
   }
 
   Future<void> changeFlagMeeting() async {
     final box = await openBox("Weight");
     weightModel = box.getAt(0);
     print("Database. flag before changing: ${weightModel.flagFirstMeeting}");
+    if(weightModel.flagFirstMeeting == null){
+     weightModel.flagFirstMeeting = true;
+    }
     weightModel.changeFlag();
     weightModel.save();
     print("Database. changed flag: ${weightModel.flagFirstMeeting}");
@@ -80,17 +88,24 @@ class Database {
 
   Future<bool> getFlagFromHive() async {
     final box = await openBox("Weight");
-    weightModel = box.getAt(0);
-    var r = weightModel.flagFirstMeeting;
-    if(r == null ){
-      print("database. getFlag. flag is not initialized...");
+    try {
+      weightModel = box.getAt(0);
+      var r = weightModel.flagFirstMeeting;
+      if (r == null || weightModel == null) {
+        print("database. getFlag. flag is not initialized...");
 
-      print("==> $r");
-      return true;
+        // print("==> $r");
+        return true;
+      }
+      else {
+        print("database. getFlag. data exists");
+        return false;
+      }
     }
-    else {
-      print("database. getFlag. data exists");
-      return false;}
+    catch (e) {
+      print("==> error: $e");
+    }
+    return null;
   }
 
   Future<bool> initFlagFirstMeeting(bool flag) async {
@@ -124,7 +139,7 @@ class Database {
 
     //save deleting when weightList is empty
     if (weightModel.weights.length <= 0) {
-      weightModel.addWeight(DateTime.now(), 0);
+      weightModel.addWeight(0);
       weightModel.save();
     }
 
@@ -150,19 +165,20 @@ class Database {
   }
 
   Future<void> addToWeightBox(
-      {DateTime dateTime, double valueWeight, double valueWantedWeight}) async {
+      { double valueWeight, double valueWantedWeight}) async {
     final box = await openBox("Weight");
 
     if (box.isNotEmpty) {
       weightModel = box.getAt(0);
-
+      print("database. box is not empty");
       if (valueWantedWeight != null) {
         //if wantedWeight is being used, than add it to object
         weightModel.addWantedWeight(valueWantedWeight);
       }
 
       //add weight
-      weightModel.addWeight(dateTime, valueWeight);
+      DateTime dateTime = DateTime.now();
+      weightModel.addWeight(valueWeight);
       //save the object in the box
       weightModel.save();
 
@@ -175,11 +191,13 @@ class Database {
       print("******************************");
     } else {
       //if box isn't exist than create it
+      print("database. box is empty");
       var weightModel = WeightModel();
 
       weightModel.addWantedWeight(valueWantedWeight);
-      weightModel.addWeight(dateTime, valueWeight);
+      weightModel.addWeight(valueWeight);
       box.add(weightModel);
+      print("database. box was created and filled with wantedWeight: ${weightModel.wantedWeight} and weight: ${weightModel.weights}");
     }
   }
 }
