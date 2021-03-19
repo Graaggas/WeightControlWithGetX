@@ -25,6 +25,11 @@ class FirstMeetingController extends GetxController {
     super.onInit();
   }
 
+Future<bool> getFlag() async {
+    return flagFirstMeeting.value;
+}
+
+
   Future<void> changeFlagFirstMeeting() async {
     print("try to change flag in fmController..");
     print("FMcontroller. flag before changing : $flagFirstMeeting");
