@@ -4,11 +4,13 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/model/weight/weight_model.dart';
 
 import 'package:weight_control/screens/home_page.dart';
 import 'package:weight_control/screens/landing-page.dart';
+
 
 
 void main() async {
@@ -33,7 +35,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: LandingPage(),
+      home: new SplashScreen(
+          seconds: 3,
+          navigateAfterSeconds: new LandingPage(),
+          title: new Text('\n Weight Control', style: TextStyle(fontSize: 32),),
+          image: new Image.asset('images/image.png'),
+          backgroundColor: Colors.white,
+          styleTextUnderTheLoader: new TextStyle(fontSize: 24,),
+          photoSize: 160.0,
+          loaderColor: Colors.red
+      ),
+      // LandingPage(),
     );
   }
 }
