@@ -9,8 +9,8 @@ class FirstMeetingController extends GetxController {
   // var wantedWeight = 0.0.obs;
   // var startWeight = 0.0.obs;
 
-  @override
-  Future<void> onInit() async {
+  // @override
+  Future<void> init() async {
     print("init FMController...");
   bool r = await database.getFlagFromHive();
   print("FMController... flag = $r");
@@ -22,10 +22,11 @@ class FirstMeetingController extends GetxController {
     {
       flagFirstMeeting.value = r;
     }
-    super.onInit();
+    // super.onInit();
   }
 
 Future<bool> getFlag() async {
+    await init();
     return flagFirstMeeting.value;
 }
 

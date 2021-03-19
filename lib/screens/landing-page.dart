@@ -33,7 +33,7 @@ class LandingPage extends StatelessWidget {
           } else
             return Scaffold(
               body: Center(
-                child: Text("Error"),
+                child: CircularProgressIndicator(),
               ),
             );
         });
