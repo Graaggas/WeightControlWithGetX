@@ -49,112 +49,134 @@ class DashboardPage extends StatelessWidget {
                                 // margin: EdgeInsets.all(4),
                                 height: 80,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    gradient: LinearGradient(
-                                        colors: [Colors.lightBlue, Colors.blue],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.blue,
-                                        blurRadius: 6,
-                                        offset: Offset(0, 1),
-                                      ),
-                                    ],
-                                ),
-                                // child: Card(
-                                //   shape: RoundedRectangleBorder(
-                                //     borderRadius: BorderRadius.circular(10.0),
-                                //   ),
-                                //   elevation: 2,
-                                //   color:
-                                //   Color(colorContainerWithStartEndValuesWeight),
-                                //   child: Padding(
-                                //     padding: const EdgeInsets.all(1.0),
-                                //     child: Row(
-                                //       mainAxisAlignment: MainAxisAlignment.center,
-                                //       children: [
-                                //         // Icon(
-                                //         //   LineAwesomeIcons.arrow_circle_up,
-                                //         //   color: Colors.red,
-                                //         // ),
-                                //         Padding(
-                                //           padding: const EdgeInsets.all(8.0),
-                                //           child: Column(
-                                //             children: [
-                                //               Text("Начальный вес"),
-                                //               GetBuilder<ControllerDashboardInfo>(
-                                //                 init: ControllerDashboardInfo(),
-                                //                 builder: (controller) {
-                                //                   return Text(
-                                //                     "${controller.startWeight} кг",
-                                //                     style: TextStyle(
-                                //                       fontSize: 22,
-                                //                       fontWeight: FontWeight.bold,
-                                //                     ),
-                                //                   );
-                                //                 },
-                                //               ),
-                                //             ],
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-                              ),
-                              Positioned(
-                              right: 0,
-                                top: 0,
-                                bottom: 0,
-                                child: CustomPaint(
-                                  size: Size(100,80),
-                                  painter: WidgetValues(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 2,
-                              color:
-                                  Color(colorContainerWithStartEndValuesWeight),
-                              child: Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // Icon(
-                                    //   LineAwesomeIcons.arrow_circle_down,
-                                    //   color: Colors.green,
-                                    // ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text("Желаемый вес"),
-                                          GetBuilder<ControllerDashboardInfo>(
-                                            init: ControllerDashboardInfo(),
-                                            builder: (controller) {
-                                              return Text(
-                                                "${controller.wantedWeight} кг",
-                                                style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
+                                  borderRadius: BorderRadius.circular(8),
+                                  gradient: LinearGradient(
+                                      colors: [Colors.lightBlue, Colors.blue],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blue,
+                                      blurRadius: 2,
+                                      offset: Offset(0, 1),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: CustomPaint(
+                                  size: Size(100, 80),
+                                  painter: WidgetValues(),
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                bottom: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text("Начальный"),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text("Вес"),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 50,
+                                bottom: 0,
+                                right: 10,
+                                child: GetBuilder<ControllerDashboardInfo>(
+                                  init: ControllerDashboardInfo(),
+                                  builder: (controller) {
+                                    return Text(
+                                      "${controller.startWeight} кг",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  gradient: LinearGradient(
+                                      colors: [Colors.lightBlue, Colors.blue],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.blue,
+                                      blurRadius: 2,
+                                      offset: Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
+
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: CustomPaint(
+                                  size: Size(100, 80),
+                                  painter: WidgetValues(),
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                bottom: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text("Желаемый"),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text("Вес"),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 50,
+                                bottom: 0,
+                                right: 10,
+                                child: GetBuilder<ControllerDashboardInfo>(
+                                  init: ControllerDashboardInfo(),
+                                  builder: (controller) {
+                                    return Text(
+                                      "${controller.wantedWeight} кг",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -544,11 +566,10 @@ class WidgetValues extends CustomPainter {
       ..lineTo(size.width - radius, size.height)
       ..quadraticBezierTo(
           size.width, size.height, size.width, size.height - radius)
-       ..lineTo(size.width, radius)
-      ..quadraticBezierTo(size.width, 0, size.width-radius, 0)
-      ..lineTo(size.width-radius*3, 0)
-      ..quadraticBezierTo(-radius, size.height/2, 0, size.height)
-
+      ..lineTo(size.width, radius)
+      ..quadraticBezierTo(size.width, 0, size.width - radius, 0)
+      ..lineTo(size.width - radius * 3, 0)
+      ..quadraticBezierTo(-radius, size.height / 2, 0, size.height)
       ..close();
 
     canvas.drawPath(path, paint);
