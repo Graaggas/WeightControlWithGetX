@@ -18,6 +18,8 @@ class ControllerDashboardInfo extends GetxController {
   var weightsList = [].obs;
   var datesList = [].obs;
 
+  var percentPerKg = 90.0.obs;
+
 
   void init() async {
 
@@ -43,7 +45,7 @@ class ControllerDashboardInfo extends GetxController {
       }
 
       update();
-      super.onInit();
+
 
       //TEST
       print("******************************");

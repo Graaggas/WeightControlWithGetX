@@ -7,11 +7,20 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:weight_control/misc/constants.dart';
+import 'package:weight_control/misc/radial-progress.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class DashboardPage extends StatelessWidget {
+  final ControllerDashboardInfo controllerDashboardInfo =
+      Get.put(ControllerDashboardInfo());
+
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       backgroundColor: Color(colorMain),
       appBar: AppBar(
@@ -22,22 +31,23 @@ class DashboardPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                // child: Text(
-                //   "Прогресс",
-                //   style: TextStyle(
-                //     fontSize: 26,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 8.0),
+              //   // child: Text(
+              //   //   "Прогресс",
+              //   //   style: TextStyle(
+              //   //     fontSize: 26,
+              //   //     fontWeight: FontWeight.bold,
+              //   //   ),
+              //   // ),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
@@ -130,7 +140,6 @@ class DashboardPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
                               ),
                               Positioned(
                                 right: 0,
@@ -182,68 +191,75 @@ class DashboardPage extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        height: 150,
-                        child: SfRadialGauge(
-                          axes: <RadialAxis>[
-                            RadialAxis(
-                              axisLineStyle: AxisLineStyle(
-                                thickness: 0.15,
-                                thicknessUnit: GaugeSizeUnit.factor,
-                                cornerStyle: CornerStyle.bothCurve,
-                              ),
-                              showTicks: false,
-                              showLabels: false,
-                              onAxisTapped: (value) {},
-                              pointers: <GaugePointer>[
-                                RangePointer(
-                                  enableAnimation: true,
-                                  color: Colors.red[400],
-                                  value: 13,
-                                  onValueChanged: (value) {},
-                                  cornerStyle: CornerStyle.bothCurve,
-                                  onValueChangeEnd: (value) {},
-                                  onValueChanging: (value) {},
-                                  enableDragging: false,
-                                  width: 0.15,
-                                  sizeUnit: GaugeSizeUnit.factor,
-                                ),
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                  widget: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text("Сейчас"),
-                                          GetBuilder(builder:
-                                              (ControllerDashboardInfo
-                                                  controller) {
-                                            return Text(
-                                              // "${controller.listWeights[controller.itemCounter.value-1]}",
-                                              "${controller.currentWeight}",
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          }),
-                                        ],
-                                      ),
-                                      Text("-13 кг"),
-                                    ],
-                                  ),
-                                  positionFactor: 0.05,
-                                  // angle: 0.5,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      child:
+                        RadialProgress(),
+                      // Container(
+                      //   height: 150,
+                      //   child: SfRadialGauge(
+                      //     axes: <RadialAxis>[
+                      //       RadialAxis(
+                      //         startAngle: 180,
+                      //         endAngle: 0,
+                      //         //canScaleToFit: true,
+                      //         axisLineStyle: AxisLineStyle(
+                      //           thickness: 0.15,
+                      //           thicknessUnit: GaugeSizeUnit.factor,
+                      //           cornerStyle: CornerStyle.bothCurve,
+                      //         ),
+                      //         showTicks: false,
+                      //         showLabels: false,
+                      //         onAxisTapped: (value) {},
+                      //         pointers: <GaugePointer>[
+                      //           RangePointer(
+                      //             enableAnimation: true,
+                      //             color: HSLColor.fromColor(Colors.red)
+                      //                 .withLightness(0.6)
+                      //                 .toColor(),
+                      //             value: 82,
+                      //             onValueChanged: (value) {},
+                      //             cornerStyle: CornerStyle.bothCurve,
+                      //             onValueChangeEnd: (value) {},
+                      //             onValueChanging: (value) {},
+                      //             enableDragging: false,
+                      //             width: 0.15,
+                      //             sizeUnit: GaugeSizeUnit.factor,
+                      //           ),
+                      //         ],
+                      //         annotations: <GaugeAnnotation>[
+                      //           GaugeAnnotation(
+                      //             widget: Column(
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Column(
+                      //                   mainAxisAlignment:
+                      //                       MainAxisAlignment.center,
+                      //                   children: [
+                      //                     Text("Сейчас"),
+                      //                     GetBuilder(builder:
+                      //                         (ControllerDashboardInfo
+                      //                             controller) {
+                      //                       return Text(
+                      //                         // "${controller.listWeights[controller.itemCounter.value-1]}",
+                      //                         "${controller.currentWeight}",
+                      //                         style: TextStyle(
+                      //                           fontSize: 24,
+                      //                           fontWeight: FontWeight.bold,
+                      //                         ),
+                      //                       );
+                      //                     }),
+                      //                   ],
+                      //                 ),
+                      //                 Text("-13 кг"),
+                      //               ],
+                      //             ),
+                      //             positionFactor: 0.05,
+                      //             // angle: 0.5,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ),
                   ],
                 ),
