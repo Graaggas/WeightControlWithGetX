@@ -1,12 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:weight_control/misc/constants.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
-
 
 class DashboardPage extends StatelessWidget {
   @override
@@ -42,47 +43,76 @@ class DashboardPage extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
-                          Container(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 2,
-                              color:
-                              Color(colorContainerWithStartEndValuesWeight),
-                              child: Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // Icon(
-                                    //   LineAwesomeIcons.arrow_circle_up,
-                                    //   color: Colors.red,
-                                    // ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text("Начальный вес"),
-                                          GetBuilder<ControllerDashboardInfo>(
-                                            init: ControllerDashboardInfo(),
-                                            builder: (controller) {
-                                              return Text(
-                                                "${controller.startWeight} кг",
-                                                style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ],
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                // margin: EdgeInsets.all(4),
+                                height: 80,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    gradient: LinearGradient(
+                                        colors: [Colors.lightBlue, Colors.blue],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.blue,
+                                        blurRadius: 6,
+                                        offset: Offset(0, 1),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                ),
+                                // child: Card(
+                                //   shape: RoundedRectangleBorder(
+                                //     borderRadius: BorderRadius.circular(10.0),
+                                //   ),
+                                //   elevation: 2,
+                                //   color:
+                                //   Color(colorContainerWithStartEndValuesWeight),
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.all(1.0),
+                                //     child: Row(
+                                //       mainAxisAlignment: MainAxisAlignment.center,
+                                //       children: [
+                                //         // Icon(
+                                //         //   LineAwesomeIcons.arrow_circle_up,
+                                //         //   color: Colors.red,
+                                //         // ),
+                                //         Padding(
+                                //           padding: const EdgeInsets.all(8.0),
+                                //           child: Column(
+                                //             children: [
+                                //               Text("Начальный вес"),
+                                //               GetBuilder<ControllerDashboardInfo>(
+                                //                 init: ControllerDashboardInfo(),
+                                //                 builder: (controller) {
+                                //                   return Text(
+                                //                     "${controller.startWeight} кг",
+                                //                     style: TextStyle(
+                                //                       fontSize: 22,
+                                //                       fontWeight: FontWeight.bold,
+                                //                     ),
+                                //                   );
+                                //                 },
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                              ),
+                              Positioned(
+                              right: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: CustomPaint(
+                                  size: Size(100,80),
+                                  painter: WidgetValues(),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                           Container(
                             child: Card(
@@ -91,7 +121,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                              Color(colorContainerWithStartEndValuesWeight),
+                                  Color(colorContainerWithStartEndValuesWeight),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -106,17 +136,17 @@ class DashboardPage extends StatelessWidget {
                                       child: Column(
                                         children: [
                                           Text("Желаемый вес"),
-                                         GetBuilder<ControllerDashboardInfo>(
-                                           init: ControllerDashboardInfo(),
-                                              builder:(controller) {
-                                                return Text(
-                                                  "${controller.wantedWeight} кг",
-                                                  style: TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                );
-                                              },
+                                          GetBuilder<ControllerDashboardInfo>(
+                                            init: ControllerDashboardInfo(),
+                                            builder: (controller) {
+                                              return Text(
+                                                "${controller.wantedWeight} кг",
+                                                style: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -164,12 +194,12 @@ class DashboardPage extends StatelessWidget {
                                     children: [
                                       Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text("Сейчас"),
-
-                                          GetBuilder(builder: (
-                                              ControllerDashboardInfo controller) {
+                                          GetBuilder(builder:
+                                              (ControllerDashboardInfo
+                                                  controller) {
                                             return Text(
                                               // "${controller.listWeights[controller.itemCounter.value-1]}",
                                               "${controller.currentWeight}",
@@ -179,7 +209,6 @@ class DashboardPage extends StatelessWidget {
                                               ),
                                             );
                                           }),
-
                                         ],
                                       ),
                                       Text("-13 кг"),
@@ -215,7 +244,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                              Color(colorContainerWithStartEndValuesWaist),
+                                  Color(colorContainerWithStartEndValuesWaist),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -252,7 +281,7 @@ class DashboardPage extends StatelessWidget {
                               ),
                               elevation: 2,
                               color:
-                              Color(colorContainerWithStartEndValuesWaist),
+                                  Color(colorContainerWithStartEndValuesWaist),
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Row(
@@ -320,7 +349,7 @@ class DashboardPage extends StatelessWidget {
                                     children: [
                                       Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           FittedBox(
                                             child: Text("Сейчас"),
@@ -459,13 +488,13 @@ class DashboardPage extends StatelessWidget {
                     flex: 1,
                     child: isUpArrow
                         ? Icon(
-                      LineAwesomeIcons.arrow_up,
-                      color: Colors.red,
-                    )
+                            LineAwesomeIcons.arrow_up,
+                            color: Colors.red,
+                          )
                         : Icon(
-                      LineAwesomeIcons.arrow_down,
-                      color: Colors.green,
-                    ),
+                            LineAwesomeIcons.arrow_down,
+                            color: Colors.green,
+                          ),
                   ),
                   // SizedBox(
                   //   width: 10,
@@ -493,5 +522,40 @@ class DashboardPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class WidgetValues extends CustomPainter {
+  var startColor = Colors.red;
+  var endColor = Colors.redAccent;
+  var radius = 8.0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.shader = ui.Gradient.linear(
+        Offset(0, 0), Offset(size.width, size.height), [
+      HSLColor.fromColor(startColor).withLightness(0.8).toColor(),
+      endColor
+    ]);
+
+    var path = Path()
+      ..moveTo(0, size.height)
+      ..lineTo(size.width - radius, size.height)
+      ..quadraticBezierTo(
+          size.width, size.height, size.width, size.height - radius)
+       ..lineTo(size.width, radius)
+      ..quadraticBezierTo(size.width, 0, size.width-radius, 0)
+      ..lineTo(size.width-radius*3, 0)
+      ..quadraticBezierTo(-radius, size.height/2, 0, size.height)
+
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

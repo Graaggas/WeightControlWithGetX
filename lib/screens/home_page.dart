@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
 
 
     return Scaffold(
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -189,9 +190,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: PageStorage(
-        child: currentScreen,
-        bucket: bucket,
+      body: Container(
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(colors: [Colors.blue, Colors.red[300]], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        // ),
+        child: PageStorage(
+          child: currentScreen,
+          bucket: bucket,
+        ),
       ),
     );
   }
