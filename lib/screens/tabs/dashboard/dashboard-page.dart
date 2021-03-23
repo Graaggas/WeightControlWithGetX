@@ -14,13 +14,8 @@ class DashboardPage extends StatelessWidget {
   final ControllerDashboardInfo controllerDashboardInfo =
       Get.put(ControllerDashboardInfo());
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       backgroundColor: Color(colorMain),
       appBar: AppBar(
@@ -60,13 +55,17 @@ class DashboardPage extends StatelessWidget {
                                 height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
+                                  // color: Color(colorOne),
                                   gradient: LinearGradient(
-                                      colors: [Colors.lightBlue, Colors.blue],
+                                      colors: [
+                                        myColorCardDashboardOne,
+                                        myColorCardDashboardTwo
+                                      ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.blue,
+                                      color: myColorCardDashboardTwo,
                                       blurRadius: 2,
                                       offset: Offset(0, 1),
                                     ),
@@ -191,8 +190,12 @@ class DashboardPage extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child:
-                        RadialProgress(),
+                      child:  RadialProgress(
+                          currentWeight: controllerDashboardInfo.currentWeight.value,
+                        startWeight: controllerDashboardInfo.startWeight.value,
+                        wantedWeight: controllerDashboardInfo.wantedWeight.value,
+                        ),
+
                       // Container(
                       //   height: 150,
                       //   child: SfRadialGauge(

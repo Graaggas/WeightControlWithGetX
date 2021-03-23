@@ -1,40 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
+import 'package:get/get.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
+import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class RadialProgress extends StatelessWidget {
+  final currentWeight;
+  final startWeight;
+  final wantedWeight;
+
+  const RadialProgress({Key key, this.currentWeight, this.startWeight, this.wantedWeight}) : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        CustomPaint(
-          size: Size(
-            200,
-            200,
+
+    final diff = startWeight-wantedWeight;
+    final percentPerOneKg = 100/diff;
+
+    final ControllerDashboardInfo controllerDashboardInfo = Get.find();
+
+    return Obx(
+      ()=> Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          CustomPaint(
+            size: Size(
+              200,
+              200,
+            ),
+            painter: RadialPainter(),
           ),
-          painter: RadialPainter(),
-        ),
-        Positioned(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Сейчас"),
-              Text("123", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-              Text("-12 кг"),
-            ],
+          Positioned(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Сейчас"),
+                Text("${controllerDashboardInfo.currentWeight.value.toString()}", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                Text("-12 кг"),
+              ],
+            ),
           ),
-        ),
-        Positioned(
-          left: 0,
-          child: Icon(
-            Boxicons.bx_right_arrow,
-            size: 20,
+          Positioned(
+            left: 0,
+            child: Icon(
+              Boxicons.bx_right_arrow,
+              size: 20,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
