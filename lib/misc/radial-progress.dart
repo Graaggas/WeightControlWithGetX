@@ -3,48 +3,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:get/get.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
+import 'package:weight_control/misc/constants.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class RadialProgress extends StatelessWidget {
-  final currentWeight;
-  final startWeight;
-  final wantedWeight;
-
-  const RadialProgress({Key key, this.currentWeight, this.startWeight, this.wantedWeight}) : super(key: key);
-
-
   @override
   Widget build(BuildContext context) {
-
-    final diff = startWeight-wantedWeight;
-    final percentPerOneKg = 100/diff;
+    // var anglePerKg = 0.0;
+    // var diff = 0.0;
+    // var angle = 0.0;
 
     final ControllerDashboardInfo controllerDashboardInfo = Get.find();
+    // diff = controllerDashboardInfo.startWeight.value - controllerDashboardInfo.currentWeight.value;
+    // print("diff = $diff");
+    //
+    // anglePerKg = 360/(controllerDashboardInfo.startWeight.value - controllerDashboardInfo.wantedWeight.value);
+    // print("anglePerKg = $anglePerKg");
+    //
+    // angle = diff * anglePerKg;
 
     return Obx(
-      ()=> Stack(
+      () => Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          CustomPaint(
-            size: Size(
-              200,
-              200,
+          Obx(
+            () => CustomPaint(
+              size: Size(
+                200,
+                200,
+              ),
+              painter: RadialPainter(
+                  angle: controllerDashboardInfo.angleWeight.value),
             ),
-            painter: RadialPainter(),
           ),
           Positioned(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Сейчас"),
-                Text("${controllerDashboardInfo.currentWeight.value.toString()}", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-                Text("-12 кг"),
+                Text(
+                  "Сейчас",
+                  style: TextStyle(color: Colors.white70),
+                ),
+                Text(
+                  "${controllerDashboardInfo.currentWeight.value.toString()}",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                Text(
+                  "-12 кг",
+                  style: TextStyle(color: Colors.white60),
+                ),
               ],
             ),
           ),
           Positioned(
-            left: 0,
+            left: 8,
             child: Icon(
               Boxicons.bx_right_arrow,
               size: 20,
@@ -57,6 +73,10 @@ class RadialProgress extends StatelessWidget {
 }
 
 class RadialPainter extends CustomPainter {
+  final angle;
+
+  RadialPainter({this.angle});
+
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
@@ -69,21 +89,22 @@ class RadialPainter extends CustomPainter {
     canvas.drawCircle(center, size.width / 3, paint);
 
     Paint paintProgress = Paint()
-      ..color = Colors.blue
+      ..color = myColorCardWeightDashboardProgressFilling
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8.0;
 
     canvas.drawArc(Rect.fromCircle(center: center, radius: size.width / 3),
-        math.radians(-180), math.radians(189), false, paintProgress);
+        math.radians(-180), math.radians(angle), false, paintProgress);
 
     Paint paintInnerCircle = Paint()
-      ..color = HSLColor.fromColor(Colors.red).withLightness(0.7).toColor()
+      //..color = HSLColor.fromColor(Colors.red).withLightness(0.7).toColor()
+      ..color = myColorCardDashboardWeightTwo
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill
       ..strokeWidth = 30;
 
-    canvas.drawCircle(center, size.width / 3 - 5, paintInnerCircle);
+    canvas.drawCircle(center, size.width / 3 - 6, paintInnerCircle);
   }
 
   @override

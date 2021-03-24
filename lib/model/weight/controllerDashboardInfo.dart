@@ -18,12 +18,14 @@ class ControllerDashboardInfo extends GetxController {
   var weightsList = [].obs;
   var datesList = [].obs;
 
-  var percentPerKg = 90.0.obs;
+  var angleWeight = 0.0.obs;
 
+  var diff = 0.0;
+  var anglePerKg = 0.0;
+  var startWeightForCalculating = 0.0;
 
   void init() async {
-
-    if(stopInit.value == false){
+    if (stopInit.value == false) {
       print("Dashboard controller's init...");
 
       List<double> firstDataList = await database.initDashboard();
@@ -31,6 +33,14 @@ class ControllerDashboardInfo extends GetxController {
         currentWeight.value = firstDataList[firstDataList.length - 1];
         startWeight.value = firstDataList[1];
         wantedWeight.value = firstDataList[0];
+        startWeightForCalculating = startWeight.value;
+
+        firstDataList.forEach((element) {
+          if(element > startWeight.value){
+            startWeightForCalculating = element;
+          }
+        });
+
 
         List<double> weights = await database.getWeightsList();
         weightsList.addAll(weights);
@@ -44,8 +54,8 @@ class ControllerDashboardInfo extends GetxController {
         print("controller. first start...");
       }
 
+      updateAngleWeight();
       update();
-
 
       //TEST
       print("******************************");
@@ -55,11 +65,8 @@ class ControllerDashboardInfo extends GetxController {
       });
       print("******************************");
 
-        stopInit.value = true;
-
+      stopInit.value = true;
     }
-
-
   }
 
   void initFlagFirstMeeting() async {
@@ -69,13 +76,37 @@ class ControllerDashboardInfo extends GetxController {
     print("==> in controller init ==> flag = $flagFirstMeeting");
   }
 
+  Future<void> updateAngleWeight() async {
+    if (currentWeight.value <= startWeight.value) {
+      anglePerKg = 360 / (startWeightForCalculating - wantedWeight.value);
+    } else {
+      anglePerKg = 360 / (currentWeight.value - wantedWeight.value);
+    }
+    print("startWeightForCalculating = $startWeightForCalculating");
+    diff = startWeightForCalculating - currentWeight.value;
 
+    print("diff = $diff");
+
+    print("anglePerKg = $anglePerKg");
+
+    angleWeight.value = diff * anglePerKg;
+
+    print("angleWeight = ${angleWeight.value}");
+
+    update();
+  }
 
   void addWeight(double value) async {
     print("in controller adding new weight...");
     print("in controller current itemCounter : ${itemCounter.value}");
 
     await database.addToWeightBox(valueWeight: value);
+
+    if(value > startWeight.value){
+      await database.addStartWeightForCalculating(value);
+      startWeightForCalculating = value;
+      updateAngleWeight();
+    }
 
     await updateWeightData();
     update();
@@ -86,6 +117,7 @@ class ControllerDashboardInfo extends GetxController {
     await updateWeights();
     await updateCurrentWeight();
     await updateItemCounter();
+    await updateAngleWeight();
 
     update();
   }

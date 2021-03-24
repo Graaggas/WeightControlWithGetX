@@ -164,6 +164,14 @@ class Database {
     print("in database. new weight value : ${weightModel.weights[key]}");
   }
 
+  Future<void> addStartWeightForCalculating(double value) async {
+    final box = await openBox("Weight");
+    weightModel = box.getAt(0);
+    print("database. adding startWeightForCalculating... $value");
+    weightModel.addStartWeightForCalculating(value);
+    weightModel.save();
+  }
+
   Future<void> addToWeightBox(
       { double valueWeight, double valueWantedWeight}) async {
     final box = await openBox("Weight");

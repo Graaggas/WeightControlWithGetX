@@ -26,19 +26,6 @@ class DashboardPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 8.0),
-              //   // child: Text(
-              //   //   "Прогресс",
-              //   //   style: TextStyle(
-              //   //     fontSize: 26,
-              //   //     fontWeight: FontWeight.bold,
-              //   //   ),
-              //   // ),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -55,21 +42,21 @@ class DashboardPage extends StatelessWidget {
                                 height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  // color: Color(colorOne),
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        myColorCardDashboardOne,
-                                        myColorCardDashboardTwo
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: myColorCardDashboardTwo,
-                                      blurRadius: 2,
-                                      offset: Offset(0, 1),
-                                    ),
-                                  ],
+                                  color: myColorCardDashboardWeightOne,
+                                  // gradient: LinearGradient(
+                                  //     colors: [
+                                  //       myColorCardDashboardOne,
+                                  //       myColorCardDashboardTwo
+                                  //     ],
+                                  //     begin: Alignment.topLeft,
+                                  //     end: Alignment.bottomRight),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     color: myColorCardDashboardOne,
+                                  //     blurRadius: 2,
+                                  //     offset: Offset(0, 1),
+                                  //   ),
+                                  // ],
                                 ),
                               ),
                               Positioned(
@@ -78,7 +65,8 @@ class DashboardPage extends StatelessWidget {
                                 bottom: 0,
                                 child: CustomPaint(
                                   size: Size(100, 80),
-                                  painter: WidgetValues(),
+                                  painter:
+                                      WidgetValues(myColorCardDashboardWeightTwo),
                                 ),
                               ),
                               Positioned(
@@ -111,6 +99,7 @@ class DashboardPage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.white,
                                       ),
                                     );
                                   },
@@ -146,7 +135,8 @@ class DashboardPage extends StatelessWidget {
                                 bottom: 0,
                                 child: CustomPaint(
                                   size: Size(100, 80),
-                                  painter: WidgetValues(),
+                                  painter:
+                                      WidgetValues(myColorCardDashboardWeightTwo),
                                 ),
                               ),
                               Positioned(
@@ -190,79 +180,7 @@ class DashboardPage extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child:  RadialProgress(
-                          currentWeight: controllerDashboardInfo.currentWeight.value,
-                        startWeight: controllerDashboardInfo.startWeight.value,
-                        wantedWeight: controllerDashboardInfo.wantedWeight.value,
-                        ),
-
-                      // Container(
-                      //   height: 150,
-                      //   child: SfRadialGauge(
-                      //     axes: <RadialAxis>[
-                      //       RadialAxis(
-                      //         startAngle: 180,
-                      //         endAngle: 0,
-                      //         //canScaleToFit: true,
-                      //         axisLineStyle: AxisLineStyle(
-                      //           thickness: 0.15,
-                      //           thicknessUnit: GaugeSizeUnit.factor,
-                      //           cornerStyle: CornerStyle.bothCurve,
-                      //         ),
-                      //         showTicks: false,
-                      //         showLabels: false,
-                      //         onAxisTapped: (value) {},
-                      //         pointers: <GaugePointer>[
-                      //           RangePointer(
-                      //             enableAnimation: true,
-                      //             color: HSLColor.fromColor(Colors.red)
-                      //                 .withLightness(0.6)
-                      //                 .toColor(),
-                      //             value: 82,
-                      //             onValueChanged: (value) {},
-                      //             cornerStyle: CornerStyle.bothCurve,
-                      //             onValueChangeEnd: (value) {},
-                      //             onValueChanging: (value) {},
-                      //             enableDragging: false,
-                      //             width: 0.15,
-                      //             sizeUnit: GaugeSizeUnit.factor,
-                      //           ),
-                      //         ],
-                      //         annotations: <GaugeAnnotation>[
-                      //           GaugeAnnotation(
-                      //             widget: Column(
-                      //               mainAxisAlignment: MainAxisAlignment.center,
-                      //               children: [
-                      //                 Column(
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment.center,
-                      //                   children: [
-                      //                     Text("Сейчас"),
-                      //                     GetBuilder(builder:
-                      //                         (ControllerDashboardInfo
-                      //                             controller) {
-                      //                       return Text(
-                      //                         // "${controller.listWeights[controller.itemCounter.value-1]}",
-                      //                         "${controller.currentWeight}",
-                      //                         style: TextStyle(
-                      //                           fontSize: 24,
-                      //                           fontWeight: FontWeight.bold,
-                      //                         ),
-                      //                       );
-                      //                     }),
-                      //                   ],
-                      //                 ),
-                      //                 Text("-13 кг"),
-                      //               ],
-                      //             ),
-                      //             positionFactor: 0.05,
-                      //             // angle: 0.5,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+                      child: RadialProgress(),
                     ),
                   ],
                 ),
@@ -567,17 +485,22 @@ class DashboardPage extends StatelessWidget {
 }
 
 class WidgetValues extends CustomPainter {
-  var startColor = Colors.red;
+  var startColor;
+
+  WidgetValues(this.startColor);
+
   var endColor = Colors.redAccent;
   var radius = 8.0;
 
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.shader = ui.Gradient.linear(
-        Offset(0, 0), Offset(size.width, size.height), [
-      HSLColor.fromColor(startColor).withLightness(0.8).toColor(),
-      endColor
+    //paint..color = startColor;
+    paint.shader =
+        ui.Gradient.linear(Offset(0, 0), Offset(size.width, size.height), [
+      startColor,
+      startColor,
+      //HSLColor.fromColor(myColorCardDashboardOne).toColor(),
     ]);
 
     var path = Path()

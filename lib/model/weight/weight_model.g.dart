@@ -20,13 +20,14 @@ class WeightModelAdapter extends TypeAdapter<WeightModel> {
       .._weightMap = (fields[1] as Map)?.cast<DateTime, double>()
       .._wantedWeight = fields[2] as double
       .._name = fields[3] as String
-      ..flagFirstMeeting = fields[4] as bool;
+      ..flagFirstMeeting = fields[4] as bool
+      .._startWeightForCalculating = fields[5] as double;
   }
 
   @override
   void write(BinaryWriter writer, WeightModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(1)
       ..write(obj._weightMap)
       ..writeByte(2)
@@ -34,7 +35,9 @@ class WeightModelAdapter extends TypeAdapter<WeightModel> {
       ..writeByte(3)
       ..write(obj._name)
       ..writeByte(4)
-      ..write(obj.flagFirstMeeting);
+      ..write(obj.flagFirstMeeting)
+      ..writeByte(5)
+      ..write(obj._startWeightForCalculating);
   }
 
   @override

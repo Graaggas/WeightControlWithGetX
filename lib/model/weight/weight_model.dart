@@ -16,17 +16,24 @@ class WeightModel extends HiveObject {
   @HiveField(4)
   bool flagFirstMeeting;
 
-  void addFlag(bool flag){
+  @HiveField(5)
+  double _startWeightForCalculating;
+
+  void addFlag(bool flag) {
     flagFirstMeeting = flag;
   }
 
-  void changeFlag(){
+  void changeFlag() {
     flagFirstMeeting = !flagFirstMeeting;
   }
 
-  void addWeight( double value) {
+  void addWeight(double value) {
     DateTime dateTime = DateTime.now();
     _weightMap[dateTime] = value;
+  }
+
+  void addStartWeightForCalculating(double value) {
+    _startWeightForCalculating = value;
   }
 
   void addWantedWeight(double value) {
