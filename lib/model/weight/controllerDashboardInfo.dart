@@ -34,6 +34,7 @@ class ControllerDashboardInfo extends GetxController {
         startWeight.value = firstDataList[1];
         wantedWeight.value = firstDataList[0];
         startWeightForCalculating = startWeight.value;
+        print("init controller. startWeightForCalculating : $startWeightForCalculating");
 
         firstDataList.forEach((element) {
           if(element > startWeight.value){
@@ -89,12 +90,13 @@ class ControllerDashboardInfo extends GetxController {
 
     print("anglePerKg = $anglePerKg");
 
-    angleWeight.value = diff * anglePerKg;
+    angleWeight.value = diff.abs() * anglePerKg;
 
     print("angleWeight = ${angleWeight.value}");
 
     update();
   }
+
 
   void addWeight(double value) async {
     print("in controller adding new weight...");

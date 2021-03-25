@@ -65,8 +65,8 @@ class DashboardPage extends StatelessWidget {
                                 bottom: 0,
                                 child: CustomPaint(
                                   size: Size(100, 80),
-                                  painter:
-                                      WidgetValues(myColorCardDashboardWeightTwo),
+                                  painter: WidgetValues(
+                                      myColorCardDashboardWeightTwo),
                                 ),
                               ),
                               Positioned(
@@ -76,13 +76,28 @@ class DashboardPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Text("Начальный"),
+                                      Text(
+                                        "Начальный",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Text("Вес"),
+                                      Text(
+                                        "вес",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -113,20 +128,22 @@ class DashboardPage extends StatelessWidget {
                           Stack(
                             children: <Widget>[
                               Container(
+
                                 height: 80,
                                 decoration: BoxDecoration(
+                                  color: myColorCardDashboardWeightOne,
                                   borderRadius: BorderRadius.circular(8),
-                                  gradient: LinearGradient(
-                                      colors: [Colors.lightBlue, Colors.blue],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.blue,
-                                      blurRadius: 2,
-                                      offset: Offset(0, 1),
-                                    ),
-                                  ],
+                                  // gradient: LinearGradient(
+                                  //     colors: [Colors.lightBlue, Colors.blue],
+                                  //     begin: Alignment.topLeft,
+                                  //     end: Alignment.bottomRight),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     color: Colors.blue,
+                                  //     blurRadius: 2,
+                                  //     offset: Offset(0, 1),
+                                  //   ),
+                                  // ],
                                 ),
                               ),
                               Positioned(
@@ -135,8 +152,8 @@ class DashboardPage extends StatelessWidget {
                                 bottom: 0,
                                 child: CustomPaint(
                                   size: Size(100, 80),
-                                  painter:
-                                      WidgetValues(myColorCardDashboardWeightTwo),
+                                  painter: WidgetValues(
+                                      myColorCardDashboardWeightTwo),
                                 ),
                               ),
                               Positioned(
@@ -146,13 +163,28 @@ class DashboardPage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Text("Желаемый"),
+                                      Text(
+                                        "Желаемый",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Text("Вес"),
+                                      Text(
+                                        "вес",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -169,6 +201,7 @@ class DashboardPage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.white,
                                       ),
                                     );
                                   },
@@ -515,6 +548,7 @@ class WidgetValues extends CustomPainter {
       ..close();
 
     canvas.drawPath(path, paint);
+    canvas.drawShadow(path, Colors.grey.withAlpha(50), 2, false);
   }
 
   @override

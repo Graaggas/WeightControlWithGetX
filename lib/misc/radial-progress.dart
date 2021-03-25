@@ -105,6 +105,7 @@ class RadialPainter extends CustomPainter {
       ..strokeWidth = 30;
 
     canvas.drawCircle(center, size.width / 3 - 6, paintInnerCircle);
+
   }
 
   @override
