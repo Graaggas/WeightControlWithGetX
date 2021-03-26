@@ -7,6 +7,10 @@ class ControllerDashboardInfo extends GetxController {
 
   var stopInit = false.obs;
 
+  var currentIsFirstInList = true.obs;
+
+  // var flagFirstWeightInList = true.obs;
+
   var flagFirstMeeting = true.obs;
 
   var itemCounter = 0.obs;
@@ -17,11 +21,42 @@ class ControllerDashboardInfo extends GetxController {
   var weightsList = [].obs;
   var datesList = [].obs;
 
-  var angleWeight = 0.0.obs;
+  var previousWeight = 0.0.obs;
 
+  var angleWeight = 0.0.obs;
   var diff = 0.0;
   var anglePerKg = 0.0;
   var startWeightForCalculating = 0.0;
+
+  double getDiffCurrentPrevoius() {
+    double diff = 0.0;
+    if (previousWeight.value > 0) {
+      diff = currentWeight.value - previousWeight.value;
+    } else {
+      diff = 0;
+    }
+
+    print("getDiffCurrentPrevious//\tdiff of weights = $diff");
+    return diff;
+  }
+
+  Future<void> getPreviousWeight() async {
+    //найти предыдущий вес, если знаем текущий
+
+    var indexOfCurrentWeight = weightsList.indexOf(currentWeight.value);
+    print("getPreviousWeight//\tcurrentWeight = ${currentWeight.value}");
+    print(
+        "getPreviousWeight//\tindex of currentWeight is $indexOfCurrentWeight");
+
+    if (indexOfCurrentWeight <= 0) {
+      print("getPreviousWeight//\tindex is less or equals 0");
+      currentIsFirstInList.value = true;
+    } else {
+      currentIsFirstInList.value = false;
+      previousWeight.value = weightsList[indexOfCurrentWeight - 1];
+      print("getPreviousWeight//\tpreviousWeight = ${previousWeight.value}");
+    }
+  }
 
   void init() async {
     if (stopInit.value == false) {
@@ -54,6 +89,7 @@ class ControllerDashboardInfo extends GetxController {
         print("controller. first start...");
       }
 
+      getPreviousWeight();
       updateAngleWeight();
       update();
 
@@ -82,22 +118,23 @@ class ControllerDashboardInfo extends GetxController {
     } else {
       anglePerKg = 360 / (currentWeight.value - wantedWeight.value);
     }
-    print("startWeightForCalculating = $startWeightForCalculating");
+    print(
+        "updateAngleWeight//\tstartWeightForCalculating = $startWeightForCalculating");
     diff = startWeightForCalculating - currentWeight.value;
 
-    print("diff = $diff");
-    print("anglePerKg = $anglePerKg");
+    print("updateAngleWeight//\tdiff = $diff");
+    print("updateAngleWeight//\tanglePerKg = $anglePerKg");
 
     angleWeight.value = diff.abs() * anglePerKg;
 
-    print("angleWeight = ${angleWeight.value}");
+    print("updateAngleWeight//\tangleWeight = ${angleWeight.value}");
 
     update();
   }
 
   void addWeight(double value) async {
-    print("in controller adding new weight...");
-    print("in controller current itemCounter : ${itemCounter.value}");
+    print("addWeight//\t adding new weight...");
+    print("addWeight//\t current itemCounter : ${itemCounter.value}");
 
     await database.addToWeightBox(valueWeight: value);
 
@@ -117,6 +154,7 @@ class ControllerDashboardInfo extends GetxController {
     await updateCurrentWeight();
     await updateItemCounter();
     await updateAngleWeight();
+    await getPreviousWeight();
 
     update();
   }
@@ -138,6 +176,7 @@ class ControllerDashboardInfo extends GetxController {
   Future<void> deleteWeight(DateTime key) async {
     await database.deleteWeight(key);
     await updateWeightData();
+    getPreviousWeight();
     update();
   }
 
@@ -146,7 +185,7 @@ class ControllerDashboardInfo extends GetxController {
     await updateWeightData();
     update();
 
-    print("===> $weightsList");
+    print("updateOneWeight//\t $weightsList");
   }
 
   Future<void> updateWeights() async {
@@ -171,6 +210,7 @@ class ControllerDashboardInfo extends GetxController {
 
     if (r.length <= 0) {
       currentWeight.value = 0;
+      print("updateCurrentWeight//\tlength of weightlist is less or equals 0");
     } else {
       currentWeight.value = r[length - 1];
     }

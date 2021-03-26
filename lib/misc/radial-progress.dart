@@ -9,12 +9,18 @@ import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class RadialProgress extends StatelessWidget {
   final String typeOfMeasure;
+  final bool isWeight;
 
-  const RadialProgress({Key key, this.typeOfMeasure}) : super(key: key);
+  const RadialProgress({Key key, this.typeOfMeasure, this.isWeight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ControllerDashboardInfo controllerDashboardInfo = Get.find();
+
+    // if (isWeight) {
+    //   controllerDashboardInfo.getPreviousWeight();
+    // }
 
     return Obx(
       () => Stack(
@@ -44,30 +50,62 @@ class RadialProgress extends StatelessWidget {
                     color: Colors.white70,
                   ),
                 ),
-                Text(
-                  "${controllerDashboardInfo.currentWeight.value.toString()}",
-                  style: GoogleFonts.russoOne(
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    color: Colors.white,
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: GoogleFonts.russoOne(
-                      fontSize: 16,
-                      color: Colors.white60,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: "-13 ",
+                isWeight
+                    ? Text(
+                        "${controllerDashboardInfo.currentWeight.value.toString()}",
+                        style: GoogleFonts.russoOne(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        "010",
+                        style: GoogleFonts.russoOne(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
                       ),
-                      TextSpan(
-                        text: typeOfMeasure,
+                isWeight
+                    ? RichText(
+                        text: TextSpan(
+                          style: GoogleFonts.russoOne(
+                            fontSize: 16,
+                            color: Colors.white60,
+                          ),
+                          children: <TextSpan>[
+                            controllerDashboardInfo
+                                        .currentIsFirstInList.value ==
+                                    false
+                                ? TextSpan(
+                                    text: controllerDashboardInfo
+                                                .getDiffCurrentPrevoius() <
+                                            0
+                                        ? "${controllerDashboardInfo.getDiffCurrentPrevoius().toStringAsFixed(2)} "
+                                        : "+${controllerDashboardInfo.getDiffCurrentPrevoius().abs().toStringAsFixed(2)} ",
+                                  )
+                                : TextSpan(text: ""),
+                            TextSpan(
+                              text: typeOfMeasure,
+                            ),
+                          ],
+                        ),
+                      )
+                    : RichText(
+                        text: TextSpan(
+                          style: GoogleFonts.russoOne(
+                            fontSize: 16,
+                            color: Colors.white60,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(text: ""),
+                            TextSpan(
+                              text: typeOfMeasure,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
                 // Text(
                 //   "-12 кг",
                 //   style: GoogleFonts.russoOne(

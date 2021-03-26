@@ -205,6 +205,7 @@ class StartWaisteWidget extends StatelessWidget {
           Expanded(
             child: RadialProgress(
               typeOfMeasure: "см",
+              isWeight: false,
             ),
           ),
         ],
@@ -233,7 +234,7 @@ class StartWeightWidget extends StatelessWidget {
                 isWeight: true),
           ),
           Expanded(
-            child: RadialProgress(typeOfMeasure: "кг"),
+            child: RadialProgress(isWeight: true, typeOfMeasure: "кг"),
           ),
         ],
       ),
