@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 
 import 'package:weight_control/services/database.dart';
 
@@ -31,17 +30,17 @@ class ControllerDashboardInfo extends GetxController {
       List<double> firstDataList = await database.initDashboard();
       if (firstDataList != null) {
         currentWeight.value = firstDataList[firstDataList.length - 1];
-        startWeight.value = firstDataList[1];
         wantedWeight.value = firstDataList[0];
+        startWeight.value = firstDataList[1];
         startWeightForCalculating = startWeight.value;
-        print("init controller. startWeightForCalculating : $startWeightForCalculating");
+        print(
+            "init controller. startWeightForCalculating : $startWeightForCalculating");
 
         firstDataList.forEach((element) {
-          if(element > startWeight.value){
+          if (element > startWeight.value) {
             startWeightForCalculating = element;
           }
         });
-
 
         List<double> weights = await database.getWeightsList();
         weightsList.addAll(weights);
@@ -87,7 +86,6 @@ class ControllerDashboardInfo extends GetxController {
     diff = startWeightForCalculating - currentWeight.value;
 
     print("diff = $diff");
-
     print("anglePerKg = $anglePerKg");
 
     angleWeight.value = diff.abs() * anglePerKg;
@@ -97,14 +95,13 @@ class ControllerDashboardInfo extends GetxController {
     update();
   }
 
-
   void addWeight(double value) async {
     print("in controller adding new weight...");
     print("in controller current itemCounter : ${itemCounter.value}");
 
     await database.addToWeightBox(valueWeight: value);
 
-    if(value > startWeight.value){
+    if (value > startWeight.value) {
       await database.addStartWeightForCalculating(value);
       startWeightForCalculating = value;
       updateAngleWeight();

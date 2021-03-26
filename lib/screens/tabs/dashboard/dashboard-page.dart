@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:weight_control/misc/constants.dart';
 import 'package:weight_control/misc/radial-progress.dart';
@@ -26,350 +26,11 @@ class DashboardPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                // margin: EdgeInsets.all(4),
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: myColorCardDashboardWeightOne,
-                                  // gradient: LinearGradient(
-                                  //     colors: [
-                                  //       myColorCardDashboardOne,
-                                  //       myColorCardDashboardTwo
-                                  //     ],
-                                  //     begin: Alignment.topLeft,
-                                  //     end: Alignment.bottomRight),
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //     color: myColorCardDashboardOne,
-                                  //     blurRadius: 2,
-                                  //     offset: Offset(0, 1),
-                                  //   ),
-                                  // ],
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                bottom: 0,
-                                child: CustomPaint(
-                                  size: Size(100, 80),
-                                  painter: WidgetValues(
-                                      myColorCardDashboardWeightTwo),
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                bottom: 0,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "Начальный",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "вес",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 50,
-                                bottom: 0,
-                                right: 10,
-                                child: GetBuilder<ControllerDashboardInfo>(
-                                  init: ControllerDashboardInfo(),
-                                  builder: (controller) {
-                                    return Text(
-                                      "${controller.startWeight} кг",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Stack(
-                            children: <Widget>[
-                              Container(
-
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: myColorCardDashboardWeightOne,
-                                  borderRadius: BorderRadius.circular(8),
-                                  // gradient: LinearGradient(
-                                  //     colors: [Colors.lightBlue, Colors.blue],
-                                  //     begin: Alignment.topLeft,
-                                  //     end: Alignment.bottomRight),
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //     color: Colors.blue,
-                                  //     blurRadius: 2,
-                                  //     offset: Offset(0, 1),
-                                  //   ),
-                                  // ],
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                bottom: 0,
-                                child: CustomPaint(
-                                  size: Size(100, 80),
-                                  painter: WidgetValues(
-                                      myColorCardDashboardWeightTwo),
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                bottom: 0,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "Желаемый",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "вес",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 50,
-                                bottom: 0,
-                                right: 10,
-                                child: GetBuilder<ControllerDashboardInfo>(
-                                  init: ControllerDashboardInfo(),
-                                  builder: (controller) {
-                                    return Text(
-                                      "${controller.wantedWeight} кг",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: RadialProgress(),
-                    ),
-                  ],
-                ),
-              ),
+              StartWeightWidget(),
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Container(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 2,
-                              color:
-                                  Color(colorContainerWithStartEndValuesWaist),
-                              child: Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // Icon(
-                                    //   LineAwesomeIcons.arrow_circle_up,
-                                    //   color: Colors.red,
-                                    // ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text("Начальный объем"),
-                                          Text(
-                                            "120 см",
-                                            style: TextStyle(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 2,
-                              color:
-                                  Color(colorContainerWithStartEndValuesWaist),
-                              child: Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // Icon(
-                                    //   LineAwesomeIcons.arrow_circle_down,
-                                    //   color: Colors.green,
-                                    // ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text("Желаемый объем"),
-                                          Text(
-                                            "90 см",
-                                            style: TextStyle(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 150,
-                        child: SfRadialGauge(
-                          axes: <RadialAxis>[
-                            RadialAxis(
-                              axisLineStyle: AxisLineStyle(
-                                thickness: 0.15,
-                                thicknessUnit: GaugeSizeUnit.factor,
-                                cornerStyle: CornerStyle.bothCurve,
-                              ),
-                              showTicks: false,
-                              showLabels: false,
-                              onAxisTapped: (value) {},
-                              pointers: <GaugePointer>[
-                                RangePointer(
-                                  enableAnimation: true,
-                                  color: Colors.blue[300],
-                                  value: 48,
-                                  onValueChanged: (value) {},
-                                  cornerStyle: CornerStyle.bothCurve,
-                                  onValueChangeEnd: (value) {},
-                                  onValueChanging: (value) {},
-                                  enableDragging: false,
-                                  width: 0.15,
-                                  sizeUnit: GaugeSizeUnit.factor,
-                                ),
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                  widget: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          FittedBox(
-                                            child: Text("Сейчас"),
-                                          ),
-                                          Text(
-                                            "120",
-                                            style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text("-13 см"),
-                                    ],
-                                  ),
-                                  positionFactor: 0.05,
-                                  // angle: 0.5,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              StartWaisteWidget(),
               SizedBox(
                 height: 20,
               ),
@@ -512,6 +173,374 @@ class DashboardPage extends StatelessWidget {
             // ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class StartWaisteWidget extends StatelessWidget {
+  const StartWaisteWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 2,
+                    color: Color(colorContainerWithStartEndValuesWaist),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Icon(
+                          //   LineAwesomeIcons.arrow_circle_up,
+                          //   color: Colors.red,
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Начальный объем",
+                                  style: GoogleFonts.robotoSlab(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "120 см",
+                                  style: GoogleFonts.robotoSlab(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 2,
+                    color: Color(colorContainerWithStartEndValuesWaist),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Icon(
+                          //   LineAwesomeIcons.arrow_circle_down,
+                          //   color: Colors.green,
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Требуемый объем",
+                                  style: GoogleFonts.robotoSlab(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "90 см",
+                                  style: GoogleFonts.robotoSlab(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 150,
+              child: SfRadialGauge(
+                axes: <RadialAxis>[
+                  RadialAxis(
+                    axisLineStyle: AxisLineStyle(
+                      thickness: 0.15,
+                      thicknessUnit: GaugeSizeUnit.factor,
+                      cornerStyle: CornerStyle.bothCurve,
+                    ),
+                    showTicks: false,
+                    showLabels: false,
+                    onAxisTapped: (value) {},
+                    pointers: <GaugePointer>[
+                      RangePointer(
+                        enableAnimation: true,
+                        color: Colors.blue[300],
+                        value: 48,
+                        onValueChanged: (value) {},
+                        cornerStyle: CornerStyle.bothCurve,
+                        onValueChangeEnd: (value) {},
+                        onValueChanging: (value) {},
+                        enableDragging: false,
+                        width: 0.15,
+                        sizeUnit: GaugeSizeUnit.factor,
+                      ),
+                    ],
+                    annotations: <GaugeAnnotation>[
+                      GaugeAnnotation(
+                        widget: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FittedBox(
+                                  child: Text("Сейчас"),
+                                ),
+                                Text(
+                                  "120",
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text("-13 см"),
+                          ],
+                        ),
+                        positionFactor: 0.05,
+                        // angle: 0.5,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class StartWeightWidget extends StatelessWidget {
+  const StartWeightWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      // margin: EdgeInsets.all(4),
+                      height: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: myColorCardDashboardWeightOne,
+                        // gradient: LinearGradient(
+                        //     colors: [
+                        //       myColorCardDashboardOne,
+                        //       myColorCardDashboardTwo
+                        //     ],
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: myColorCardDashboardOne,
+                        //     blurRadius: 2,
+                        //     offset: Offset(0, 1),
+                        //   ),
+                        // ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: CustomPaint(
+                        size: Size(100, 80),
+                        painter: WidgetValues(myColorCardDashboardWeightTwo),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Начальный",
+                              style: GoogleFonts.robotoSlab(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "вес",
+                              style: GoogleFonts.robotoSlab(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 50,
+                      bottom: 0,
+                      right: 10,
+                      child: GetBuilder<ControllerDashboardInfo>(
+                        init: ControllerDashboardInfo(),
+                        builder: (controller) {
+                          return Text(
+                            "${controller.startWeight} кг",
+                            style: GoogleFonts.russoOne(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: myColorCardDashboardWeightOne,
+                        borderRadius: BorderRadius.circular(8),
+                        // gradient: LinearGradient(
+                        //     colors: [Colors.lightBlue, Colors.blue],
+                        //     begin: Alignment.topLeft,
+                        //     end: Alignment.bottomRight),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.blue,
+                        //     blurRadius: 2,
+                        //     offset: Offset(0, 1),
+                        //   ),
+                        // ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: CustomPaint(
+                        size: Size(100, 80),
+                        painter: WidgetValues(myColorCardDashboardWeightTwo),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Желаемый",
+                              style: GoogleFonts.robotoSlab(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "вес",
+                              style: GoogleFonts.robotoSlab(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 50,
+                      bottom: 0,
+                      right: 10,
+                      child: GetBuilder<ControllerDashboardInfo>(
+                        init: ControllerDashboardInfo(),
+                        builder: (controller) {
+                          return Text(
+                            "${controller.wantedWeight} кг",
+                            style: GoogleFonts.russoOne(
+                              color: Colors.white,
+                              // fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: RadialProgress(),
+          ),
+        ],
       ),
     );
   }

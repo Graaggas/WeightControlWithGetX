@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
+
 import 'package:get/get.dart';
 
-import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
+
 import 'package:weight_control/model/weight/weight_model.dart';
 
-import 'package:weight_control/screens/home_page.dart';
+
 import 'package:weight_control/screens/landing-page.dart';
 
 

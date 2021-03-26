@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/tabs/addingPage/checkController.dart';
-
 
 var logger = Logger();
 
@@ -27,7 +27,6 @@ class AddingValuesPage extends StatefulWidget {
 
 class _AddingValuesPageState extends State<AddingValuesPage> {
   final textWeightController = TextEditingController();
-
 
   final weightTextFieldKey = GlobalKey();
   final waisteTextFieldKey = GlobalKey();
@@ -63,12 +62,10 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
   final CheckController checkController = Get.put(CheckController());
   final ControllerDashboardInfo controllerDashboardInfo = Get.find();
 
-
-  addWeight(String text){
+  addWeight(String text) {
     var r = double.parse(text);
     assert(r is double);
     controllerDashboardInfo.addWeight(r);
-
   }
 
   @override
@@ -85,7 +82,14 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
             children: [
               Column(
                 children: [
-                  Text("Введите новые показатели"),
+                  Text(
+                    "Введите новые показатели",
+                    style: GoogleFonts.robotoSlab(
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   buildCheckBoxAndTextField(),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -116,7 +120,6 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                                   checkController.changeWaisteChecked(),
                             ),
                           ),
-
                         ),
                         SizedBox(
                           width: 20,
@@ -131,13 +134,27 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                               keyboardType: TextInputType.number,
                               key: waisteTextFieldKey,
                               decoration: InputDecoration(
-                                focusColor: Colors.blue,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                 ),
                                 fillColor: Colors.grey[200],
                                 filled: true,
                                 hintText: 'Объем талии',
+                                hintStyle: TextStyle(
+                                  fontFamily:
+                                      GoogleFonts.robotoSlab().fontFamily,
+                                  fontSize: 18,
+                                ),
                                 enabled: checkController.getWaisteChecking
                                     ? true
                                     : false,
@@ -174,7 +191,11 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                       ),
                       child: Text(
                         "Добавить",
-                        style: TextStyle(fontSize: 22),
+                        style: GoogleFonts.robotoSlab(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -223,24 +244,38 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
             width: 20,
           ),
           Expanded(
-            child: Obx(() => TextField(
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r"^\d+\.?\d{0,2}"))
-              ],
-              controller: textWeightController,
-              keyboardType: TextInputType.number,
-              key: weightTextFieldKey,
-              decoration: InputDecoration(
-                focusColor: Colors.blue,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+            child: Obx(
+              () => TextField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r"^\d+\.?\d{0,2}"))
+                ],
+                controller: textWeightController,
+                keyboardType: TextInputType.number,
+                key: weightTextFieldKey,
+                decoration: InputDecoration(
+                  // focusColor: Colors.blue,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  fillColor: Colors.grey[200],
+                  filled: true,
+                  hintText: 'Вес',
+                  hintStyle: TextStyle(
+                    fontFamily: GoogleFonts.robotoSlab().fontFamily,
+                    fontSize: 18,
+                  ),
+                  enabled: checkController.getWeightChecking ? true : false,
                 ),
-                fillColor: Colors.grey[200],
-                filled: true,
-                hintText: 'Вес',
-                enabled: checkController.getWeightChecking ? true : false,
               ),
-            ),
             ),
           ),
         ],

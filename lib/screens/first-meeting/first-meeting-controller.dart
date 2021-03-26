@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/services/database.dart';
 
 class FirstMeetingController extends GetxController {
@@ -12,24 +11,21 @@ class FirstMeetingController extends GetxController {
   // @override
   Future<void> init() async {
     print("init FMController...");
-  bool r = await database.getFlagFromHive();
-  print("FMController... flag = $r");
-  if (r == null){
-    flagFirstMeeting.value = true;
-    print("FMController. set flag as true");
-  }
-  else
-    {
+    bool r = await database.getFlagFromHive();
+    print("FMController... flag = $r");
+    if (r == null) {
+      flagFirstMeeting.value = true;
+      print("FMController. set flag as true");
+    } else {
       flagFirstMeeting.value = r;
     }
     // super.onInit();
   }
 
-Future<bool> getFlag() async {
+  Future<bool> getFlag() async {
     await init();
     return flagFirstMeeting.value;
-}
-
+  }
 
   Future<void> changeFlagFirstMeeting() async {
     print("try to change flag in fmController..");
@@ -39,12 +35,12 @@ Future<bool> getFlag() async {
     print("FMcontroller. flag after changing : $flagFirstMeeting");
   }
 
-  Future<void> putInitWeight({double startWeight1, double wantedWeight1}) async {
+  Future<void> putInitWeight(
+      {double startWeight1, double wantedWeight1}) async {
     // wantedWeight.value = wantedWeight1;
     // startWeight.value = startWeight1;
     print("in fmController. try to put start values via database... ");
-    await database.addToWeightBox(valueWantedWeight: wantedWeight1, valueWeight: startWeight1);
-
-
+    await database.addToWeightBox(
+        valueWantedWeight: wantedWeight1, valueWeight: startWeight1);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:weight_control/misc/constants.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
@@ -43,18 +44,28 @@ class RadialProgress extends StatelessWidget {
               children: [
                 Text(
                   "Сейчас",
-                  style: TextStyle(color: Colors.white70),
+                  style: GoogleFonts.robotoSlab(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white70,
+                  ),
                 ),
                 Text(
                   "${controllerDashboardInfo.currentWeight.value.toString()}",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                  style: GoogleFonts.russoOne(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.white,
+                  ),
                 ),
                 Text(
                   "-12 кг",
-                  style: TextStyle(color: Colors.white60),
+                  style: GoogleFonts.russoOne(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.white60,
+                  ),
                 ),
               ],
             ),
@@ -105,7 +116,6 @@ class RadialPainter extends CustomPainter {
       ..strokeWidth = 30;
 
     canvas.drawCircle(center, size.width / 3 - 6, paintInnerCircle);
-
   }
 
   @override
