@@ -12,18 +12,12 @@ import 'package:weight_control/screens/tabs/info-page.dart';
 
 import 'package:weight_control/screens/values-page/values-page.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
-
-
-
-
   int currentTab = 0;
 
   List<Widget> screens = [
@@ -39,21 +33,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final ControllerDashboardInfo controllerDashboardInfo = Get.find();
 
-  final ControllerDashboardInfo controllerDashboardInfo = Get.find();
-
-
-  controllerDashboardInfo.init();
-
+    controllerDashboardInfo.init();
 
     return Scaffold(
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
-         onPressed: () => AddingValuesPage.show(context),
-
+        onPressed: () => AddingValuesPage.show(context),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.blue,
@@ -127,7 +116,6 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () {

@@ -8,20 +8,13 @@ import 'package:weight_control/misc/constants.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class RadialProgress extends StatelessWidget {
+  final String typeOfMeasure;
+
+  const RadialProgress({Key key, this.typeOfMeasure}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // var anglePerKg = 0.0;
-    // var diff = 0.0;
-    // var angle = 0.0;
-
     final ControllerDashboardInfo controllerDashboardInfo = Get.find();
-    // diff = controllerDashboardInfo.startWeight.value - controllerDashboardInfo.currentWeight.value;
-    // print("diff = $diff");
-    //
-    // anglePerKg = 360/(controllerDashboardInfo.startWeight.value - controllerDashboardInfo.wantedWeight.value);
-    // print("anglePerKg = $anglePerKg");
-    //
-    // angle = diff * anglePerKg;
 
     return Obx(
       () => Stack(
@@ -59,14 +52,30 @@ class RadialProgress extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                Text(
-                  "-12 кг",
-                  style: GoogleFonts.russoOne(
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.white60,
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.russoOne(
+                      fontSize: 16,
+                      color: Colors.white60,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "-13 ",
+                      ),
+                      TextSpan(
+                        text: typeOfMeasure,
+                      ),
+                    ],
                   ),
                 ),
+                // Text(
+                //   "-12 кг",
+                //   style: GoogleFonts.russoOne(
+                //     // fontWeight: FontWeight.bold,
+                //     fontSize: 16,
+                //     color: Colors.white60,
+                //   ),
+                // ),
               ],
             ),
           ),

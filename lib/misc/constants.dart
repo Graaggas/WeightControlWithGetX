@@ -5,7 +5,7 @@ final colorContainerWithStartEndValuesWaist = 0xFFBBC9DD;
 final colorMain = 0x00FAFAF2;
 final colorTabNav = 0xFF6AB4D5;
 
-
-final myColorCardDashboardWeightOne = Color(0xFFffba08);
+final myColorCardDashboardWeightOne = Color(0xFFfeab7b);
 final myColorCardDashboardWeightTwo = Color(0xFFe85d04);
-final myColorCardWeightDashboardProgressFilling = Color(0xFFdc2f02);
+final myColorCardDashboardWeightThree = Color(0xFF92c7f6);
+final myColorCardWeightDashboardProgressFilling = Color(0xFF4296e1);
