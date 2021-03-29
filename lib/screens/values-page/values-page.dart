@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 import 'package:weight_control/screens/values-page/weight-card.dart';
@@ -11,14 +12,20 @@ class ValuesWeightsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Замеры"),
+        title: Text(
+          "Замеры веса",
+          style: GoogleFonts.robotoSlab(
+            // fontWeight: FontWeight.bold,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Показания весов"),
             Obx(
               () => ListView.builder(
                   physics: NeverScrollableScrollPhysics(),

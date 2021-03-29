@@ -42,13 +42,17 @@ class DashboardPage extends StatelessWidget {
               ),
               Text(
                 "Сводная информация",
-                style: TextStyle(
+                style: GoogleFonts.robotoSlab(
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 "по весу",
-                style: TextStyle(
+                style: GoogleFonts.robotoSlab(
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -129,8 +133,10 @@ class DashboardPage extends StatelessWidget {
               children: [
                 Text(
                   averageValue,
-                  style: TextStyle(
+                  style: GoogleFonts.robotoSlab(
+                    // fontWeight: FontWeight.bold,
                     fontSize: 14,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
@@ -167,6 +173,10 @@ class DashboardPage extends StatelessWidget {
                         AutoSizeText(
                           "${value.toString()}",
                           presetFontSizes: [60, 40, 20, 10],
+                          style: TextStyle(
+                            fontFamily: GoogleFonts.russoOne().fontFamily,
+                            fontSize: 18,
+                          ),
                         ),
                       ],
                     ),
@@ -202,12 +212,12 @@ class StartWaisteWidget extends StatelessWidget {
                 typeOfValueWeightWaiste: "объем",
                 isWeight: false),
           ),
-          Expanded(
-            child: RadialProgress(
-              typeOfMeasure: "см",
-              isWeight: false,
-            ),
-          ),
+          // Expanded(
+          //   child: RadialProgress(
+          //     typeOfMeasure: "см",
+          //     isWeight: false,
+          //   ),
+          // ),
         ],
       ),
     );
