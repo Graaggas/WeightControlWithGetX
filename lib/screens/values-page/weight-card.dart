@@ -42,31 +42,34 @@ class WeightCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    child: Row(
-                      children: [
-                        Obx(
-                          () => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${controllerDashboardInfo.weightsList[index]} кг",
-                                style: GoogleFonts.russoOne(
-                                  color: Colors.black,
-                                  fontSize: 22,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 6.0),
+                      child: Row(
+                        children: [
+                          Obx(
+                            () => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${controllerDashboardInfo.weightsList[index]} кг",
+                                  style: GoogleFonts.russoOne(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "${convertFromDateTimeToString(controllerDashboardInfo.datesList[index])}",
-                                style: GoogleFonts.robotoSlab(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                  // fontWeight: FontWeight.bold,
+                                Text(
+                                  "${convertFromDateTimeToString(controllerDashboardInfo.datesList[index])}",
+                                  style: GoogleFonts.robotoSlab(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     // Text("${convertFromDateTimeToString(dateTime)}"),
                   ),
