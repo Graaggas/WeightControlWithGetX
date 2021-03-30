@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simple_logger/simple_logger.dart';
 import 'package:weight_control/misc/constants.dart';
-
 import 'package:weight_control/misc/converters.dart';
+
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class WeightCard extends StatelessWidget {

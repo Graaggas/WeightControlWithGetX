@@ -1,9 +1,8 @@
 import 'package:hive/hive.dart';
-import 'package:logger/logger.dart';
+
 import 'package:weight_control/model/weight/weight_model.dart';
 
 class Database {
-  var logger = Logger();
   var weightModel = WeightModel();
 
   Future<Box> openBox(String name) async {
@@ -56,8 +55,7 @@ class Database {
       }
 
       return list;
-    }
-    else {
+    } else {
       print("database. box is empty");
       return null;
     }
@@ -78,8 +76,8 @@ class Database {
     final box = await openBox("Weight");
     weightModel = box.getAt(0);
     print("Database. flag before changing: ${weightModel.flagFirstMeeting}");
-    if(weightModel.flagFirstMeeting == null){
-     weightModel.flagFirstMeeting = true;
+    if (weightModel.flagFirstMeeting == null) {
+      weightModel.flagFirstMeeting = true;
     }
     weightModel.changeFlag();
     weightModel.save();
@@ -96,13 +94,11 @@ class Database {
 
         // print("==> $r");
         return true;
-      }
-      else {
+      } else {
         print("database. getFlag. data exists");
         return false;
       }
-    }
-    catch (e) {
+    } catch (e) {
       print("==> error: $e");
     }
     return null;
@@ -173,7 +169,7 @@ class Database {
   }
 
   Future<void> addToWeightBox(
-      { double valueWeight, double valueWantedWeight}) async {
+      {double valueWeight, double valueWantedWeight}) async {
     final box = await openBox("Weight");
 
     if (box.isNotEmpty) {
@@ -205,7 +201,8 @@ class Database {
       weightModel.addWantedWeight(valueWantedWeight);
       weightModel.addWeight(valueWeight);
       box.add(weightModel);
-      print("database. box was created and filled with wantedWeight: ${weightModel.wantedWeight} and weight: ${weightModel.weights}");
+      print(
+          "database. box was created and filled with wantedWeight: ${weightModel.wantedWeight} and weight: ${weightModel.weights}");
     }
   }
 }

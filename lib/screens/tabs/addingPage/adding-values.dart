@@ -1,15 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
+
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/tabs/addingPage/checkController.dart';
-
-var logger = Logger();
 
 class AddingValuesPage extends StatefulWidget {
   static Future<void> show(BuildContext context) async {

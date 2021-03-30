@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:weight_control/misc/logger.dart';
 
 import 'package:weight_control/services/database.dart';
 
 class ControllerDashboardInfo extends GetxController {
   final database = Database();
+  var logger = Logger();
 
   var averageWeightAllDays = 0.0.obs;
 
@@ -55,7 +57,8 @@ class ControllerDashboardInfo extends GetxController {
       diff = 0;
     }
 
-    print("getDiffCurrentPrevious//\tdiff of weights = $diff");
+    // print("getDiffCurrentPrevious//\tdiff of weights = $diff");
+    logger.info("diff", diff, StackTrace.current);
     return diff;
   }
 
