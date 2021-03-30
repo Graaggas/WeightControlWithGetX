@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:weight_control/misc/constants.dart';
 import 'package:weight_control/misc/radial-progress.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
@@ -16,7 +16,6 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(colorMain),
       appBar: AppBar(
         title: Text(
           "Прогресс",
@@ -26,54 +25,68 @@ class DashboardPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.blue,
+        // backgroundColor: Colors.blue,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              StartWeightWidget(),
-              SizedBox(
-                height: 20,
-              ),
-              StartWaisteWidget(),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Сводная информация",
-                style: GoogleFonts.robotoSlab(
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                "по весу",
-                style: GoogleFonts.robotoSlab(
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              buildGridWeight(),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Сводная информация",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                "по объему талии",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              buildGridWaiste(),
+      body: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+            colors: [
+              Colors.white24,
+              Colors.white70,
             ],
+            begin: FractionalOffset.centerLeft,
+            end: FractionalOffset.centerRight,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                StartWeightWidget(),
+                SizedBox(
+                  height: 20,
+                ),
+                StartWaisteWidget(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Сводная информация",
+                  style: GoogleFonts.robotoSlab(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "по весу",
+                  style: GoogleFonts.robotoSlab(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                buildGridWeight(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Сводная информация",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "по объему талии",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                buildGridWaiste(),
+              ],
+            ),
           ),
         ),
       ),
@@ -90,10 +103,15 @@ class DashboardPage extends StatelessWidget {
       childAspectRatio: 2.0,
       padding: EdgeInsets.all(10.0),
       children: [
-        buildCardForAverage("7 дней (кг)", true, 3.0),
-        buildCardForAverage("30 дней (кг)", false, 3.0),
-        buildCardForAverage("Все время (кг)", false, 3.0),
-        buildCardForAverage("Среднее (кг)", false, 3.0),
+        buildCardForAverage("7 дней (кг)", 1, myColorCardDashboardWeightOne),
+        buildCardForAverage("14 дней (кг)", 1, myColorCardDashboardWeightOne),
+        buildCardForAverage("30 дней (кг)", 1, myColorCardDashboardWeightOne),
+        Obx(
+          () => buildCardForAverage(
+              "Все время (кг)",
+              controllerDashboardInfo.averageWeightAllDays.value,
+              myColorCardDashboardWeightOne),
+        ),
       ],
     );
   }
@@ -108,86 +126,95 @@ class DashboardPage extends StatelessWidget {
       childAspectRatio: 2.0,
       padding: EdgeInsets.all(10.0),
       children: [
-        buildCardForAverage("7 дней (см)", false, 102),
-        buildCardForAverage("30 дней (см)", false, 13),
-        buildCardForAverage("Все время (см)", false, 11.7),
-        buildCardForAverage("Среднее (см)", false, 3),
+        buildCardForAverage("7 дней (см)", 1, Colors.red),
+        buildCardForAverage("14 дней (см)", 1, Colors.red),
+        buildCardForAverage("30 дней (см)", 1, Colors.red),
+        buildCardForAverage("Все время (см)", 1, Colors.red),
       ],
     );
   }
 
-  Card buildCardForAverage(String averageValue, bool isUpArrow, double value) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 2,
-      color: Color(colorContainerWithStartEndValuesWaist),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  averageValue,
-                  style: GoogleFonts.robotoSlab(
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+  Padding buildCardForAverage(
+      String averageValue, double value, Color myColor) {
+    bool isUpArrow = false;
+    if (value >= 0) {
+      isUpArrow = true;
+    } else {
+      isUpArrow = false;
+    }
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: myColor,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: isUpArrow
-                        ? Icon(
-                            LineAwesomeIcons.arrow_up,
-                            color: Colors.red,
-                          )
-                        : Icon(
-                            LineAwesomeIcons.arrow_down,
-                            color: Colors.green,
-                          ),
-                  ),
-                  // SizedBox(
-                  //   width: 10,
-                  // ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        AutoSizeText(
-                          "${value.toString()}",
-                          presetFontSizes: [60, 40, 20, 10],
-                          style: TextStyle(
-                            fontFamily: GoogleFonts.russoOne().fontFamily,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    averageValue,
+                    style: GoogleFonts.robotoSlab(
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
-            ),
-            // SizedBox(
-            //   height: 5,
-            // ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: isUpArrow
+                          ? Icon(
+                              Boxicons.bxs_plus_circle,
+                              color: Colors.red,
+                            )
+                          : Icon(
+                              Boxicons.bxs_minus_circle,
+                              color: Colors.green,
+                            ),
+                    ),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AutoSizeText(
+                            "${value.abs().toStringAsFixed(1)}",
+                            presetFontSizes: [60, 40, 30, 15, 10],
+                            style: TextStyle(
+                              fontFamily: GoogleFonts.russoOne().fontFamily,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   height: 5,
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -265,6 +292,7 @@ Column buildStartAndFinishContainer({
             // margin: EdgeInsets.all(4),
             height: 80,
             decoration: BoxDecoration(
+              border: Border.all(),
               borderRadius: BorderRadius.circular(8),
               color: mainColor,
             ),
@@ -273,9 +301,12 @@ Column buildStartAndFinishContainer({
             right: 0,
             top: 0,
             bottom: 0,
-            child: CustomPaint(
-              size: Size(100, 80),
-              painter: WidgetValues(myColorCardDashboardWeightTwo),
+            child: Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: CustomPaint(
+                size: Size(100, 80),
+                painter: WidgetValues(myColorCardDashboardWeightTwo),
+              ),
             ),
           ),
           Positioned(
@@ -346,6 +377,7 @@ Column buildStartAndFinishContainer({
             height: 80,
             decoration: BoxDecoration(
               color: mainColor,
+              border: Border.all(),
               borderRadius: BorderRadius.circular(8),
               // gradient: LinearGradient(
               //     colors: [Colors.lightBlue, Colors.blue],
@@ -364,9 +396,12 @@ Column buildStartAndFinishContainer({
             right: 0,
             top: 0,
             bottom: 0,
-            child: CustomPaint(
-              size: Size(100, 80),
-              painter: WidgetValues(myColorCardDashboardWeightTwo),
+            child: Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: CustomPaint(
+                size: Size(100, 80),
+                painter: WidgetValues(myColorCardDashboardWeightTwo),
+              ),
             ),
           ),
           Positioned(
@@ -448,7 +483,7 @@ class WidgetValues extends CustomPainter {
 
   WidgetValues(this.startColor);
 
-  var endColor = Colors.redAccent;
+  var endColor = Colors.red;
   var radius = 8.0;
 
   @override
@@ -458,7 +493,7 @@ class WidgetValues extends CustomPainter {
     paint.shader =
         ui.Gradient.linear(Offset(0, 0), Offset(size.width, size.height), [
       startColor,
-      startColor,
+      endColor,
       //HSLColor.fromColor(myColorCardDashboardOne).toColor(),
     ]);
 

@@ -5,6 +5,8 @@ import 'package:weight_control/services/database.dart';
 class ControllerDashboardInfo extends GetxController {
   final database = Database();
 
+  var averageWeightAllDays = 0.0.obs;
+
   var stopInit = false.obs;
 
   var currentIsFirstInList = true.obs;
@@ -27,6 +29,23 @@ class ControllerDashboardInfo extends GetxController {
   var diff = 0.0;
   var anglePerKg = 0.0;
   var startWeightForCalculating = 0.0;
+
+  Future<void> getWeightAllDaysValue() async {
+    double average = 0.0;
+    double diff = 0.0;
+
+    for (int i = 0; i < weightsList.length; i++) {
+      if (i == 0) {
+      } else {
+        diff = weightsList[i] - weightsList[i - 1];
+        average = average + diff;
+      }
+    }
+
+    averageWeightAllDays.value = average;
+    print(
+        "getWeightAllDaysValue//\tAverage Weight for all days: ${averageWeightAllDays.value}");
+  }
 
   double getDiffCurrentPrevoius() {
     double diff = 0.0;
@@ -89,8 +108,9 @@ class ControllerDashboardInfo extends GetxController {
         print("controller. first start...");
       }
 
-      getPreviousWeight();
-      updateAngleWeight();
+      await getPreviousWeight();
+      await updateAngleWeight();
+      await getWeightAllDaysValue();
       update();
 
       //TEST
@@ -144,6 +164,7 @@ class ControllerDashboardInfo extends GetxController {
       updateAngleWeight();
     }
 
+    await getWeightAllDaysValue();
     await updateWeightData();
     update();
   }
@@ -155,6 +176,7 @@ class ControllerDashboardInfo extends GetxController {
     await updateItemCounter();
     await updateAngleWeight();
     await getPreviousWeight();
+    await getWeightAllDaysValue();
 
     update();
   }

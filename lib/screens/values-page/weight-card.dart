@@ -35,6 +35,7 @@ class WeightCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: myColorCardDashboardWeightOne,
+              border: Border.all(),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -81,9 +82,12 @@ class WeightCard extends StatelessWidget {
             right: 0,
             top: 0,
             bottom: 0,
-            child: CustomPaint(
-              size: Size(110, 100),
-              painter: Painting(myColorCardDashboardWeightTwo),
+            child: Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: CustomPaint(
+                size: Size(110, 100),
+                painter: Painting(myColorCardDashboardWeightTwo),
+              ),
             ),
           ),
           Positioned(

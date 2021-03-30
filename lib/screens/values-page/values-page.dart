@@ -11,6 +11,7 @@ class ValuesWeightsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.grey[400],
       appBar: AppBar(
         title: Text(
           "Замеры веса",

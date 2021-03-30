@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:weight_control/misc/constants.dart';
@@ -138,7 +139,7 @@ class RadialPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.black12
+      ..color = Colors.black26
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8.0;
@@ -156,8 +157,8 @@ class RadialPainter extends CustomPainter {
         math.radians(-180), math.radians(angle), false, paintProgress);
 
     Paint paintInnerCircle = Paint()
-      //..color = HSLColor.fromColor(Colors.red).withLightness(0.7).toColor()
-      ..color = myColorCardDashboardWeightTwo
+      ..shader = ui.Gradient.radial(
+          center, 100.0, [Colors.red, myColorCardDashboardWeightTwo])
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill
       ..strokeWidth = 30;
