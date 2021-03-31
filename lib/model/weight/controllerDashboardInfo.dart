@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:weight_control/misc/logger.dart';
-
+import 'package:jiffy/jiffy.dart';
 import 'package:weight_control/services/database.dart';
 
 class ControllerDashboardInfo extends GetxController {
@@ -8,6 +8,7 @@ class ControllerDashboardInfo extends GetxController {
   var logger = Logger();
 
   var averageWeightAllDays = 0.0.obs;
+  var averageWeightSevenDays = 0.0.obs;
 
   var stopInit = false.obs;
 
@@ -31,6 +32,52 @@ class ControllerDashboardInfo extends GetxController {
   var diff = 0.0;
   var anglePerKg = 0.0;
   var startWeightForCalculating = 0.0;
+
+  Future<void> getSevenDaysAverage() async {
+    double average = 0.0;
+    double diff = 0.0;
+
+    var cuDay = datesList[datesList.length - 1];
+
+    var currentDay = Jiffy(cuDay);
+    logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
+        StackTrace.current);
+
+    var now = Jiffy(DateTime.now());
+
+    var firstOfSevenDay = now.subtract(days: 7);
+    logger.info("first of seven day",
+        firstOfSevenDay.format("dd MMMM yyyy, hh:mm:ss"), StackTrace.current);
+
+    // datesList.forEach((element) {
+    //   var r = Jiffy(element);
+    //   print(r.format("dd MMMM yyyy, hh:mm:ss"));
+    //   if (r.isBetween(firstOfSevenDay, currentDay.add(days: 1))) {
+    //     print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+    //   }
+    // });
+
+    List<double> list = [];
+    for (int i = 0; i < datesList.length; i++) {
+      var r = Jiffy(datesList[i]);
+
+      print(r.format("dd MMMM yyyy, hh:mm:ss"));
+      if (r.isBetween(firstOfSevenDay, currentDay.add(days: 1))) {
+        print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+        list.add(weightsList[i]);
+      }
+    }
+
+    print("Получили такой лист с 7 днями: ${list.toString()}");
+
+    for (int i = 1; i < list.length; i++) {
+      diff = list[i] - list[i - 1];
+      average = average + diff;
+    }
+
+    logger.info("7 days diff", average, StackTrace.current);
+    averageWeightSevenDays.value = average;
+  }
 
   Future<void> getWeightAllDaysValue() async {
     double average = 0.0;
@@ -114,6 +161,7 @@ class ControllerDashboardInfo extends GetxController {
       await getPreviousWeight();
       await updateAngleWeight();
       await getWeightAllDaysValue();
+      await getSevenDaysAverage();
       update();
 
       //TEST
@@ -169,6 +217,7 @@ class ControllerDashboardInfo extends GetxController {
 
     await getWeightAllDaysValue();
     await updateWeightData();
+    await getSevenDaysAverage();
     update();
   }
 
@@ -180,6 +229,7 @@ class ControllerDashboardInfo extends GetxController {
     await updateAngleWeight();
     await getPreviousWeight();
     await getWeightAllDaysValue();
+    await getSevenDaysAverage();
 
     update();
   }
@@ -201,13 +251,15 @@ class ControllerDashboardInfo extends GetxController {
   Future<void> deleteWeight(DateTime key) async {
     await database.deleteWeight(key);
     await updateWeightData();
-    getPreviousWeight();
+    await getPreviousWeight();
+    await getSevenDaysAverage();
     update();
   }
 
   Future<void> updateOneWeight(double newValue, DateTime key) async {
     await database.updateOneWeight(newValue, key);
     await updateWeightData();
+    await getSevenDaysAverage();
     update();
 
     print("updateOneWeight//\t $weightsList");

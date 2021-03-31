@@ -15,6 +15,8 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // logger.info("date", 333, StackTrace.current);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -103,7 +105,10 @@ class DashboardPage extends StatelessWidget {
       childAspectRatio: 2.0,
       padding: EdgeInsets.all(10.0),
       children: [
-        buildCardForAverage("7 дней (кг)", 1, myColorCardDashboardWeightOne),
+        Obx(() => buildCardForAverage(
+            "7 дней (кг)",
+            controllerDashboardInfo.averageWeightSevenDays.value,
+            myColorCardDashboardWeightOne)),
         buildCardForAverage("14 дней (кг)", 1, myColorCardDashboardWeightOne),
         buildCardForAverage("30 дней (кг)", 1, myColorCardDashboardWeightOne),
         Obx(
