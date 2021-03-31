@@ -109,8 +109,16 @@ class DashboardPage extends StatelessWidget {
             "7 дней (кг)",
             controllerDashboardInfo.averageWeightSevenDays.value,
             myColorCardDashboardWeightOne)),
-        buildCardForAverage("14 дней (кг)", 1, myColorCardDashboardWeightOne),
-        buildCardForAverage("30 дней (кг)", 1, myColorCardDashboardWeightOne),
+        Obx(
+          () => buildCardForAverage(
+              "14 дней (кг)",
+              controllerDashboardInfo.averageWeightFourteenDays.value,
+              myColorCardDashboardWeightOne),
+        ),
+        Obx(() => buildCardForAverage(
+            "30 дней (кг)",
+            controllerDashboardInfo.averageWeightMonth.value,
+            myColorCardDashboardWeightOne)),
         Obx(
           () => buildCardForAverage(
               "Все время (кг)",

@@ -9,6 +9,8 @@ class ControllerDashboardInfo extends GetxController {
 
   var averageWeightAllDays = 0.0.obs;
   var averageWeightSevenDays = 0.0.obs;
+  var averageWeightFourteenDays = 0.0.obs;
+  var averageWeightMonth = 0.0.obs;
 
   var stopInit = false.obs;
 
@@ -32,6 +34,78 @@ class ControllerDashboardInfo extends GetxController {
   var diff = 0.0;
   var anglePerKg = 0.0;
   var startWeightForCalculating = 0.0;
+
+  Future<void> getMonthsAverage() async {
+    double averageMonth = 0.0;
+    double diff = 0.0;
+
+    var cuDay = datesList[datesList.length - 1];
+    var currentDay = Jiffy(cuDay);
+    logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
+        StackTrace.current);
+    var now = Jiffy(DateTime.now());
+    var firstOfMonth = now.subtract(days: 31);
+    List<double> list = [];
+    for (int i = 0; i < datesList.length; i++) {
+      var r = Jiffy(datesList[i]);
+
+      print(r.format("dd MMMM yyyy, hh:mm:ss"));
+      if (r.isBetween(firstOfMonth, currentDay.add(days: 1))) {
+        print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+        list.add(weightsList[i]);
+      }
+
+      // print("==> 14 => ${averageWeightFourteenDays.value}");
+    }
+
+    print("aver start = $averageMonth");
+    for (int i = 1; i < list.length; i++) {
+      diff = list[i] - list[i - 1];
+      print("${list[i]}-${list[i - 1]}");
+      averageMonth = averageMonth + diff;
+      print("aver = $averageMonth");
+    }
+
+    logger.info("14 days diff", averageMonth, StackTrace.current);
+    averageWeightMonth.value = averageMonth;
+  }
+
+  Future<void> getFourteenDaysAverage() async {
+    double average7days = 0.0;
+    double diff = 0.0;
+    print("~~aver start = $average7days");
+
+    var cuDay = datesList[datesList.length - 1];
+    var currentDay = Jiffy(cuDay);
+    logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
+        StackTrace.current);
+    var now = Jiffy(DateTime.now());
+    var firstOfFourteenDay = now.subtract(days: 14);
+    List<double> list = [];
+    for (int i = 0; i < datesList.length; i++) {
+      var r = Jiffy(datesList[i]);
+
+      print(r.format("dd MMMM yyyy, hh:mm:ss"));
+      if (r.isBetween(firstOfFourteenDay, currentDay.add(days: 1))) {
+        print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+        list.add(weightsList[i]);
+      }
+
+      // print("==> 14 => ${averageWeightFourteenDays.value}");
+    }
+    print("Получили такой лист с 14 днями: ${list.toString()}");
+
+    print("aver start = $average7days");
+    for (int i = 1; i < list.length; i++) {
+      diff = list[i] - list[i - 1];
+      print("${list[i]}-${list[i - 1]}");
+      average7days = average7days + diff;
+      print("aver = $average7days");
+    }
+
+    logger.info("14 days diff", average7days, StackTrace.current);
+    averageWeightFourteenDays.value = average7days;
+  }
 
   Future<void> getSevenDaysAverage() async {
     double average = 0.0;
@@ -162,6 +236,8 @@ class ControllerDashboardInfo extends GetxController {
       await updateAngleWeight();
       await getWeightAllDaysValue();
       await getSevenDaysAverage();
+      await getFourteenDaysAverage();
+      await getMonthsAverage();
       update();
 
       //TEST
@@ -217,7 +293,7 @@ class ControllerDashboardInfo extends GetxController {
 
     await getWeightAllDaysValue();
     await updateWeightData();
-    await getSevenDaysAverage();
+
     update();
   }
 
@@ -230,6 +306,8 @@ class ControllerDashboardInfo extends GetxController {
     await getPreviousWeight();
     await getWeightAllDaysValue();
     await getSevenDaysAverage();
+    await getFourteenDaysAverage();
+    await getMonthsAverage();
 
     update();
   }
@@ -251,15 +329,14 @@ class ControllerDashboardInfo extends GetxController {
   Future<void> deleteWeight(DateTime key) async {
     await database.deleteWeight(key);
     await updateWeightData();
-    await getPreviousWeight();
-    await getSevenDaysAverage();
+
     update();
   }
 
   Future<void> updateOneWeight(double newValue, DateTime key) async {
     await database.updateOneWeight(newValue, key);
     await updateWeightData();
-    await getSevenDaysAverage();
+
     update();
 
     print("updateOneWeight//\t $weightsList");
