@@ -35,7 +35,7 @@ class ValuesWeightsPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return WeightCard(
                       weight: controller.weightsList[index],
-                      dateTime: controller.datesList[index],
+                      dateTime: controller.datesOfWeightsList[index],
                       index: index,
                     );
                   }),

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:weight_control/misc/chart_data.dart';
+import 'package:weight_control/misc/converters.dart';
 import 'package:weight_control/misc/logger.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:weight_control/services/database.dart';
@@ -6,6 +8,8 @@ import 'package:weight_control/services/database.dart';
 class ControllerDashboardInfo extends GetxController {
   final database = Database();
   var logger = Logger();
+
+  var chartWeights = <ChartWeights>[].obs;
 
   var averageWeightAllDays = 0.0.obs;
   var averageWeightSevenDays = 0.0.obs;
@@ -26,28 +30,63 @@ class ControllerDashboardInfo extends GetxController {
   var startWeight = 0.0.obs;
   var wantedWeight = 0.0.obs;
   var weightsList = [].obs;
-  var datesList = [].obs;
+  var datesOfWeightsList = [].obs;
 
   var previousWeight = 0.0.obs;
 
   var angleWeight = 0.0.obs;
-  var diff = 0.0;
+  var diffAngleWeight = 0.0;
   var anglePerKg = 0.0;
   var startWeightForCalculating = 0.0;
+
+  Future<List<ChartWeights>> getChartWeights() async {
+    List<double> weights = [];
+    List<String> dates = [];
+    List<ChartWeights> list = [];
+
+    weightsList.forEach((element) {
+      weights.add(element);
+    });
+
+    datesOfWeightsList.forEach((element) {
+      dates.add(convertFromDateTimeToString(element));
+    });
+
+    for (int i = 0; i < weightsList.length; i++) {
+      var chart = ChartWeights(dates[i], weights[i]);
+
+      print("==> add date: ${chart.date}");
+      print("==> add date: ${chart.value}");
+
+      list.add(chart);
+    }
+
+    return list;
+  }
+
+  Future<void> updateChartWeightObs() async {
+    chartWeights.clear();
+    var r = await getChartWeights();
+    r.forEach((element) {
+      chartWeights.add(element);
+    });
+
+    //
+  }
 
   Future<void> getMonthsAverage() async {
     double averageMonth = 0.0;
     double diff = 0.0;
 
-    var cuDay = datesList[datesList.length - 1];
+    var cuDay = datesOfWeightsList[datesOfWeightsList.length - 1];
     var currentDay = Jiffy(cuDay);
     logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
         StackTrace.current);
     var now = Jiffy(DateTime.now());
     var firstOfMonth = now.subtract(days: 31);
     List<double> list = [];
-    for (int i = 0; i < datesList.length; i++) {
-      var r = Jiffy(datesList[i]);
+    for (int i = 0; i < datesOfWeightsList.length; i++) {
+      var r = Jiffy(datesOfWeightsList[i]);
 
       print(r.format("dd MMMM yyyy, hh:mm:ss"));
       if (r.isBetween(firstOfMonth, currentDay.add(days: 1))) {
@@ -75,15 +114,15 @@ class ControllerDashboardInfo extends GetxController {
     double diff = 0.0;
     print("~~aver start = $average7days");
 
-    var cuDay = datesList[datesList.length - 1];
+    var cuDay = datesOfWeightsList[datesOfWeightsList.length - 1];
     var currentDay = Jiffy(cuDay);
     logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
         StackTrace.current);
     var now = Jiffy(DateTime.now());
     var firstOfFourteenDay = now.subtract(days: 14);
     List<double> list = [];
-    for (int i = 0; i < datesList.length; i++) {
-      var r = Jiffy(datesList[i]);
+    for (int i = 0; i < datesOfWeightsList.length; i++) {
+      var r = Jiffy(datesOfWeightsList[i]);
 
       print(r.format("dd MMMM yyyy, hh:mm:ss"));
       if (r.isBetween(firstOfFourteenDay, currentDay.add(days: 1))) {
@@ -111,7 +150,7 @@ class ControllerDashboardInfo extends GetxController {
     double average = 0.0;
     double diff = 0.0;
 
-    var cuDay = datesList[datesList.length - 1];
+    var cuDay = datesOfWeightsList[datesOfWeightsList.length - 1];
 
     var currentDay = Jiffy(cuDay);
     logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
@@ -132,8 +171,8 @@ class ControllerDashboardInfo extends GetxController {
     // });
 
     List<double> list = [];
-    for (int i = 0; i < datesList.length; i++) {
-      var r = Jiffy(datesList[i]);
+    for (int i = 0; i < datesOfWeightsList.length; i++) {
+      var r = Jiffy(datesOfWeightsList[i]);
 
       print(r.format("dd MMMM yyyy, hh:mm:ss"));
       if (r.isBetween(firstOfSevenDay, currentDay.add(days: 1))) {
@@ -224,7 +263,7 @@ class ControllerDashboardInfo extends GetxController {
         weightsList.addAll(weights);
 
         List<DateTime> dates = await database.getDatesList();
-        datesList.addAll(dates);
+        datesOfWeightsList.addAll(dates);
 
         itemCounter.value = weightsList.length;
       } else {
@@ -238,6 +277,7 @@ class ControllerDashboardInfo extends GetxController {
       await getSevenDaysAverage();
       await getFourteenDaysAverage();
       await getMonthsAverage();
+      await updateChartWeightObs();
       update();
 
       //TEST
@@ -267,12 +307,12 @@ class ControllerDashboardInfo extends GetxController {
     }
     print(
         "updateAngleWeight//\tstartWeightForCalculating = $startWeightForCalculating");
-    diff = startWeightForCalculating - currentWeight.value;
+    diffAngleWeight = startWeightForCalculating - currentWeight.value;
 
-    print("updateAngleWeight//\tdiff = $diff");
+    print("updateAngleWeight//\tdiff = $diffAngleWeight");
     print("updateAngleWeight//\tanglePerKg = $anglePerKg");
 
-    angleWeight.value = diff.abs() * anglePerKg;
+    angleWeight.value = diffAngleWeight.abs() * anglePerKg;
 
     print("updateAngleWeight//\tangleWeight = ${angleWeight.value}");
 
@@ -308,6 +348,7 @@ class ControllerDashboardInfo extends GetxController {
     await getSevenDaysAverage();
     await getFourteenDaysAverage();
     await getMonthsAverage();
+    await updateChartWeightObs();
 
     update();
   }
@@ -354,7 +395,7 @@ class ControllerDashboardInfo extends GetxController {
     List<DateTime> r = await database.getDatesList();
     //datesList.clear();
     //datesList.addAll(r);
-    datesList.assignAll(r);
+    datesOfWeightsList.assignAll(r);
     update();
   }
 

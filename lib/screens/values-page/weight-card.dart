@@ -60,7 +60,7 @@ class WeightCard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "${convertFromDateTimeToString(controllerDashboardInfo.datesList[index])}",
+                                  "${convertFromDateTimeToString(controllerDashboardInfo.datesOfWeightsList[index])}",
                                   style: GoogleFonts.robotoSlab(
                                     // fontWeight: FontWeight.bold,
                                     fontSize: 12,

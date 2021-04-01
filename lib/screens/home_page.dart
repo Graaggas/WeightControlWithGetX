@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/tabs/addingPage/adding-values.dart';
-import 'package:weight_control/screens/tabs/dashboard/dashboard-page.dart';
+import 'file:///C:/FlutterProjects/fromAndroidStudio/weight_control/lib/screens/tabs/dashboard-page.dart';
 import 'package:weight_control/screens/tabs/graphics-page.dart';
 
 import 'package:weight_control/screens/tabs/info-page.dart';
