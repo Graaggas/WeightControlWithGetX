@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting-controller.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting.dart';
+import 'package:weight_control/screens/first-meeting/intro-screen.dart';
 import 'package:weight_control/screens/home_page.dart';
 
 class LandingPage extends StatelessWidget {
@@ -29,7 +30,7 @@ class LandingPage extends StatelessWidget {
           if (snapshot.hasData) {
             print("snapshot = ${snapshot.data}");
 
-            return snapshot.data == true ? FirstMeeting() : HomePage();
+            return snapshot.data == true ? IntroScreen() : HomePage();
           } else
             return Scaffold(
               body: Center(

@@ -19,6 +19,10 @@ class DashboardPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu, color: Colors.white,),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Text(
           "Прогресс",
           style: GoogleFonts.robotoSlab(

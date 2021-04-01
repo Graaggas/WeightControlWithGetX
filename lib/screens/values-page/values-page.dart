@@ -13,6 +13,10 @@ class ValuesWeightsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu, color: Colors.white,),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Text(
           "Замеры веса",
           style: GoogleFonts.robotoSlab(

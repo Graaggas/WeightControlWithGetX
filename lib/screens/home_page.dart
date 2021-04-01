@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/tabs/addingPage/adding-values.dart';
@@ -185,6 +186,28 @@ class _HomePageState extends State<HomePage> {
         child: PageStorage(
           child: currentScreen,
           bucket: bucket,
+        ),
+      ),
+      drawer: GFDrawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            GFDrawerHeader(
+              currentAccountPicture: GFAvatar(
+                radius: 80.0,
+                backgroundImage: NetworkImage(
+                    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg"),
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: null,
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: null,
+            ),
+          ],
         ),
       ),
     );

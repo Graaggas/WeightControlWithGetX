@@ -16,6 +16,17 @@ class FirstMeeting extends StatelessWidget {
     // final ControllerDashboardInfo controllerDashboardInfo = Get.find();
     final FirstMeetingController firstMeetingController = Get.find();
 
+    final pages = [
+      Container(
+        color: Colors.red,
+        child: Center(child: Text("1")),
+      ),
+      Container(
+        color: Colors.teal,
+        child: Center(child: Text("2")),
+      ),
+    ];
+
     return Scaffold(
       // body: Center(
       //   child: OutlinedButton(
@@ -28,7 +39,9 @@ class FirstMeeting extends StatelessWidget {
 
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child:
+
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

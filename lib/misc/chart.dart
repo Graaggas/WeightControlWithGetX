@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:weight_control/misc/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class WeightChart extends StatelessWidget {
+class Chart extends StatelessWidget {
   final double startWeight;
   final double wantedWeight;
   final List<ChartWeights> list;
 
-  const WeightChart({Key key, this.list, this.startWeight, this.wantedWeight}) : super(key: key);
+  const Chart({Key key, this.list, this.startWeight, this.wantedWeight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,7 @@ class WeightChart extends StatelessWidget {
           elevation: 3,
           child: Container(
             child: SfCartesianChart(
+              zoomPanBehavior: ZoomPanBehavior(enablePanning: true, enablePinching: true, enableDoubleTapZooming: true,),
               // Initialize category axis
               primaryXAxis: CategoryAxis(
                 rangePadding: ChartRangePadding.none,

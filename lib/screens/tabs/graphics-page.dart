@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weight_control/misc/weight_chart.dart';
+import 'package:weight_control/misc/chart.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class GraphicsPage extends StatelessWidget {
@@ -11,6 +11,10 @@ class GraphicsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu, color: Colors.white,),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Text(
           "Графики",
           style: GoogleFonts.robotoSlab(
@@ -24,7 +28,7 @@ class GraphicsPage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              child: WeightChart(
+              child: Chart(
                 list: controllerDashboardInfo.chartWeights,
                 startWeight: controllerDashboardInfo.startWeight.value,
                 wantedWeight: controllerDashboardInfo.wantedWeight.value,
