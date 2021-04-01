@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting-controller.dart';
-import 'package:weight_control/screens/first-meeting/first-meeting.dart';
 import 'package:weight_control/screens/first-meeting/intro-screen.dart';
-import 'package:weight_control/screens/home_page.dart';
+import 'package:weight_control/screens/home-page/home_page.dart';
 
 class LandingPage extends StatelessWidget {
   @override

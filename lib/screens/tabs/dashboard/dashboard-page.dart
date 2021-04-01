@@ -11,7 +11,7 @@ import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
 class DashboardPage extends StatelessWidget {
   final ControllerDashboardInfo controllerDashboardInfo =
-      Get.put(ControllerDashboardInfo());
+  Get.put(ControllerDashboardInfo());
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class DashboardPage extends StatelessWidget {
             controllerDashboardInfo.averageWeightSevenDays.value,
             myColorCardDashboardWeightOne)),
         Obx(
-          () => buildCardForAverage(
+              () => buildCardForAverage(
               "14 дней (кг)",
               controllerDashboardInfo.averageWeightFourteenDays.value,
               myColorCardDashboardWeightOne),
@@ -124,7 +124,7 @@ class DashboardPage extends StatelessWidget {
             controllerDashboardInfo.averageWeightMonth.value,
             myColorCardDashboardWeightOne)),
         Obx(
-          () => buildCardForAverage(
+              () => buildCardForAverage(
               "Все время (кг)",
               controllerDashboardInfo.averageWeightAllDays.value,
               myColorCardDashboardWeightOne),
@@ -197,13 +197,13 @@ class DashboardPage extends StatelessWidget {
                       flex: 1,
                       child: isUpArrow
                           ? Icon(
-                              Boxicons.bxs_plus_circle,
-                              color: Colors.red,
-                            )
+                        Boxicons.bxs_plus_circle,
+                        color: Colors.red,
+                      )
                           : Icon(
-                              Boxicons.bxs_minus_circle,
-                              color: Colors.green,
-                            ),
+                        Boxicons.bxs_minus_circle,
+                        color: Colors.green,
+                      ),
                     ),
                     // SizedBox(
                     //   width: 10,
@@ -367,19 +367,19 @@ Column buildStartAndFinishContainer({
               builder: (controller) {
                 return isWeight
                     ? Text(
-                        "${controller.startWeight} кг",
-                        style: GoogleFonts.russoOne(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      )
+                  "${controller.startWeight} кг",
+                  style: GoogleFonts.russoOne(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                )
                     : Text(
-                        "111",
-                        style: GoogleFonts.russoOne(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      );
+                  "111",
+                  style: GoogleFonts.russoOne(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                );
               },
             ),
           ),
@@ -432,21 +432,21 @@ Column buildStartAndFinishContainer({
                 children: <Widget>[
                   isWeight
                       ? Text(
-                          "Желаемый",
-                          style: GoogleFonts.robotoSlab(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
+                    "Желаемый",
+                    style: GoogleFonts.robotoSlab(
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
                       : Text(
-                          "Требуемый",
-                          style: GoogleFonts.robotoSlab(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    "Требуемый",
+                    style: GoogleFonts.robotoSlab(
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -471,21 +471,21 @@ Column buildStartAndFinishContainer({
               builder: (controller) {
                 return isWeight
                     ? Text(
-                        "${controller.wantedWeight} кг",
-                        style: GoogleFonts.russoOne(
-                          color: Colors.white,
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      )
+                  "${controller.wantedWeight} кг",
+                  style: GoogleFonts.russoOne(
+                    color: Colors.white,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                )
                     : Text(
-                        "222",
-                        style: GoogleFonts.russoOne(
-                          color: Colors.white,
-                          // fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      );
+                  "222",
+                  style: GoogleFonts.russoOne(
+                    color: Colors.white,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                );
               },
             ),
           ),
@@ -509,10 +509,10 @@ class WidgetValues extends CustomPainter {
     //paint..color = startColor;
     paint.shader =
         ui.Gradient.linear(Offset(0, 0), Offset(size.width, size.height), [
-      startColor,
-      endColor,
-      //HSLColor.fromColor(myColorCardDashboardOne).toColor(),
-    ]);
+          startColor,
+          endColor,
+          //HSLColor.fromColor(myColorCardDashboardOne).toColor(),
+        ]);
 
     var path = Path()
       ..moveTo(0, size.height)

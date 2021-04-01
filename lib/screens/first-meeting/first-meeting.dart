@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:weight_control/misc/converters.dart';
-import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting-controller.dart';
-import 'package:weight_control/screens/home_page.dart';
-import 'package:weight_control/screens/landing-page.dart';
+import 'package:weight_control/screens/home-page/home_page.dart';
 
 class FirstMeeting extends StatelessWidget {
   final textStartWeightController = TextEditingController();

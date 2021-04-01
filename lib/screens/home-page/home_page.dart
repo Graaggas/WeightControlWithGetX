@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
+import 'package:weight_control/screens/home-page/components/drawer.dart';
 import 'package:weight_control/screens/tabs/addingPage/adding-values.dart';
-import 'file:///C:/FlutterProjects/fromAndroidStudio/weight_control/lib/screens/tabs/dashboard-page.dart';
+import 'package:weight_control/screens/tabs/dashboard/dashboard-page.dart';
 import 'package:weight_control/screens/tabs/graphics-page.dart';
 
 import 'package:weight_control/screens/tabs/info-page.dart';
@@ -188,28 +188,9 @@ class _HomePageState extends State<HomePage> {
           bucket: bucket,
         ),
       ),
-      drawer: GFDrawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            GFDrawerHeader(
-              currentAccountPicture: GFAvatar(
-                radius: 80.0,
-                backgroundImage: NetworkImage(
-                    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg"),
-              ),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: null,
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: null,
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(),
     );
   }
 }
+
+
