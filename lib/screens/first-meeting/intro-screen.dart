@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:getwidget/components/intro_screen/gf_intro_screen.dart';
 import 'package:getwidget/components/intro_screen/gf_intro_screen_bottom_navigation_bar.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting-controller.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting.dart';
 
@@ -15,12 +16,11 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   PageController _pageController;
   List<Widget> slideList;
-  int initialPage;
-
+  int initialPage = 1;
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 2);
+    _pageController = PageController(initialPage: 0);
     initialPage = _pageController.initialPage;
     super.initState();
   }
@@ -42,19 +42,33 @@ class _IntroScreenState extends State<IntroScreen> {
           ),
         ],
         pageController: _pageController,
-        currentIndex: 0,
+        currentIndex: 3,
         pageCount: 3,
         introScreenBottomNavigationBar: GFIntroScreenBottomNavigationBar(
           forwardButton: Icon(Boxicons.bx_right_arrow),
           skipButtonText: "ОТМЕНА",
+          onSkipTap: () {
+            Get.off(() => FirstMeeting());
+          },
           backButton: Icon(Boxicons.bx_left_arrow),
-          doneButtonText: "OK",
+          doneButtonText: "ГОТОВО",
+          skipButtonTextStyle: GoogleFonts.robotoSlab(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+
+          ),
+          doneButtonTextStyle:  GoogleFonts.robotoSlab(
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+
+        ),
+
           onDoneTap: () {
             Get.off(() => FirstMeeting());
           },
           pageController: _pageController,
           pageCount: 3,
-          currentIndex: initialPage,
+          currentIndex: 3,
           onForwardButtonTap: () {
             _pageController.nextPage(
                 duration: const Duration(milliseconds: 500),

@@ -10,15 +10,15 @@ import 'package:weight_control/misc/converters.dart';
 
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 
-class WeightCard extends StatelessWidget {
+class WaisteCard extends StatelessWidget {
   final DateTime dateTime;
   final int index;
-  final double weight;
+  final double waiste;
 
-  const WeightCard({
+  const WaisteCard({
     Key key,
     this.dateTime,
-    this.weight,
+    this.waiste,
     this.index,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class WeightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ControllerDashboardInfo controllerDashboardInfo = Get.find();
 
-    print("weight in card : $weight");
+    print("weight in card : $waiste");
     print("date in card : $dateTime");
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, left: 6.0, right: 6.0),
@@ -49,18 +49,18 @@ class WeightCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Obx(
-                            () => Column(
+                                () => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${controllerDashboardInfo.weightsList[index]} кг",
+                                  "${controllerDashboardInfo.waisteList[index]} кг",
                                   style: GoogleFonts.russoOne(
                                     color: Colors.black,
                                     fontSize: 20,
                                   ),
                                 ),
                                 Text(
-                                  "${convertFromDateTimeToString(controllerDashboardInfo.datesOfWeightsList[index])}",
+                                  "${convertFromDateTimeToString(controllerDashboardInfo.datesOfWaisteList[index])}",
                                   style: GoogleFonts.robotoSlab(
                                     // fontWeight: FontWeight.bold,
                                     fontSize: 12,
@@ -91,7 +91,7 @@ class WeightCard extends StatelessWidget {
               ),
             ),
           ),
-         index == 0 ? Container() : Positioned(
+          Positioned(
             right: 0,
             top: 0,
             bottom: 0,
@@ -106,17 +106,17 @@ class WeightCard extends StatelessWidget {
                     onPressed: () async {
                       var res = await showTextInputDialog(
                           context: context,
-                          title: "Изменение показания веса",
+                          title: "Изменение показания окружности",
                           textFields: [
                             DialogTextField(
-                              initialText: "$weight",
+                              initialText: "$waiste",
                               keyboardType: TextInputType.number,
                             ),
                           ]);
 
                       if (res != null) {
                         print(
-                            "new value in widget card = $res , type = ${res.runtimeType}");
+                            "new waiste value in widget card = $res , type = ${res.runtimeType}");
                         controllerDashboardInfo.updateOneWeight(
                             double.parse(res[0]), dateTime);
                       }
@@ -130,7 +130,7 @@ class WeightCard extends StatelessWidget {
                     onPressed: () async {
                       var res = await showOkCancelAlertDialog(
                         context: context,
-                        message: "Удалить запись \'$weight кг'\ ?",
+                        message: "Удалить запись \'$waiste кг'\ ?",
                         okLabel: "Удалить",
                         alertStyle: AdaptiveStyle.material,
                         // defaultType: OkCancelAlertDefaultType.cancel,
@@ -139,11 +139,11 @@ class WeightCard extends StatelessWidget {
                       );
                       if (res == OkCancelResult.ok) {
                         // valuesController.deleteWeight(dateTime);
-                        controllerDashboardInfo.deleteWeight(dateTime);
+                        controllerDashboardInfo.deleteWaiste(dateTime);
 
                         final snackBar = SnackBar(
                           duration: Duration(seconds: 1),
-                          content: Text('Запись \'$weight кг\' удалена'),
+                          content: Text('Запись \'$waiste см\' удалена'),
                           elevation: 4,
                         );
 
@@ -171,9 +171,9 @@ class Painting extends CustomPainter {
 
     paintCanvas.shader =
         ui.Gradient.linear(Offset(0, 0), Offset(size.width, size.height), [
-      startColor,
-      endColor,
-    ]);
+          startColor,
+          endColor,
+        ]);
 
     var path = Path()
       ..moveTo(0, size.height)

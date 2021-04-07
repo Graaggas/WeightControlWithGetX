@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
+import 'package:weight_control/screens/values-page/waiste-card.dart';
 
 import 'package:weight_control/screens/values-page/weight-card.dart';
 
-class ValuesWeightsPage extends StatelessWidget {
+class ValuesWaistePage extends StatelessWidget {
   final ControllerDashboardInfo controller = Get.put(ControllerDashboardInfo());
 
   @override
@@ -18,7 +19,7 @@ class ValuesWeightsPage extends StatelessWidget {
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
         title: Text(
-          "Замеры веса",
+          "Замеры окружности талии",
           style: GoogleFonts.robotoSlab(
             // fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -32,14 +33,14 @@ class ValuesWeightsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(
-              () => ListView.builder(
+                  () => ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: controller.itemCounter.value,
+                  itemCount: controller.itemCounterWaiste.value,
                   itemBuilder: (context, index) {
-                    return WeightCard(
-                      weight: controller.weightsList[index],
-                      dateTime: controller.datesOfWeightsList[index],
+                    return WaisteCard(
+                      waiste: controller.waisteList[index],
+                      dateTime: controller.datesOfWaisteList[index],
                       index: index,
                     );
                   }),
@@ -51,6 +52,3 @@ class ValuesWeightsPage extends StatelessWidget {
   }
 }
 
-//TODO 1. Первый в списке не должен удаляться
-// TODO 2. Сделать отдельную страницу, на которой можно поменять стартовые значения
-// TODO 3. В карточке списка измерений должна отображаться разница с предыдущим значением

@@ -374,7 +374,7 @@ Column buildStartAndFinishContainer({
                   ),
                 )
                     : Text(
-                  "111",
+                  "${controller.startWaiste} см",
                   style: GoogleFonts.russoOne(
                     color: Colors.white,
                     fontSize: 18,
@@ -479,7 +479,7 @@ Column buildStartAndFinishContainer({
                   ),
                 )
                     : Text(
-                  "222",
+                  "${controller.wantedWaiste} см",
                   style: GoogleFonts.russoOne(
                     color: Colors.white,
                     // fontWeight: FontWeight.bold,

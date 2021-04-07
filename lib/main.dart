@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:get/get.dart';
+import 'package:weight_control/model/weight/waiste_model.dart';
 
 
 import 'package:weight_control/model/weight/weight_model.dart';
@@ -16,6 +17,7 @@ import 'package:weight_control/screens/landing-page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(WeightModelAdapter());
+  Hive.registerAdapter(WaisteModelAdapter());
   var dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 

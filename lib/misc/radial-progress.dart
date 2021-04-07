@@ -77,7 +77,7 @@ class RadialProgress extends StatelessWidget {
                           ),
                           children: <TextSpan>[
                             controllerDashboardInfo
-                                        .currentIsFirstInList.value ==
+                                        .currentIsFirstInListWeight.value ==
                                     false
                                 ? TextSpan(
                                     text: controllerDashboardInfo

@@ -1,10 +1,14 @@
 import 'package:get/get.dart';
+import 'package:weight_control/misc/enum.dart';
+import 'package:weight_control/misc/logger.dart';
 import 'package:weight_control/services/database.dart';
 
 class FirstMeetingController extends GetxController {
   final database = Database();
 
+  final myLogger = Logger();
   var flagFirstMeeting = true.obs;
+
   // var wantedWeight = 0.0.obs;
   // var startWeight = 0.0.obs;
 
@@ -39,8 +43,16 @@ class FirstMeetingController extends GetxController {
       {double startWeight1, double wantedWeight1}) async {
     // wantedWeight.value = wantedWeight1;
     // startWeight.value = startWeight1;
-    print("in fmController. try to put start values via database... ");
-    await database.addToWeightBox(
-        valueWantedWeight: wantedWeight1, valueWeight: startWeight1);
+
+    await database.addWeightToBox(
+        valueWantedValue: wantedWeight1, value: startWeight1);
+  }
+
+  Future<void> putInitWaiste({double startWaiste1, double height}) async {
+    // wantedWeight.value = wantedWeight1;
+    // startWeight.value = startWeight1;
+    myLogger.info("try to put start values of waiste via database. height",
+        height, StackTrace.current);
+    await database.addWaisteToBox(valueHeight: height, value: startWaiste1);
   }
 }

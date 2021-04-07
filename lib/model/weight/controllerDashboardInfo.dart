@@ -3,6 +3,7 @@ import 'package:weight_control/misc/chart_data.dart';
 import 'package:weight_control/misc/converters.dart';
 import 'package:weight_control/misc/logger.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:weight_control/misc/enum.dart';
 import 'package:weight_control/services/database.dart';
 
 class ControllerDashboardInfo extends GetxController {
@@ -10,15 +11,22 @@ class ControllerDashboardInfo extends GetxController {
   var logger = Logger();
 
   var chartWeights = <ChartWeights>[].obs;
+  var chartWaiste = <ChartWaiste>[].obs;
 
   var averageWeightAllDays = 0.0.obs;
   var averageWeightSevenDays = 0.0.obs;
   var averageWeightFourteenDays = 0.0.obs;
   var averageWeightMonth = 0.0.obs;
 
+  var averageWaisteAllDays = 0.0.obs;
+  var averageWaisteSevenDays = 0.0.obs;
+  var averageWaisteFourteenDays = 0.0.obs;
+  var averageWaisteMonth = 0.0.obs;
+
   var stopInit = false.obs;
 
-  var currentIsFirstInList = true.obs;
+  var currentIsFirstInListWeight = true.obs;
+  var currentIsFirstInListWaiste = true.obs;
 
   // var flagFirstWeightInList = true.obs;
 
@@ -26,18 +34,58 @@ class ControllerDashboardInfo extends GetxController {
 
   var itemCounter = 0.obs;
 
+  var itemCounterWaiste = 0.obs;
+
   var currentWeight = 0.0.obs;
   var startWeight = 0.0.obs;
   var wantedWeight = 0.0.obs;
   var weightsList = [].obs;
   var datesOfWeightsList = [].obs;
 
+  var currentWaiste = 0.0.obs;
+  var startWaiste = 0.0.obs;
+  var wantedWaiste = 0.0.obs;
+  var waisteList = [].obs;
+  var datesOfWaisteList = [].obs;
+
   var previousWeight = 0.0.obs;
+  var previousWaiste = 0.0.obs;
+
+  var angleWaiste = 0.0.obs;
+  var diffAngleWaiste = 0.0;
+  var anglePerCm = 0.0;
+  var startWaisteForCalculating = 0.0;
 
   var angleWeight = 0.0.obs;
   var diffAngleWeight = 0.0;
   var anglePerKg = 0.0;
+  var anglePerCM = 0.0;
   var startWeightForCalculating = 0.0;
+
+  Future<List<ChartWaiste>> getChartWaiste() async {
+    List<double> waiste = [];
+    List<String> dates = [];
+    List<ChartWaiste> list = [];
+
+    waisteList.forEach((element) {
+      waiste.add(element);
+    });
+
+    datesOfWaisteList.forEach((element) {
+      dates.add(convertFromDateTimeToString(element));
+    });
+
+    for (int i = 0; i < waisteList.length; i++) {
+      var chart = ChartWaiste(dates[i], waiste[i]);
+
+      print(
+          "||controllerDashboard||getChartWaiste||\n date: ${chart.date}, value: ${chart.value}\n\n");
+
+      list.add(chart);
+    }
+
+    return list;
+  }
 
   Future<List<ChartWeights>> getChartWeights() async {
     List<double> weights = [];
@@ -55,8 +103,8 @@ class ControllerDashboardInfo extends GetxController {
     for (int i = 0; i < weightsList.length; i++) {
       var chart = ChartWeights(dates[i], weights[i]);
 
-      print("==> add date: ${chart.date}");
-      print("==> add date: ${chart.value}");
+      print(
+          "||controllerDashboard||getChartWeights||\n date: ${chart.date}, value: ${chart.value}\n\n");
 
       list.add(chart);
     }
@@ -64,11 +112,17 @@ class ControllerDashboardInfo extends GetxController {
     return list;
   }
 
-  Future<void> updateChartWeightObs() async {
+  Future<void> updateChartObs() async {
+    chartWaiste.clear();
     chartWeights.clear();
     var r = await getChartWeights();
     r.forEach((element) {
       chartWeights.add(element);
+    });
+
+    var s = await getChartWaiste();
+    s.forEach((element) {
+      chartWaiste.add(element);
     });
 
     //
@@ -80,70 +134,98 @@ class ControllerDashboardInfo extends GetxController {
 
     var cuDay = datesOfWeightsList[datesOfWeightsList.length - 1];
     var currentDay = Jiffy(cuDay);
-    logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
-        StackTrace.current);
+    // logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
+    //     StackTrace.current);
     var now = Jiffy(DateTime.now());
     var firstOfMonth = now.subtract(days: 31);
     List<double> list = [];
     for (int i = 0; i < datesOfWeightsList.length; i++) {
       var r = Jiffy(datesOfWeightsList[i]);
 
-      print(r.format("dd MMMM yyyy, hh:mm:ss"));
+      // print(r.format("dd MMMM yyyy, hh:mm:ss"));
       if (r.isBetween(firstOfMonth, currentDay.add(days: 1))) {
-        print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+        // print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
         list.add(weightsList[i]);
       }
 
       // print("==> 14 => ${averageWeightFourteenDays.value}");
     }
 
-    print("aver start = $averageMonth");
-    for (int i = 1; i < list.length; i++) {
-      diff = list[i] - list[i - 1];
-      print("${list[i]}-${list[i - 1]}");
-      averageMonth = averageMonth + diff;
-      print("aver = $averageMonth");
-    }
-
-    logger.info("14 days diff", averageMonth, StackTrace.current);
+    // print("aver start = $averageMonth");
+    // for (int i = 1; i < list.length; i++) {
+    //   diff = list[i] - list[i - 1];
+    //   print("${list[i]}-${list[i - 1]}");
+    //   averageMonth = averageMonth + diff;
+    //   print("aver = $averageMonth");
+    // }
+    //
+    // logger.info("14 days diff", averageMonth, StackTrace.current);
     averageWeightMonth.value = averageMonth;
+
+    try {
+      averageMonth = 0.0;
+      cuDay = datesOfWaisteList[datesOfWaisteList.length - 1];
+      currentDay = Jiffy(cuDay);
+      // logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
+      //     StackTrace.current);
+      now = Jiffy(DateTime.now());
+      firstOfMonth = now.subtract(days: 31);
+      list = [];
+      for (int i = 0; i < datesOfWaisteList.length; i++) {
+        var r = Jiffy(datesOfWaisteList[i]);
+
+        if (r.isBetween(firstOfMonth, currentDay.add(days: 1))) {
+          list.add(waisteList[i]);
+        }
+      }
+
+      averageWaisteMonth.value = averageMonth;
+    } catch (e) {
+      logger.error("error", e, StackTrace.current);
+    }
   }
 
   Future<void> getFourteenDaysAverage() async {
     double average7days = 0.0;
     double diff = 0.0;
-    print("~~aver start = $average7days");
 
     var cuDay = datesOfWeightsList[datesOfWeightsList.length - 1];
     var currentDay = Jiffy(cuDay);
-    logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
-        StackTrace.current);
+
     var now = Jiffy(DateTime.now());
     var firstOfFourteenDay = now.subtract(days: 14);
     List<double> list = [];
     for (int i = 0; i < datesOfWeightsList.length; i++) {
       var r = Jiffy(datesOfWeightsList[i]);
 
-      print(r.format("dd MMMM yyyy, hh:mm:ss"));
       if (r.isBetween(firstOfFourteenDay, currentDay.add(days: 1))) {
         print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
         list.add(weightsList[i]);
       }
-
-      // print("==> 14 => ${averageWeightFourteenDays.value}");
-    }
-    print("Получили такой лист с 14 днями: ${list.toString()}");
-
-    print("aver start = $average7days");
-    for (int i = 1; i < list.length; i++) {
-      diff = list[i] - list[i - 1];
-      print("${list[i]}-${list[i - 1]}");
-      average7days = average7days + diff;
-      print("aver = $average7days");
     }
 
-    logger.info("14 days diff", average7days, StackTrace.current);
     averageWeightFourteenDays.value = average7days;
+
+    try {
+      cuDay = datesOfWaisteList[datesOfWaisteList.length - 1];
+      currentDay = Jiffy(cuDay);
+
+      now = Jiffy(DateTime.now());
+      firstOfFourteenDay = now.subtract(days: 14);
+      list = [];
+      for (int i = 0; i < datesOfWaisteList.length; i++) {
+        var r = Jiffy(datesOfWaisteList[i]);
+
+        if (r.isBetween(firstOfFourteenDay, currentDay.add(days: 1))) {
+          print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+          list.add(waisteList[i]);
+        }
+      }
+
+      averageWaisteFourteenDays.value = average7days;
+    } catch (e) {
+      logger.error("error", e, StackTrace.current);
+    }
   }
 
   Future<void> getSevenDaysAverage() async {
@@ -153,46 +235,68 @@ class ControllerDashboardInfo extends GetxController {
     var cuDay = datesOfWeightsList[datesOfWeightsList.length - 1];
 
     var currentDay = Jiffy(cuDay);
-    logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
-        StackTrace.current);
 
     var now = Jiffy(DateTime.now());
 
     var firstOfSevenDay = now.subtract(days: 7);
-    logger.info("first of seven day",
-        firstOfSevenDay.format("dd MMMM yyyy, hh:mm:ss"), StackTrace.current);
-
-    // datesList.forEach((element) {
-    //   var r = Jiffy(element);
-    //   print(r.format("dd MMMM yyyy, hh:mm:ss"));
-    //   if (r.isBetween(firstOfSevenDay, currentDay.add(days: 1))) {
-    //     print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
-    //   }
-    // });
 
     List<double> list = [];
     for (int i = 0; i < datesOfWeightsList.length; i++) {
       var r = Jiffy(datesOfWeightsList[i]);
 
-      print(r.format("dd MMMM yyyy, hh:mm:ss"));
       if (r.isBetween(firstOfSevenDay, currentDay.add(days: 1))) {
-        print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
         list.add(weightsList[i]);
       }
     }
 
-    print("Получили такой лист с 7 днями: ${list.toString()}");
-
     for (int i = 1; i < list.length; i++) {
       diff = list[i] - list[i - 1];
+      print(
+          "||controllerDashboard||getSevenDaysAverage||\n diff: $diff\n\n");
       average = average + diff;
+      print(
+          "||controllerDashboard||getSevenDaysAverage||\n average: $average\n\n");
     }
 
-    logger.info("7 days diff", average, StackTrace.current);
     averageWeightSevenDays.value = average;
+    print(
+        "||controllerDashboard||getSevenDaysAverage||\n averageWeightSevenDays: ${averageWeightSevenDays.value}\n\n");
+
+    try {
+      cuDay = datesOfWaisteList[datesOfWaisteList.length - 1];
+      currentDay = Jiffy(cuDay);
+
+      now = Jiffy(DateTime.now());
+
+      firstOfSevenDay = now.subtract(days: 7);
+
+      list = [];
+      for (int i = 0; i < datesOfWaisteList.length; i++) {
+        var r = Jiffy(datesOfWaisteList[i]);
+
+        if (r.isBetween(firstOfSevenDay, currentDay.add(days: 1))) {
+          // print("==> ${r.format("dd MMMM yyyy, hh:mm:ss")}");
+          list.add(waisteList[i]);
+        }
+      }
+
+      for (int i = 1; i < list.length; i++) {
+        diff = list[i] - list[i - 1];
+        print(
+            "||controllerDashboard||getSevenDaysAverage||\n diff: $diff\n\n");
+        average = average + diff;
+        print(
+            "||controllerDashboard||getSevenDaysAverage||\n average: $average\n\n");
+      }
+
+      // logger.info("7 days diff", average, StackTrace.current);
+      averageWaisteSevenDays.value = average;
+    } catch (e) {
+      logger.error("error", e, StackTrace.current);
+    }
   }
 
-  Future<void> getWeightAllDaysValue() async {
+  Future<void> getAllDaysValue() async {
     double average = 0.0;
     double diff = 0.0;
 
@@ -205,8 +309,21 @@ class ControllerDashboardInfo extends GetxController {
     }
 
     averageWeightAllDays.value = average;
-    print(
-        "getWeightAllDaysValue//\tAverage Weight for all days: ${averageWeightAllDays.value}");
+
+    average = 0.0;
+    diff = 0.0;
+
+    for (int i = 0; i < waisteList.length; i++) {
+      if (i == 0) {
+      } else {
+        diff = waisteList[i] - waisteList[i - 1];
+        average = average + diff;
+      }
+    }
+
+    averageWaisteAllDays.value = average;
+    // print(
+    //     "getWeightAllDaysValue//\tAverage Weight for all days: ${averageWeightAllDays.value}");
   }
 
   double getDiffCurrentPrevoius() {
@@ -222,74 +339,131 @@ class ControllerDashboardInfo extends GetxController {
     return diff;
   }
 
-  Future<void> getPreviousWeight() async {
+  Future<void> getPreviousValue() async {
     //найти предыдущий вес, если знаем текущий
 
     var indexOfCurrentWeight = weightsList.indexOf(currentWeight.value);
-    print("getPreviousWeight//\tcurrentWeight = ${currentWeight.value}");
-    print(
-        "getPreviousWeight//\tindex of currentWeight is $indexOfCurrentWeight");
+    // print("getPreviousWeight//\tcurrentWeight = ${currentWeight.value}");
+    // print(
+    // "getPreviousWeight//\tindex of currentWeight is $indexOfCurrentWeight");
 
     if (indexOfCurrentWeight <= 0) {
-      print("getPreviousWeight//\tindex is less or equals 0");
-      currentIsFirstInList.value = true;
+      // print("getPreviousWeight//\tindex is less or equals 0");
+      currentIsFirstInListWeight.value = true;
     } else {
-      currentIsFirstInList.value = false;
+      currentIsFirstInListWeight.value = false;
       previousWeight.value = weightsList[indexOfCurrentWeight - 1];
-      print("getPreviousWeight//\tpreviousWeight = ${previousWeight.value}");
+      // print("getPreviousWeight//\tpreviousWeight = ${previousWeight.value}");
+
+    }
+
+    var indexOfCurrentWaiste = waisteList.indexOf(currentWaiste.value);
+
+    if (indexOfCurrentWaiste <= 0) {
+      currentIsFirstInListWaiste.value = true;
+    } else {
+      currentIsFirstInListWaiste.value = false;
+      previousWaiste.value = waisteList[indexOfCurrentWaiste - 1];
     }
   }
 
   void init() async {
     if (stopInit.value == false) {
-      print("Dashboard controller's init...");
+      print("Dashboard controller's init... stopInit = false");
 
-      List<double> firstDataList = await database.initDashboard();
+      List<double> firstDataList =
+          await database.initDashboard(TypeOfData.WEIGHT);
       if (firstDataList != null) {
         currentWeight.value = firstDataList[firstDataList.length - 1];
+        print(
+            "||controllerDashboard||init||\n currentWeight: ${currentWeight.value}\n\n");
         wantedWeight.value = firstDataList[0];
+        print(
+            "||controllerDashboard||init||\n wantedWeight: ${wantedWeight.value}\n\n");
         startWeight.value = firstDataList[1];
+        print(
+            "||controllerDashboard||init||\n startWeight: ${startWeight.value}\n\n");
         startWeightForCalculating = startWeight.value;
         print(
-            "init controller. startWeightForCalculating : $startWeightForCalculating");
+            "||controllerDashboard||init||\n startWeightForCalculating: $startWeightForCalculating\n\n");
 
         firstDataList.forEach((element) {
           if (element > startWeight.value) {
             startWeightForCalculating = element;
+            print(
+                "||controllerDashboard||init||\n new startWeightForCalculating: $startWeightForCalculating\n\n");
           }
         });
 
-        List<double> weights = await database.getWeightsList();
+        List<double> weights = await database.getValuesList(TypeOfData.WEIGHT);
+        weightsList.clear();
         weightsList.addAll(weights);
 
-        List<DateTime> dates = await database.getDatesList();
+        List<DateTime> dates = await database.getDatesList(TypeOfData.WEIGHT);
+        datesOfWeightsList.clear();
         datesOfWeightsList.addAll(dates);
 
         itemCounter.value = weightsList.length;
-      } else {
-        initFlagFirstMeeting();
-        print("controller. first start...");
       }
 
-      await getPreviousWeight();
-      await updateAngleWeight();
-      await getWeightAllDaysValue();
-      await getSevenDaysAverage();
-      await getFourteenDaysAverage();
-      await getMonthsAverage();
-      await updateChartWeightObs();
-      update();
+      ///************************************
+      firstDataList = await database.initDashboard(TypeOfData.WAISTE);
+      if (firstDataList != null) {
+        currentWaiste.value = firstDataList[firstDataList.length - 1];
+        print(
+            "||controllerDashboard||init||\n currentWaiste: ${currentWaiste.value}\n\n");
 
-      //TEST
-      print("******************************");
-      print("onInit... List of weights:");
-      weightsList.forEach((element) {
-        print(element);
-      });
-      print("******************************");
+        wantedWaiste.value = firstDataList[0];
+        print(
+            "||controllerDashboard||init||\n wantedWaiste: ${wantedWaiste.value}\n\n");
 
-      stopInit.value = true;
+        startWaiste.value = firstDataList[1];
+        print(
+            "||controllerDashboard||init||\n startWaiste: ${startWaiste.value}\n\n");
+
+        startWaisteForCalculating = startWeight.value;
+        print(
+            "||controllerDashboard||init||\n startWaisteForCalculating: ${startWeightForCalculating}\n\n");
+
+        firstDataList.forEach((element) {
+          if (element > startWaiste.value) {
+            startWaisteForCalculating = element;
+            print(
+                "||controllerDashboard||init||\n new startWaisteForCalculating: ${startWeightForCalculating}\n\n");
+          }
+        });
+
+        List<double> waistes = await database.getValuesList(TypeOfData.WAISTE);
+        waisteList.clear();
+        waisteList.addAll(waistes);
+
+        List<DateTime> dates = await database.getDatesList(TypeOfData.WAISTE);
+        datesOfWaisteList.clear();
+        datesOfWaisteList.addAll(dates);
+
+        itemCounterWaiste.value = waisteList.length;
+
+        print("list of weights");
+        print(weightsList);
+        print("list of waistes");
+        print(waisteList);
+      }
+    } else {
+      initFlagFirstMeeting();
+      print("controller. first start...");
     }
+
+    // await getPreviousValue();
+    // await updateAngle();
+    // await getAllDaysValue();
+    // await getSevenDaysAverage();
+    // await getFourteenDaysAverage();
+    // await getMonthsAverage();
+    // await updateChartObs();
+    await updateWeightData();
+    update();
+
+    stopInit.value = true;
   }
 
   void initFlagFirstMeeting() async {
@@ -299,63 +473,67 @@ class ControllerDashboardInfo extends GetxController {
     print("==> in controller init ==> flag = $flagFirstMeeting");
   }
 
-  Future<void> updateAngleWeight() async {
+  Future<void> updateAngle() async {
     if (currentWeight.value <= startWeight.value) {
       anglePerKg = 360 / (startWeightForCalculating - wantedWeight.value);
     } else {
       anglePerKg = 360 / (currentWeight.value - wantedWeight.value);
     }
-    print(
-        "updateAngleWeight//\tstartWeightForCalculating = $startWeightForCalculating");
-    diffAngleWeight = startWeightForCalculating - currentWeight.value;
-
-    print("updateAngleWeight//\tdiff = $diffAngleWeight");
-    print("updateAngleWeight//\tanglePerKg = $anglePerKg");
 
     angleWeight.value = diffAngleWeight.abs() * anglePerKg;
 
-    print("updateAngleWeight//\tangleWeight = ${angleWeight.value}");
+    if (currentWaiste.value <= startWaiste.value) {
+      anglePerCM = 360 / (startWaisteForCalculating - wantedWaiste.value);
+    } else {
+      anglePerCM = 360 / (currentWaiste.value - wantedWaiste.value);
+    }
+
+    angleWaiste.value = diffAngleWaiste.abs() * anglePerCM;
 
     update();
   }
 
   void addWeight(double value) async {
-    print("addWeight//\t adding new weight...");
-    print("addWeight//\t current itemCounter : ${itemCounter.value}");
+    print("||controllerDashboard||addWeight\n try to add weight: $value\n\n");
 
-    await database.addToWeightBox(valueWeight: value);
+    await database.addWeightToBox(value: value);
 
     if (value > startWeight.value) {
-      await database.addStartWeightForCalculating(value);
+      await database.addStartValueForCalculating(value, TypeOfData.WEIGHT);
       startWeightForCalculating = value;
-      updateAngleWeight();
+      updateAngle();
     }
 
-    await getWeightAllDaysValue();
+    await getAllDaysValue();
     await updateWeightData();
 
     update();
+    print(
+        "||controllerDashboard||addWeight||\n weights list: ${weightsList}\n\n");
   }
 
   Future<void> updateWeightData() async {
-    await updateDates();
-    await updateWeights();
-    await updateCurrentWeight();
-    await updateItemCounter();
-    await updateAngleWeight();
-    await getPreviousWeight();
-    await getWeightAllDaysValue();
-    await getSevenDaysAverage();
-    await getFourteenDaysAverage();
-    await getMonthsAverage();
-    await updateChartWeightObs();
+    await updateAllDates(); //+
+    await updateWeightsAndWaiste(); //+
+    await updateCurrentWeightAndWaiste(); //+
+    await updateItemCounter(); //+
+    await updateAngle(); //+
+    await getPreviousValue(); //+
+    await getAllDaysValue(); //+
+    await getSevenDaysAverage(); //+
+    await getFourteenDaysAverage(); //+
+    await getMonthsAverage(); //+
+    await updateChartObs(); //+
 
     update();
   }
 
   Future<void> updateItemCounter() async {
-    var r = await database.getWeightsLength();
+    var r = await database.getValuesLength(TypeOfData.WEIGHT);
     itemCounter.value = r;
+
+    var s = await database.getValuesLength(TypeOfData.WAISTE);
+    itemCounterWaiste.value = s;
 
     // if(weightsList.length <= 0) {
     //   itemCounter.value = 0;
@@ -368,14 +546,21 @@ class ControllerDashboardInfo extends GetxController {
   }
 
   Future<void> deleteWeight(DateTime key) async {
-    await database.deleteWeight(key);
+    await database.deleteValue(key, TypeOfData.WEIGHT);
+    await updateWeightData();
+
+    update();
+  }
+
+  Future<void> deleteWaiste(DateTime key) async {
+    await database.deleteValue(key, TypeOfData.WAISTE);
     await updateWeightData();
 
     update();
   }
 
   Future<void> updateOneWeight(double newValue, DateTime key) async {
-    await database.updateOneWeight(newValue, key);
+    await database.updateOneValue(newValue, key, TypeOfData.WEIGHT);
     await updateWeightData();
 
     update();
@@ -383,24 +568,30 @@ class ControllerDashboardInfo extends GetxController {
     print("updateOneWeight//\t $weightsList");
   }
 
-  Future<void> updateWeights() async {
-    List<double> r = await database.getWeightsList();
-    // weightsList.clear();
+  Future<void> updateWeightsAndWaiste() async {
+    List<double> r = await database.getValuesList(TypeOfData.WEIGHT);
+    List<double> s = await database.getValuesList(TypeOfData.WAISTE);
+    weightsList.clear();
+    waisteList.clear();
     weightsList.assignAll(r);
+    waisteList.assignAll(s);
     //weightsList.addAll(r);
     update();
   }
 
-  Future<void> updateDates() async {
-    List<DateTime> r = await database.getDatesList();
+  Future<void> updateAllDates() async {
+    List<DateTime> r = await database.getDatesList(TypeOfData.WEIGHT);
+    List<DateTime> s = await database.getDatesList(TypeOfData.WAISTE);
     //datesList.clear();
     //datesList.addAll(r);
     datesOfWeightsList.assignAll(r);
+    datesOfWaisteList.assignAll(s);
     update();
   }
 
-  Future<void> updateCurrentWeight() async {
-    List<double> r = await database.getWeightsList();
+  Future<void> updateCurrentWeightAndWaiste() async {
+    List<double> r = await database.getValuesList(TypeOfData.WEIGHT);
+    List<double> s = await database.getValuesList(TypeOfData.WAISTE);
     int length = r.length;
 
     if (r.length <= 0) {
@@ -408,6 +599,13 @@ class ControllerDashboardInfo extends GetxController {
       print("updateCurrentWeight//\tlength of weightlist is less or equals 0");
     } else {
       currentWeight.value = r[length - 1];
+    }
+
+    if (s.length <= 0) {
+      currentWaiste.value = 0;
+      print("updateCurrentWaiste//\tlength of waistelist is less or equals 0");
+    } else {
+      currentWaiste.value = r[length - 1];
     }
   }
 }

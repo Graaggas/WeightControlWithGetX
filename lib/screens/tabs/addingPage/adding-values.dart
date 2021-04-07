@@ -161,7 +161,7 @@ class _AddingValuesPageState extends State<AddingValuesPage> {
                       ],
                     ),
                   ),
-                  //TODO сделать проверку, вдруг ничего не добавили в текстовые поля, а кнопку нажали
+
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       elevation: 4,
