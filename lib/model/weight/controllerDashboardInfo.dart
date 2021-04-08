@@ -152,18 +152,19 @@ class ControllerDashboardInfo extends GetxController {
     }
 
     // print("aver start = $averageMonth");
-    // for (int i = 1; i < list.length; i++) {
-    //   diff = list[i] - list[i - 1];
-    //   print("${list[i]}-${list[i - 1]}");
-    //   averageMonth = averageMonth + diff;
-    //   print("aver = $averageMonth");
-    // }
+    for (int i = 1; i < list.length; i++) {
+      diff = list[i] - list[i - 1];
+      print("${list[i]}-${list[i - 1]}");
+      averageMonth = averageMonth + diff;
+      print("aver = $averageMonth");
+    }
     //
     // logger.info("14 days diff", averageMonth, StackTrace.current);
     averageWeightMonth.value = averageMonth;
 
     try {
       averageMonth = 0.0;
+      diff = 0.0;
       cuDay = datesOfWaisteList[datesOfWaisteList.length - 1];
       currentDay = Jiffy(cuDay);
       // logger.info("current day", currentDay.format("dd MMMM yyyy, hh:mm:ss"),
@@ -177,6 +178,12 @@ class ControllerDashboardInfo extends GetxController {
         if (r.isBetween(firstOfMonth, currentDay.add(days: 1))) {
           list.add(waisteList[i]);
         }
+      }
+      for (int i = 1; i < list.length; i++) {
+        diff = list[i] - list[i - 1];
+        print("${list[i]}-${list[i - 1]}");
+        averageMonth = averageMonth + diff;
+        print("aver = $averageMonth");
       }
 
       averageWaisteMonth.value = averageMonth;
@@ -204,6 +211,13 @@ class ControllerDashboardInfo extends GetxController {
       }
     }
 
+    for (int i = 1; i < list.length; i++) {
+      diff = list[i] - list[i - 1];
+      print("${list[i]}-${list[i - 1]}");
+      average7days = average7days + diff;
+      print("aver = $average7days");
+    }
+
     averageWeightFourteenDays.value = average7days;
 
     try {
@@ -221,7 +235,13 @@ class ControllerDashboardInfo extends GetxController {
           list.add(waisteList[i]);
         }
       }
-
+      diff = 0.0;
+      for (int i = 1; i < list.length; i++) {
+        diff = list[i] - list[i - 1];
+        print("${list[i]}-${list[i - 1]}");
+        average7days = average7days + diff;
+        print("aver = $average7days");
+      }
       averageWaisteFourteenDays.value = average7days;
     } catch (e) {
       logger.error("error", e, StackTrace.current);
@@ -251,8 +271,7 @@ class ControllerDashboardInfo extends GetxController {
 
     for (int i = 1; i < list.length; i++) {
       diff = list[i] - list[i - 1];
-      print(
-          "||controllerDashboard||getSevenDaysAverage||\n diff: $diff\n\n");
+      print("||controllerDashboard||getSevenDaysAverage||\n diff: $diff\n\n");
       average = average + diff;
       print(
           "||controllerDashboard||getSevenDaysAverage||\n average: $average\n\n");
@@ -282,8 +301,7 @@ class ControllerDashboardInfo extends GetxController {
 
       for (int i = 1; i < list.length; i++) {
         diff = list[i] - list[i - 1];
-        print(
-            "||controllerDashboard||getSevenDaysAverage||\n diff: $diff\n\n");
+        print("||controllerDashboard||getSevenDaysAverage||\n diff: $diff\n\n");
         average = average + diff;
         print(
             "||controllerDashboard||getSevenDaysAverage||\n average: $average\n\n");
@@ -407,6 +425,7 @@ class ControllerDashboardInfo extends GetxController {
       }
 
       ///************************************
+      firstDataList.clear();
       firstDataList = await database.initDashboard(TypeOfData.WAISTE);
       if (firstDataList != null) {
         currentWaiste.value = firstDataList[firstDataList.length - 1];
@@ -421,7 +440,7 @@ class ControllerDashboardInfo extends GetxController {
         print(
             "||controllerDashboard||init||\n startWaiste: ${startWaiste.value}\n\n");
 
-        startWaisteForCalculating = startWeight.value;
+        startWaisteForCalculating = startWaiste.value;
         print(
             "||controllerDashboard||init||\n startWaisteForCalculating: ${startWeightForCalculating}\n\n");
 
@@ -479,6 +498,7 @@ class ControllerDashboardInfo extends GetxController {
     } else {
       anglePerKg = 360 / (currentWeight.value - wantedWeight.value);
     }
+    diffAngleWeight = startWeightForCalculating - currentWeight.value;
 
     angleWeight.value = diffAngleWeight.abs() * anglePerKg;
 
@@ -487,7 +507,7 @@ class ControllerDashboardInfo extends GetxController {
     } else {
       anglePerCM = 360 / (currentWaiste.value - wantedWaiste.value);
     }
-
+    diffAngleWaiste = startWaisteForCalculating - currentWaiste.value;
     angleWaiste.value = diffAngleWaiste.abs() * anglePerCM;
 
     update();
@@ -592,7 +612,8 @@ class ControllerDashboardInfo extends GetxController {
   Future<void> updateCurrentWeightAndWaiste() async {
     List<double> r = await database.getValuesList(TypeOfData.WEIGHT);
     List<double> s = await database.getValuesList(TypeOfData.WAISTE);
-    int length = r.length;
+    int length = 0;
+    length = r.length;
 
     if (r.length <= 0) {
       currentWeight.value = 0;
@@ -601,11 +622,12 @@ class ControllerDashboardInfo extends GetxController {
       currentWeight.value = r[length - 1];
     }
 
+    length = s.length;
     if (s.length <= 0) {
       currentWaiste.value = 0;
       print("updateCurrentWaiste//\tlength of waistelist is less or equals 0");
     } else {
-      currentWaiste.value = r[length - 1];
+      currentWaiste.value = s[length - 1];
     }
   }
 }

@@ -256,12 +256,12 @@ class StartWaisteWidget extends StatelessWidget {
                 typeOfValueWeightWaiste: "объем",
                 isWeight: false),
           ),
-          // Expanded(
-          //   child: RadialProgress(
-          //     typeOfMeasure: "см",
-          //     isWeight: false,
-          //   ),
-          // ),
+          Expanded(
+            child: RadialProgress(
+              typeOfMeasure: "см",
+              isWeight: false,
+            ),
+          ),
         ],
       ),
     );

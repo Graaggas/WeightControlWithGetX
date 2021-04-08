@@ -19,10 +19,6 @@ class RadialProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final ControllerDashboardInfo controllerDashboardInfo = Get.find();
 
-    // if (isWeight) {
-    //   controllerDashboardInfo.getPreviousWeight();
-    // }
-
     return Obx(
       () => Stack(
         alignment: Alignment.center,
@@ -33,8 +29,11 @@ class RadialProgress extends StatelessWidget {
                 200,
                 200,
               ),
-              painter: RadialPainter(
-                  angle: controllerDashboardInfo.angleWeight.value),
+              painter: isWeight
+                  ? RadialPainter(
+                      angle: controllerDashboardInfo.angleWeight.value)
+                  : RadialPainter(
+                      angle: controllerDashboardInfo.angleWaiste.value),
             ),
           ),
           Positioned(
@@ -61,7 +60,7 @@ class RadialProgress extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        "010",
+                        "${controllerDashboardInfo.currentWaiste.value.toString()}",
                         style: GoogleFonts.russoOne(
                           // fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -164,6 +163,7 @@ class RadialPainter extends CustomPainter {
       ..strokeWidth = 30;
 
     canvas.drawCircle(center, size.width / 3 - 6, paintInnerCircle);
+    print("||RADIAL-PROGRESS|| angle = $angle\n\n");
   }
 
   @override
