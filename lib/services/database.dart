@@ -1,23 +1,25 @@
 import 'package:hive/hive.dart';
+import 'package:logging/logging.dart';
 import 'package:weight_control/misc/enum.dart';
-import 'package:weight_control/misc/logger.dart';
 import 'package:weight_control/model/weight/waiste_model.dart';
 
 import 'package:weight_control/model/weight/weight_model.dart';
 
 class Database {
   var weightModel = WeightModel();
-  var logger = Logger();
+  var log = Logger("Database");
   var waisteModel = WaisteModel();
 
   Future<Box> openBox(String name) async {
     var box = await Hive.openBox(name);
+
     return box;
   }
 
   Future<List<DateTime>> getDatesList(TypeOfData type) async {
     List<DateTime> list = [];
     var box;
+
     switch (type) {
       case TypeOfData.WAISTE:
         box = await openBox("Waiste");
@@ -91,8 +93,6 @@ class Database {
       box = await openBox("Waiste");
     }
 
-
-
     /// Check box, if it exists and not empty
     if (box.isNotEmpty) {
       print("||Database||initDashboard||\n box is not empty, type = $type\n\n");
@@ -102,6 +102,7 @@ class Database {
         WeightModel weightModel = box.get(0);
 
         list.clear();
+
         /// Add wantedWeight
         print(
             "||Database||initDashboard||\n type = $type,  try to add wantedWeight = ${weightModel.wantedWeight}\n\n");

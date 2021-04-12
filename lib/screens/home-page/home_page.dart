@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -9,7 +7,7 @@ import 'package:weight_control/screens/tabs/addingPage/adding-values.dart';
 import 'package:weight_control/screens/tabs/dashboard/dashboard-page.dart';
 import 'package:weight_control/screens/tabs/graphics-page.dart';
 
-import 'package:weight_control/screens/tabs/info-page.dart';
+import 'package:weight_control/screens/tabs/waiste-page.dart';
 
 import 'package:weight_control/screens/values-page/values-page.dart';
 
@@ -25,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     DashboardPage(),
     GraphicsPage(),
     ValuesWeightsPage(),
-    InfoPage(),
+    WaistePage(),
   ];
 
   Widget currentScreen = DashboardPage();
@@ -149,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = InfoPage();
+                        currentScreen = WaistePage();
                         currentTab = 3;
                       });
                     },
@@ -163,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                               : Colors.white,
                         ),
                         Text(
-                          "Данные",
+                          "Объем",
                           style: TextStyle(
                             color: currentTab == 3
                                 ? Colors.deepPurple
@@ -192,5 +190,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-

@@ -1,5 +1,5 @@
-class ChartWeights {
-  ChartWeights(this.date, this.value);
+class ChartValues {
+  ChartValues(this.date, this.value);
   final String date;
   final double value;
 }

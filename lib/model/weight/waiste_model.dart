@@ -22,11 +22,9 @@ class WaisteModel extends HiveObject {
   @HiveField(6)
   double _height;
 
-
   void addStartWaisteForCalculating(double value) {
     _startWaisteForCalculating = value;
   }
-
 
   void addFlag(bool flag) {
     flagFirstMeeting = flag;
@@ -36,15 +34,14 @@ class WaisteModel extends HiveObject {
     flagFirstMeeting = !flagFirstMeeting;
   }
 
-  void addWaiste (double value) {
+  void addWaiste(double value) {
     DateTime dateTime = DateTime.now();
     _waisteMap[dateTime] = value;
   }
 
-  void addHeight(double value){
+  void addHeight(double value) {
     _height = value;
   }
-
 
   void addName(String name) {
     _name = name;
@@ -64,11 +61,10 @@ class WaisteModel extends HiveObject {
     return res;
   }
 
-  double setWantedWaiste(){
+  void setWantedWaiste() {
     double r = 0.0;
-    r = 0.5*height;
+    r = 0.5 * height;
     _wantedWaiste = r;
-    print("||waiste_model||setWantedWaiste||\nwantedWaiste = ${_wantedWaiste}");
+    print("||waiste_model||setWantedWaiste||\nwantedWaiste = $_wantedWaiste");
   }
-
 }

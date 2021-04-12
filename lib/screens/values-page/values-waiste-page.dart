@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:weight_control/model/weight/controllerDashboardInfo.dart';
 import 'package:weight_control/screens/values-page/waiste-card.dart';
 
-import 'package:weight_control/screens/values-page/weight-card.dart';
-
 class ValuesWaistePage extends StatelessWidget {
   final ControllerDashboardInfo controller = Get.put(ControllerDashboardInfo());
 
@@ -15,7 +13,10 @@ class ValuesWaistePage extends StatelessWidget {
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white,),
+          icon: Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
         title: Text(
@@ -33,7 +34,7 @@ class ValuesWaistePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(
-                  () => ListView.builder(
+              () => ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: controller.itemCounterWaiste.value,
@@ -51,4 +52,3 @@ class ValuesWaistePage extends StatelessWidget {
     );
   }
 }
-

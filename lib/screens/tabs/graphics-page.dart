@@ -12,7 +12,10 @@ class GraphicsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white,),
+          icon: Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
         title: Text(
@@ -29,9 +32,18 @@ class GraphicsPage extends StatelessWidget {
           children: [
             Container(
               child: Chart(
+                text: "Показания веса",
                 list: controllerDashboardInfo.chartWeights,
-                startWeight: controllerDashboardInfo.startWeight.value,
-                wantedWeight: controllerDashboardInfo.wantedWeight.value,
+                startValue: controllerDashboardInfo.startWeight.value,
+                wantedValue: controllerDashboardInfo.wantedWeight.value,
+              ),
+            ),
+            Container(
+              child: Chart(
+                text: "Показания объема",
+                list: controllerDashboardInfo.chartWaiste,
+                startValue: controllerDashboardInfo.startWaiste.value,
+                wantedValue: controllerDashboardInfo.wantedWaiste.value,
               ),
             ),
           ],

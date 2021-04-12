@@ -1,17 +1,15 @@
 import 'package:get/get.dart';
 import 'package:weight_control/misc/chart_data.dart';
 import 'package:weight_control/misc/converters.dart';
-import 'package:weight_control/misc/logger.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:weight_control/misc/enum.dart';
 import 'package:weight_control/services/database.dart';
 
 class ControllerDashboardInfo extends GetxController {
   final database = Database();
-  var logger = Logger();
 
-  var chartWeights = <ChartWeights>[].obs;
-  var chartWaiste = <ChartWaiste>[].obs;
+  var chartWeights = <ChartValues>[].obs;
+  var chartWaiste = <ChartValues>[].obs;
 
   var averageWeightAllDays = 0.0.obs;
   var averageWeightSevenDays = 0.0.obs;
@@ -62,10 +60,10 @@ class ControllerDashboardInfo extends GetxController {
   var anglePerCM = 0.0;
   var startWeightForCalculating = 0.0;
 
-  Future<List<ChartWaiste>> getChartWaiste() async {
+  Future<List<ChartValues>> getChartWaiste() async {
     List<double> waiste = [];
     List<String> dates = [];
-    List<ChartWaiste> list = [];
+    List<ChartValues> list = [];
 
     waisteList.forEach((element) {
       waiste.add(element);
@@ -76,7 +74,7 @@ class ControllerDashboardInfo extends GetxController {
     });
 
     for (int i = 0; i < waisteList.length; i++) {
-      var chart = ChartWaiste(dates[i], waiste[i]);
+      var chart = ChartValues(dates[i], waiste[i]);
 
       print(
           "||controllerDashboard||getChartWaiste||\n date: ${chart.date}, value: ${chart.value}\n\n");
@@ -87,10 +85,10 @@ class ControllerDashboardInfo extends GetxController {
     return list;
   }
 
-  Future<List<ChartWeights>> getChartWeights() async {
+  Future<List<ChartValues>> getChartWeights() async {
     List<double> weights = [];
     List<String> dates = [];
-    List<ChartWeights> list = [];
+    List<ChartValues> list = [];
 
     weightsList.forEach((element) {
       weights.add(element);
@@ -101,7 +99,7 @@ class ControllerDashboardInfo extends GetxController {
     });
 
     for (int i = 0; i < weightsList.length; i++) {
-      var chart = ChartWeights(dates[i], weights[i]);
+      var chart = ChartValues(dates[i], weights[i]);
 
       print(
           "||controllerDashboard||getChartWeights||\n date: ${chart.date}, value: ${chart.value}\n\n");
@@ -187,9 +185,7 @@ class ControllerDashboardInfo extends GetxController {
       }
 
       averageWaisteMonth.value = averageMonth;
-    } catch (e) {
-      logger.error("error", e, StackTrace.current);
-    }
+    } catch (e) {}
   }
 
   Future<void> getFourteenDaysAverage() async {
@@ -243,9 +239,7 @@ class ControllerDashboardInfo extends GetxController {
         print("aver = $average7days");
       }
       averageWaisteFourteenDays.value = average7days;
-    } catch (e) {
-      logger.error("error", e, StackTrace.current);
-    }
+    } catch (e) {}
   }
 
   Future<void> getSevenDaysAverage() async {
@@ -309,9 +303,7 @@ class ControllerDashboardInfo extends GetxController {
 
       // logger.info("7 days diff", average, StackTrace.current);
       averageWaisteSevenDays.value = average;
-    } catch (e) {
-      logger.error("error", e, StackTrace.current);
-    }
+    } catch (e) {}
   }
 
   Future<void> getAllDaysValue() async {
@@ -353,7 +345,7 @@ class ControllerDashboardInfo extends GetxController {
     }
 
     // print("getDiffCurrentPrevious//\tdiff of weights = $diff");
-    logger.info("diff", diff, StackTrace.current);
+
     return diff;
   }
 
@@ -442,13 +434,13 @@ class ControllerDashboardInfo extends GetxController {
 
         startWaisteForCalculating = startWaiste.value;
         print(
-            "||controllerDashboard||init||\n startWaisteForCalculating: ${startWeightForCalculating}\n\n");
+            "||controllerDashboard||init||\n startWaisteForCalculating: $startWeightForCalculating\n\n");
 
         firstDataList.forEach((element) {
           if (element > startWaiste.value) {
             startWaisteForCalculating = element;
             print(
-                "||controllerDashboard||init||\n new startWaisteForCalculating: ${startWeightForCalculating}\n\n");
+                "||controllerDashboard||init||\n new startWaisteForCalculating: $startWeightForCalculating\n\n");
           }
         });
 
@@ -529,7 +521,7 @@ class ControllerDashboardInfo extends GetxController {
 
     update();
     print(
-        "||controllerDashboard||addWeight||\n weights list: ${weightsList}\n\n");
+        "||controllerDashboard||addWeight||\n weights list: $weightsList\n\n");
   }
 
   Future<void> updateWeightData() async {

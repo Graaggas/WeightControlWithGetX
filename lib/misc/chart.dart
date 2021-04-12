@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weight_control/misc/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Chart extends StatelessWidget {
-  final double startWeight;
-  final double wantedWeight;
-  final List<ChartWeights> list;
+  final double startValue;
+  final double wantedValue;
+  final List<ChartValues> list;
+  final String text;
 
-  const Chart({Key key, this.list, this.startWeight, this.wantedWeight}) : super(key: key);
+  const Chart(
+      {Key key, this.list, this.startValue, this.wantedValue, this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,28 +22,32 @@ class Chart extends StatelessWidget {
           elevation: 3,
           child: Container(
             child: SfCartesianChart(
-              zoomPanBehavior: ZoomPanBehavior(enablePanning: true, enablePinching: true, enableDoubleTapZooming: true,),
+              zoomPanBehavior: ZoomPanBehavior(
+                enablePanning: true,
+                enablePinching: true,
+                enableDoubleTapZooming: true,
+              ),
               // Initialize category axis
               primaryXAxis: CategoryAxis(
                 rangePadding: ChartRangePadding.none,
               ),
               primaryYAxis: CategoryAxis(
-                minimum: wantedWeight-10,
-                maximum: startWeight+20,
+                minimum: wantedValue - 10,
+                maximum: startValue + 20,
               ),
               title: ChartTitle(
-                text: 'Показания веса',
+                text: text,
                 textStyle: GoogleFonts.robotoSlab(
                   // fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              series: <LineSeries<ChartWeights, String>>[
-                LineSeries<ChartWeights, String>(
+              series: <LineSeries<ChartValues, String>>[
+                LineSeries<ChartValues, String>(
                   // Bind data source
                   dataSource: list,
-                  xValueMapper: (ChartWeights data, _) => data.date,
-                  yValueMapper: (ChartWeights data, _) => data.value,
+                  xValueMapper: (ChartValues data, _) => data.date,
+                  yValueMapper: (ChartValues data, _) => data.value,
                   dataLabelSettings: DataLabelSettings(isVisible: true),
                 ),
               ],

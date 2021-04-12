@@ -5,7 +5,6 @@ import 'package:getwidget/components/intro_screen/gf_intro_screen.dart';
 import 'package:getwidget/components/intro_screen/gf_intro_screen_bottom_navigation_bar.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weight_control/screens/first-meeting/first-meeting-controller.dart';
 import 'package:weight_control/screens/first-meeting/first-meeting.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -55,14 +54,11 @@ class _IntroScreenState extends State<IntroScreen> {
           skipButtonTextStyle: GoogleFonts.robotoSlab(
             fontWeight: FontWeight.bold,
             fontSize: 14,
-
           ),
-          doneButtonTextStyle:  GoogleFonts.robotoSlab(
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-
-        ),
-
+          doneButtonTextStyle: GoogleFonts.robotoSlab(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
           onDoneTap: () {
             Get.off(() => FirstMeeting());
           },

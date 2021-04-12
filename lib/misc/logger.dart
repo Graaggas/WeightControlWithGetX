@@ -1,27 +1,38 @@
-import 'dart:developer';
+import 'package:logging/logging.dart';
+import 'dart:developer' as developer;
 
-import 'package:weight_control/misc/custom_trace.dart';
+void initLogger() {
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  hierarchicalLoggingEnabled = true;
+  Logger.root.onRecord.listen((record) {
+    var start = '\x1b[90m';
+    const end = '\x1b[0m';
+    const white = '\x1b[37m';
 
-class Logger {
-  void info(String name, var value, StackTrace sT) {
-    CustomTrace _trace = CustomTrace(sT);
+    switch (record.level.name) {
+      case 'INFO':
+        start = '\x1b[37m';
+        break;
+      case 'WARNING':
+        start = '\x1b[93m';
+        break;
+      case 'SEVERE':
+        start = '\x1b[103m\x1b[31m';
+        break;
+      case 'SHOUT':
+        start = '\x1b[41m\x1b[93m';
+        break;
+    }
 
-    print(
-        "===================================================\nfun = ${_trace.functionName}, caller = ${_trace.callerFunctionName}, path = ${_trace.fileName}\n***************************************************\n$name = $value\n===================================================");
-  }
+    final message =
+        '$white${record.time}:$end$start${record.level.name}: ${record.message}$end';
+    developer.log(
+      message,
+      name: record.loggerName.padRight(25),
+      level: record.level.value,
+      time: record.time,
+    );
 
-  void warning(String name, var value, StackTrace sT) {
-    CustomTrace _trace = CustomTrace(sT);
-
-    print(
-        "===================================================\n⛔fun = ${_trace.functionName}, caller = ${_trace.callerFunctionName}, path = ${_trace.fileName}\n***************************************************\n$name = $value\n===================================================");
-  }
-  void error(String name, var value, StackTrace sT) {
-    CustomTrace _trace = CustomTrace(sT);
-
-    print(
-        "===================================================\n🔥🔥🔥fun = ${_trace.functionName}, caller = ${_trace.callerFunctionName}, path = ${_trace.fileName}\n***************************************************\n$name = $value\n===================================================");
-  }
+    // print('${record.level.name}: ${record.time}: ${record.message}');
+  });
 }
-
-String r = '🤔💥😡🔵⚪🔥⚡⛔☢';

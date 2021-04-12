@@ -26,7 +26,7 @@ class WaisteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ControllerDashboardInfo controllerDashboardInfo = Get.find();
 
-    print("weight in card : $waiste");
+    print("waiste in card : $waiste");
     print("date in card : $dateTime");
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, left: 6.0, right: 6.0),
@@ -49,11 +49,11 @@ class WaisteCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Obx(
-                                () => Column(
+                            () => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${controllerDashboardInfo.waisteList[index]} кг",
+                                  "${controllerDashboardInfo.waisteList[index]} см",
                                   style: GoogleFonts.russoOne(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -171,9 +171,9 @@ class Painting extends CustomPainter {
 
     paintCanvas.shader =
         ui.Gradient.linear(Offset(0, 0), Offset(size.width, size.height), [
-          startColor,
-          endColor,
-        ]);
+      startColor,
+      endColor,
+    ]);
 
     var path = Path()
       ..moveTo(0, size.height)
